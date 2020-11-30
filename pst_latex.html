@@ -3,86 +3,171 @@
 	<head>
 	    <meta charset="utf-8">
 	    <title>Editeur tableau LaTeX</title>
-	    <script src=""></script>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
-
 	<body>
 		<!-- Barre de navigation -->
-		<header class="container-fluid header">	
-			<div class="title">
-				<a href="#"> PST LaTeX  </a>
-			</div>
-			<nav class="menu">
-				<a href="#" > Accueil  </a>
-				<a href="#" > A propos </a>
-				<a href="#" > Contact  </a>
-			</nav>
-			<div class="logo">
-				<img src="img/logo.png" alt="Logo ESIEA"/>
-			</div>
-		</header>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+				<a class="navbar-brand" href="#">PST LaTeX</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>  
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				  <ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+					  <a class="nav-link" href="#">Accueil</a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link disabled" href="#">Configuration</a>
+					</li>
+				  </ul>
+				</div>
+				<div>
+					<img src="img/logo.png" alt="Logo ESIEA"/>
+				</div>
+			  </nav>
 		<!-- Fin barre de navigation-->
 
-		<!-- Tableau central -->
-		<section class="container-fluid contenu ">
-			<div class="fonction">
-				<button type="button" class="btn btn-secondary test">Row</button>
-				<button type="button" class="btn btn-secondary test2">Colums</button>
-				<img src="icons/text-left.svg" class="left" alt="" width="40" height="40">
-				<img src="icons/text-center.svg" class="center" alt="" width="40" height="40">
-				<img src="icons/text-right.svg" class="right" alt="" width="40" height="40">
-				<img src="icons/type-bold.svg" class="bold" alt="" width="40" height="40">
-				<img src="icons/type-italic.svg" class="italic" alt="" width="40" height="40">
-				<img src="icons/type-underline.svg" class="underline" alt="" width="40" height="40">
-				<img src="icons/fonts.svg" class="font" alt="" width="40" height="40">
-				<img src="icons/chevron-contract.svg" class="fusion" alt="" width="40" height="40">
-				<img src="icons/code.svg" class="separer" alt="" width="40" height="40">
-				<img src="icons/info-circle-fill.svg" class="info" alt="" width="40" height="40">
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Sélection taille tableau
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href="#">Action</a>
+				<a class="dropdown-item" href="#">Another action</a>
+				<a class="dropdown-item" href="#">Something else here</a>
 			</div>
-			<div class="largeur">
-				<div class="custom-control custom-switch">
-					<input type="checkbox" class="custom-control-input" id="customSwitch1">
-					<label class="custom-control-label" for="customSwitch1">Tableau prend la largeur de la page</label>
+		</div>
+
+		<!-- Tableau central -->
+		<div class="container jumbotron mt-5">
+			<div class="row">
+				<div class="col-auto mr-auto">
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-text-left" fill="black" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+						</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-text-center" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M4 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+							</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-text-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-4-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+						</svg>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-type-bold" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"/>
+						</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-type-italic" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path d="M7.991 11.674L9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z"/>
+							</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 16" class="bi bi-type-underline" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path d="M5.313 3.136h-1.23V9.54c0 2.105 1.47 3.623 3.917 3.623s3.917-1.518 3.917-3.623V3.136h-1.23v6.323c0 1.49-.978 2.57-2.687 2.57-1.709 0-2.687-1.08-2.687-2.57V3.136z"/>
+							<path fill-rule="evenodd" d="M12.5 15h-9v-1h9v1z"/>
+						</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-fonts" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12.258 3H3.747l-.082 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.43.013c1.935.062 2.434.301 2.694 1.846h.479L12.258 3z"/>
+						</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="1 0 14 14" class="bi bi-code" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M5.854 4.146a.5.5 0 0 1 0 .708L2.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0zm4.292 0a.5.5 0 0 0 0 .708L13.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0z"/>
+						</svg>
+					</button>
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 14 14" class="bi bi-chevron-contract" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M3.646 13.854a.5.5 0 0 0 .708 0L8 10.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708zm0-11.708a.5.5 0 0 1 .708 0L8 5.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708z"/>
+						</svg>
+					</button>
+				</div>
+				<div class="col-auto">
+					<button type="button" class="btn">
+						<svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-info-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+						</svg>
+					</button>
 				</div>
 			</div>
-			<div class="tableau">
-				<table id="tableau">
-					<tr>
-					  <td ><input id="input1" type="text"></td>
-					  <td><input type="text"></td>
-					  <td><input type="text"></td>
-					</tr>
-					<tr>
-					  <td><input type="text"></td>
-					  <td><input type="text"></td>
-				  	  <td><input type="text"></td>
-					</tr>
-					<tr>
-					  <td><input type="text"></td>
-					  <td><input type="text"></td>
-					  <td><input type="text"></td>
-					</tr>
-				  </table>
-
+			<div class="row mt-3">
+				<div class="col-auto">
+					<div class="custom-control custom-switch">
+						<input type="checkbox" class="custom-control-input" id="customSwitch1">
+						<label class="custom-control-label" for="customSwitch1">Activer pour tableau qui prend toute la largeur</label>
+					</div>
+				</div>
 			</div>
-			<div class="code-latex">
-				<p>Code LaTeX <img src="icons/files.svg" class="copier" alt="" width="20" height="20"></p>
+			<div class="row mt-3">
+				<div class="col-auto">
+					<table class="table table-sm table-bordered">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">A</th>
+								<th scope="col">B</th>
+								<th scope="col">C</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+							</tr>
+						</tbody>
+				  	</table>
+				</div> 
 			</div>
-			<div class="container-fluid zone">
-				<div class="spinner-border text-secondary loading" role="status">
-					<span class="sr-only">Loading...</span>
-				  </div>
+			<div class="row mt-5">
+				<div class="col-auto">
+					<p>Code LaTeX
+						<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M4 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"/>
+							<path d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z"/>
+						</svg>
+					</p>
+				</div>
 			</div>
-			
-		</section>
+			<div class="row justify-content-center">
+				<div class="col-10 py-5 bg-white border border-secondary">
+					<div class="text-center">
+						<div class="spinner-border" role="status">
+						  <span class="sr-only">Chargement...</span>
+						</div>
+					  </div>
+				</div>
+			</div>
+		</div>
 		<!-- Fin tableau central-->
-		<footer class="container-fluid footer">
-			
-		</footer>
-
-
+		<div class="container-fluid">
+			<footer class="row footer bg-dark p-1">
+				<span class="text-white">&copy; 2020</span>
+			</footer>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 	</body>
 
 </html>
