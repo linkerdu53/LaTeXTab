@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>  
+
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <title>Editeur tableau LaTeX</title>
+	    <script src=""></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+
+	<body>
+		<!-- Barre de navigation -->
+		<header class="container-fluid header">	
+			<div class="title">
+				<a href="#"> PST LaTeX  </a>
+			</div>
+			<nav class="menu">
+				<a href="#" > Accueil  </a>
+				<a href="#" > A propos </a>
+				<a href="#" > Contact  </a>
+			</nav>
+			<div class="logo">
+				<img src="img/logo.png" alt="Logo ESIEA"/>
+			</div>
+		</header>
+		<!-- Fin barre de navigation-->
+
+		<!-- Tableau central -->
+		<section class="container-fluid contenu ">
+			<div class="fonction">
+				<button type="button" class="btn btn-secondary test">Row</button>
+				<button type="button" class="btn btn-secondary test2">Colums</button>
+				<img src="icons/text-left.svg" class="left" alt="" width="40" height="40">
+				<img src="icons/text-center.svg" class="center" alt="" width="40" height="40">
+				<img src="icons/text-right.svg" class="right" alt="" width="40" height="40">
+				<img src="icons/type-bold.svg" class="bold" alt="" width="40" height="40">
+				<img src="icons/type-italic.svg" class="italic" alt="" width="40" height="40">
+				<img src="icons/type-underline.svg" class="underline" alt="" width="40" height="40">
+				<img src="icons/fonts.svg" class="font" alt="" width="40" height="40">
+				<img src="icons/chevron-contract.svg" class="fusion" alt="" width="40" height="40">
+				<img src="icons/code.svg" class="separer" alt="" width="40" height="40">
+				<img src="icons/info-circle-fill.svg" class="info" alt="" width="40" height="40">
+			</div>
+			<div class="largeur">
+				<p><img src="icons/toggle-on.svg" class="bouton-largeur" alt="" width="30" height="30">Tableau prend la largeur de la page</p>
+			</div>
+			<div class="tableau">
+				<table id="tableau">
+					<tr>
+					  <td ><input id="input1" type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					</tr>
+					<tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+				  	  <td><input type="text"></td>
+					</tr>
+					<tr>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					  <td><input type="text"></td>
+					</tr>
+				  </table>
+
+			</div>
+			<div class="code-latex">
+				<p>Code LaTeX <img src="icons/files.svg" class="copier" alt="" width="20" height="20"></p>
+			</div>
+			<div class="container-fluid zone">
+				<div class="spinner-border text-secondary loading" role="status">
+					<span class="sr-only">Loading...</span>
+				  </div>
+			</div>
+			
+		</section>
+		<!-- Fin tableau central-->
+		<footer class="container-fluid footer">
+			
+		</footer>
+
+
+	</body>
+
+</html>
