@@ -8,26 +8,36 @@
 	</head>
 	<body>
 		<!-- Barre de navigation -->
-			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-				<a class="navbar-brand" href="#">PST LaTeX</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				  <span class="navbar-toggler-icon"></span>
-				</button>  
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				  <ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-					  <a class="nav-link" href="#">Accueil</a>
-					</li>
-					<li class="nav-item">
-					  <a class="nav-link disabled" href="#">Configuration</a>
-					</li>
-				  </ul>
-				</div>
-				<div>
-					<img src="img/logo.png" alt="Logo ESIEA"/>
-				</div>
-			  </nav>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">PST LaTeX</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>  
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#">Configuration</a>
+				</li>
+				</ul>
+			</div>
+			<div>
+				<img src="img/logo.png" alt="Logo ESIEA"/>
+			</div>
+		</nav>
 		<!-- Fin barre de navigation-->
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Sélection taille tableau
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href="#">Action</a>
+				<a class="dropdown-item" href="#">Another action</a>
+				<a class="dropdown-item" href="#">Something else here</a>
+			</div>
+		</div>
 
 		<div class="dropdown">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -110,43 +120,63 @@
 				<div class="col-auto">
 					<table class="table table-sm table-bordered">
 						<thead>
-							<tr>
+							<tr class="text-center">
 								<th scope="col">#</th>
 								<th scope="col">A</th>
 								<th scope="col">B</th>
 								<th scope="col">C</th>
+								<th scope="col">D</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<th scope="row">1</th>
+								<th scope="row" class="align-middle">1</th>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+								<td><input type="text"></td>
+								<td rowspan="3" class="align-middle">
+									<button type="button" class="btn">
+										<svg width="40px" height="px" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row" class="align-middle">2</th>
 								<td><input type="text"></td>
 								<td><input type="text"></td>
 								<td><input type="text"></td>
 							</tr>
 							<tr>
-								<th scope="row">2</th>
+								<th scope="row" class="align-middle">3</th>
 								<td><input type="text"></td>
 								<td><input type="text"></td>
 								<td><input type="text"></td>
 							</tr>
 							<tr>
-								<th scope="row">3</th>
-								<td><input type="text"></td>
-								<td><input type="text"></td>
-								<td><input type="text"></td>
+								<th scope="row" class="align-middle">4</th>
+								<td class="text-center" colspan="3">
+									<button type="button" class="btn">
+										<svg width="40px" height="px" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+										</svg>
+									</button>
+								</td>
 							</tr>
 						</tbody>
-				  	</table>
-				</div> 
+					</table>
+				</div>
 			</div>
 			<div class="row mt-5">
 				<div class="col-auto">
 					<p>Code LaTeX
-						<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							<path fill-rule="evenodd" d="M4 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"/>
-							<path d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z"/>
-						</svg>
+						<button type="button" class="btn">
+							<svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M4 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4z"/>
+								<path d="M6 0h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1H4a2 2 0 0 1 2-2z"/>
+							</svg>
+						</button>
 					</p>
 				</div>
 			</div>
