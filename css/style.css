@@ -59,33 +59,12 @@ a, a:hover {
 
 .footer {
     background-color:#585B5B;
-    height: 50px;
-    line-height: 50px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
 }
 
-.test, .test2 {
-    margin-top: 20px;
-    margin-left: 10px;
-}
-
-.left {
-
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-.center, .right {
-    margin-top: 20px; 
-    margin-left: 10px;
-}
-
-.bold, .italic, .underline {
-    margin-top: 20px;
-}
-
-.bold {
-    margin-left: 30px;
-}
 
 table
 {
@@ -120,23 +99,9 @@ td
 
 .info {
     float: right;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.font {
-    margin-top: 20px;
-
-}
-
-.fusion {
-    margin-left: 20px;
-    margin-top: 20px;
-}
-
-.separer {
-    margin-top: 20px;
-
-}
 
 .copier {
     margin-left: 5px;
@@ -146,3 +111,4 @@ td
     margin-top: 80px;
     margin-left: 600px;
 }
+
