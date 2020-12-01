@@ -75,7 +75,7 @@ function AddRow() {
     var trChilds = tbodyNodes[0].querySelectorAll("tr");
     var tdChilds = trChilds[0].querySelectorAll("td");
     var lastTd = tdChilds[tdChilds.length - 1];
-    lastTd.rowSpan = tbodyThNb - 1;
+    lastTd.rowSpan = tbodyThNb;
 
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     var lastTrChild = eltLastTr.childNodes;
