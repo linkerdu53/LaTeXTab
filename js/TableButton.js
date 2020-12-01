@@ -24,7 +24,7 @@ function AddColumn() {
         var newTd = document.createElement("td");
         var newInput = document.createElement("input");
         newInput.type = 'text';
-        newInput.type = 'text';
+        newInput.classList.add("tdInputText")
         newTd.appendChild(newInput);
 
         var trChild = trTbodyChilds[index]; //récupère tr[i]
@@ -61,7 +61,7 @@ function AddRow() {
         var newTd = document.createElement("td");
         var newInput = document.createElement("input");
         newInput.type = 'text';
-        newInput.type = 'text';
+        newInput.classList.add("tdInputText")
         newTd.appendChild(newInput);
         newtr.appendChild(newTd);
     }
