@@ -1,4 +1,5 @@
 import { nextChar } from './GestionLettre.js';
+import { InputAutoSize } from './TableInput.js';
 
 function AddColumn() {
     var th = document.querySelectorAll("th[scope='col']");
@@ -24,7 +25,10 @@ function AddColumn() {
         var newTd = document.createElement("td");
         var newInput = document.createElement("input");
         newInput.type = 'text';
-        newInput.classList.add("tdInputText")
+        newInput.classList.add("tdInputText");
+        newInput.addEventListener('keypress', function() {
+            InputAutoSize(newInput)
+        });
         newTd.appendChild(newInput);
 
         var trChild = trTbodyChilds[index]; //récupère tr[i]
@@ -61,7 +65,10 @@ function AddRow() {
         var newTd = document.createElement("td");
         var newInput = document.createElement("input");
         newInput.type = 'text';
-        newInput.classList.add("tdInputText")
+        newInput.classList.add("tdInputText");
+        newInput.addEventListener('keypress', function() {
+            InputAutoSize(newInput)
+        });
         newTd.appendChild(newInput);
         newtr.appendChild(newTd);
     }

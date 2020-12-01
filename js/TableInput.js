@@ -9,3 +9,5 @@ for (let i = 0; i < tdInputText.length; i++) {
         InputAutoSize(tdInputText[i])
     });
 }
+
+export { InputAutoSize };
