@@ -2,14 +2,17 @@ function AddColumn() {
     var th = document.querySelectorAll("th[scope='col']");
     thNb = th.length;
 
+    var eltTrHead = document.getElementById("trHead");
+    var eltThLast = document.getElementById("thLast");
+    
     //Ajout <th scope="col"> dans <thead>
     var newth = document.createElement("th");
     newth.scope = 'col';
-    newth.innerText = "test";
-    var eltTrHead = document.getElementById("trHead");
-    var eltThLast = document.getElementById("thLast");
-
+    newth.innerText = eltThLast.childNodes[0].nodeValue;
     eltTrHead.insertBefore(newth, eltThLast);
+
+    //Mise à jour du dernier th scope="col" dans le thead
+    eltThLast.childNodes[0].nodeValue = nextChar((eltThLast.childNodes[0].nodeValue));
 
     //Ajout <td><input type="text"></td> dans <tbody>
     var eltTbody = document.getElementsByTagName('tbody');
@@ -72,7 +75,6 @@ function AddRow() {
     var lastTd = tdChilds[tdChilds.length - 1];
     lastTd.rowSpan = tbodyThNb - 1;
 
-
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
@@ -90,4 +92,50 @@ if (buttonAddRow) {
     buttonAddRow.addEventListener('click', function() {
         AddRow()
     }, false);
+}
+
+
+function nextChar(c) {
+    var u = c.toUpperCase();
+    if (same(u,'Z')){
+        var txt = '';
+        var i = u.length;
+        while (i--) {
+            txt += 'A';
+        }
+        return (txt+'A');
+    } else {
+        var p = "";
+        var q = "";
+        if(u.length > 1){
+            p = u.substring(0, u.length - 1);
+            q = String.fromCharCode(p.slice(-1).charCodeAt(0));
+        }
+        var l = u.slice(-1).charCodeAt(0);
+        var z = nextLetter(l);
+        if(z==='A'){
+            return p.slice(0,-1) + nextLetter(q.slice(-1).charCodeAt(0)) + z;
+        } else {
+            return p + z;
+        }
+    }
+}
+
+function nextLetter(l){
+    if(l<90){
+        return String.fromCharCode(l + 1);
+    }
+    else{
+        return 'A';
+    }
+}
+
+function same(str,char){
+    var i = str.length;
+    while (i--) {
+        if (str[i]!==char){
+            return false;
+        }
+    }
+    return true;
 }
