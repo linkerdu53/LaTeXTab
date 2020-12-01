@@ -1,4 +1,4 @@
-import { InputSelectBg } from './InputSelection.js';
+import { InputSelectBg, InputDeselectBg } from './InputSelection.js';
 
 function InputAutoSize(cible) {
     cible.style.width = getInputValueWidth.call(cible) + 'px';
@@ -42,6 +42,9 @@ function AddEventInput(cible) {
     });
     cible.addEventListener('focus', function() {
         InputSelectBg(cible)
+    });
+    cible.addEventListener('blur', function() {
+        InputDeselectBg(cible)
     });
 }
 

@@ -4,4 +4,11 @@ function InputSelectBg(cible) {
     cible.style.backgroundColor = "#17a2b8";
 }
 
-export { InputSelectBg };
+function InputDeselectBg(cible) {
+    var parent = cible.parentElement
+    parent.style.backgroundColor = "";
+    cible.style.backgroundColor = "";
+}
+
+
+export { InputSelectBg, InputDeselectBg };
