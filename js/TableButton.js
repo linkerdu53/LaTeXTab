@@ -1,5 +1,5 @@
 import { nextChar } from './GestionLettre.js';
-import { AddEventKeyPress } from './TableInput.js';
+import { AddEventInput } from './TableInput.js';
 
 function AddColumn() {
     var th = document.querySelectorAll("th[scope='col']");
@@ -26,7 +26,7 @@ function AddColumn() {
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
-        AddEventKeyPress(newInput);
+        AddEventInput(newInput);
 
         newTd.appendChild(newInput);
 
@@ -65,7 +65,7 @@ function AddRow() {
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
-        AddEventKeyPress(newInput);
+        AddEventInput(newInput);
 
         newTd.appendChild(newInput);
         newtr.appendChild(newTd);
