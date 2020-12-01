@@ -1,0 +1,49 @@
+function InputAutoSize(cible) {
+    cible.style.width = getInputValueWidth.call(cible) + 'px';
+}
+
+var getInputValueWidth = (function(){
+    function copyNodeStyle(sourceNode, targetNode) {
+      var computedStyle = window.getComputedStyle(sourceNode);
+      Array.from(computedStyle).forEach(key => targetNode.style.setProperty(key, computedStyle.getPropertyValue(key), computedStyle.getPropertyPriority(key)))
+    }
+    
+    function createInputMeassureElm( inputelm ){
+      // create a dummy input element for measurements
+      var meassureElm = document.createElement('span');
+      // copy the read input's styles to the dummy input
+      copyNodeStyle(inputelm, meassureElm);
+      
+      // set hard-coded styles needed for propper meassuring 
+      meassureElm.style.width = 'auto';
+      meassureElm.style.position = 'absolute';
+      meassureElm.style.left = '-9999px';
+      meassureElm.style.top = '-9999px';
+      meassureElm.style.whiteSpace = 'pre';
+      
+      meassureElm.textContent = inputelm.value || '';
+      
+      // add the meassure element to the body
+      document.body.appendChild(meassureElm);
+      
+      return meassureElm;
+    }
+    
+    return function(){
+      return createInputMeassureElm(this).offsetWidth;
+    }
+})();
+
+function AddEventKeyPress(cible) {
+    cible.addEventListener('input', function() {
+        InputAutoSize(cible)
+    });
+}
+
+const tdInputText  = document.getElementsByClassName('tdInputText');
+
+for (let i = 0; i < tdInputText.length; i++) {
+    AddEventKeyPress(tdInputText[i])
+}
+
+export { InputAutoSize, AddEventKeyPress };
