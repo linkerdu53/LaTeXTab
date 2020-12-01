@@ -41,16 +41,18 @@ function AddColumn() {
 }
 
 function AddRow() {
-    var thNb = document.querySelectorAll("th[scope='col']").length;
+    var theadThNb = document.querySelectorAll("th[scope='col']").length;
+    var tbodyThNb = document.querySelectorAll("th[scope='row']").length;
     //Ajout <th scope="row">
     var newtr = document.createElement("tr");
     var newth = document.createElement("th");
     newth.scope = 'row';
     newth.className = 'align-middle';
-    newth.innerText = "0";
+    newth.innerText = tbodyThNb;
     newtr.appendChild(newth);
+
     //Ajout bon nombre de <td><input type="text"></td>
-    for (let index = 0; index < thNb - 2; index++) {
+    for (let index = 0; index < theadThNb - 2; index++) {
         var newTd = document.createElement("td");
         var newInput = document.createElement("input");
         newInput.type = 'text';
@@ -64,13 +66,16 @@ function AddRow() {
 
     tbodyNodes[0].insertBefore(newtr, eltLastTr);
 
-    //Mise à jour de rowspan pour le dernier tr
-    var th = document.querySelectorAll("th[scope='row']");
-    thNb = th.length;
+    //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     var trChilds = tbodyNodes[0].querySelectorAll("tr");
     var tdChilds = trChilds[0].querySelectorAll("td");
     var lastTd = tdChilds[tdChilds.length - 1];
-    lastTd.rowSpan = thNb - 1;
+    lastTd.rowSpan = tbodyThNb - 1;
+
+
+    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
+    lastTrChild = eltLastTr.childNodes;
+    lastTrChild[1].innerText = tbodyThNb + 1;
 }
    
 var buttonAddColumn  = document.getElementById('button-add-column');
