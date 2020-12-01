@@ -1,3 +1,5 @@
+import { InputSelectBg } from './InputSelection.js';
+
 function InputAutoSize(cible) {
     cible.style.width = getInputValueWidth.call(cible) + 'px';
 }
@@ -34,16 +36,19 @@ var getInputValueWidth = (function(){
     }
 })();
 
-function AddEventKeyPress(cible) {
+function AddEventInput(cible) {
     cible.addEventListener('input', function() {
         InputAutoSize(cible)
+    });
+    cible.addEventListener('focus', function() {
+        InputSelectBg(cible)
     });
 }
 
 const tdInputText  = document.getElementsByClassName('tdInputText');
 
 for (let i = 0; i < tdInputText.length; i++) {
-    AddEventKeyPress(tdInputText[i])
+    AddEventInput(tdInputText[i])
 }
 
-export { InputAutoSize, AddEventKeyPress };
+export { InputAutoSize, AddEventInput };
