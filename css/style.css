@@ -13,5 +13,6 @@ body {
 }
 
 .tdInputText {
-    width: 16px;
+    width: 20px;
+    min-width: 20px;
 }
