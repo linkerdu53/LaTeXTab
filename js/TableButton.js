@@ -1,5 +1,5 @@
 import { nextChar } from './GestionLettre.js';
-import { InputAutoSize } from './TableInput.js';
+import { AddEventKeyPress } from './TableInput.js';
 
 function AddColumn() {
     var th = document.querySelectorAll("th[scope='col']");
@@ -22,13 +22,12 @@ function AddColumn() {
     var trTbodyChilds = eltTbody[0].querySelectorAll('tr') //récupère les tr présent dans tbody
 
     for (let index = 0; index < trTbodyChilds.length - 1; index++) {
-        var newTd = document.createElement("td");
-        var newInput = document.createElement("input");
+        const newTd = document.createElement("td");
+        const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
-        newInput.addEventListener('keypress', function() {
-            InputAutoSize(newInput)
-        });
+        AddEventKeyPress(newInput);
+
         newTd.appendChild(newInput);
 
         var trChild = trTbodyChilds[index]; //récupère tr[i]
@@ -62,13 +61,12 @@ function AddRow() {
 
     //Ajout bon nombre de <td><input type="text"></td>
     for (let index = 0; index < theadThNb - 2; index++) {
-        var newTd = document.createElement("td");
-        var newInput = document.createElement("input");
+        const newTd = document.createElement("td");
+        const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
-        newInput.addEventListener('keypress', function() {
-            InputAutoSize(newInput)
-        });
+        AddEventKeyPress(newInput);
+
         newTd.appendChild(newInput);
         newtr.appendChild(newTd);
     }
