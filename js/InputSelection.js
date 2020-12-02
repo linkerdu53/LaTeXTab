@@ -34,6 +34,12 @@ document.addEventListener('keyup', function (event) {
     }
 })
 
+$('table').mousedown(function (event) {
+    if (event.ctrlKey) {
+        event.preventDefault();
+    }
+});
+
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
         if (ctrl == 1) {
