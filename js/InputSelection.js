@@ -70,12 +70,14 @@ function AddEventCtrlClic(tdInputCible) {
                 }
                 else if (event.target == focusedElement) { //Si on clique dessus alors on l'enlève de la sélection
                     DeselectOneInput(focusedElement);
+                    document.activeElement.blur();
                 }
             }
 
             if (event.target != focusedElement) { //Si on clique sur input qui n'est pas celui de départ ou s'il n'y en a pas de départ (aucun input focus)
                 if (casesSelection.includes(event.target) == false) { //Si non présent dans la sélection alors on l'ajoute
                     SelectOneInput(event.target);
+                    event.target.focus();
                 }
                 else {
                     DeselectOneInput(event.target);
