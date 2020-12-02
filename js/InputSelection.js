@@ -6,19 +6,26 @@ function InputDeselectBg(cible) {
     cible.style.backgroundColor = "";
 }
 
-function SelectMultiple(cible) {
+function SelectOneInput(cible) {
     var parent = cible.parentElement;
     parent.style.backgroundColor = "orange";
     casesSelection.push(cible);
 }
 
-function DeselectMultiple() {
+function DeselectAllInput() {
     const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
         var parent = tdInputText[i].parentElement;
         parent.style.backgroundColor = ""; 
     }
     casesSelection = [];
+}
+
+function DeselectOneInput(cible) {
+    var parent = cible.parentElement;
+    parent.style.backgroundColor = ""; 
+    let cibleIndex = casesSelection.indexOf(cible);
+    casesSelection.splice(cibleIndex, 1)
 }
 
 let casesSelection = [];
@@ -51,16 +58,28 @@ function AddEventCtrlClic(tdInputCible) {
         }
         else {
             clic = 0;
-            DeselectMultiple();
+            DeselectAllInput();
         }
 
         if (ctrl == 1 && clic == 1) {
             var focusedElement = document.activeElement;
-            if (focusedElement.className == "tdInputText" && casesSelection.includes(focusedElement) == false) {
-                SelectMultiple(focusedElement);
+
+            if (focusedElement.className == "tdInputText") {
+                if (casesSelection.includes(focusedElement) == false) { //Si input de départ (input focus) pas dans la sélection alors on l'ajoute
+                    SelectOneInput(focusedElement);
+                }
+                else if (event.target == focusedElement) { //Si on clique dessus alors on l'enlève de la sélection
+                    DeselectOneInput(focusedElement);
+                }
             }
-            if (casesSelection.includes(event.target) == false) {
-                SelectMultiple(event.target);
+
+            if (event.target != focusedElement) { //Si on clique sur input qui n'est pas celui de départ ou s'il n'y en a pas de départ (aucun input focus)
+                if (casesSelection.includes(event.target) == false) { //Si non présent dans la sélection alors on l'ajoute
+                    SelectOneInput(event.target);
+                }
+                else {
+                    DeselectOneInput(event.target);
+                }
             }
         }
     })
