@@ -40,12 +40,7 @@ function AddEventInput(cible) {
     cible.addEventListener('input', function() {
         InputAutoSize(cible)
     });
-    cible.addEventListener('focus', function() {
-        InputSelectBg(cible)
-    });
-    cible.addEventListener('blur', function() {
-        InputDeselectBg(cible)
-    });
+
     AddEventCtrlClic(cible);
 }
 

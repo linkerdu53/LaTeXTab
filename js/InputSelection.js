@@ -10,13 +10,20 @@ function SelectOneInput(cible) {
     var parent = cible.parentElement;
     parent.style.backgroundColor = "orange";
     casesSelection.push(cible);
+
+    if (casesSelection.length > 1) {
+        InputDeselectBg(casesSelection[casesSelection.length - 2]);
+    }
+    InputSelectBg(cible);
 }
 
 function DeselectAllInput() {
     const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
         var parent = tdInputText[i].parentElement;
-        parent.style.backgroundColor = ""; 
+        parent.style.backgroundColor = "";
+
+        InputDeselectBg(tdInputText[i])
     }
     casesSelection = [];
 }
@@ -26,6 +33,8 @@ function DeselectOneInput(cible) {
     parent.style.backgroundColor = ""; 
     let cibleIndex = casesSelection.indexOf(cible);
     casesSelection.splice(cibleIndex, 1)
+
+    InputDeselectBg(cible)
 }
 
 let casesSelection = [];
