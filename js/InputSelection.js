@@ -51,6 +51,10 @@ function AddEventCtrlClic(tdInputCible) {
         }
 
         if (ctrl == 1 && clic == 1) {
+            var focusedElement = document.activeElement;
+            if (focusedElement.className == "tdInputText") {
+                SelectMultiple(focusedElement);
+            }
             SelectMultiple(event.target);
         }
     })
