@@ -1,4 +1,4 @@
-import { InputSelectBg, InputDeselectBg } from './InputSelection.js';
+import { InputSelectBg, InputDeselectBg, AddEventCtrlClic } from './InputSelection.js';
 
 function InputAutoSize(cible) {
     cible.style.width = getInputValueWidth.call(cible) + 'px';
@@ -46,6 +46,7 @@ function AddEventInput(cible) {
     cible.addEventListener('blur', function() {
         InputDeselectBg(cible)
     });
+    AddEventCtrlClic(cible);
 }
 
 const tdInputText  = document.getElementsByClassName('tdInputText');
