@@ -9,6 +9,7 @@ function InputDeselectBg(cible) {
 function SelectMultiple(cible) {
     var parent = cible.parentElement;
     parent.style.backgroundColor = "orange";
+    casesSelection.push(cible);
 }
 
 function DeselectMultiple() {
@@ -17,7 +18,10 @@ function DeselectMultiple() {
         var parent = tdInputText[i].parentElement;
         parent.style.backgroundColor = ""; 
     }
+    casesSelection = [];
 }
+
+let casesSelection = [];
 
 let ctrl = 0;
 let clic = 0;
@@ -52,10 +56,12 @@ function AddEventCtrlClic(tdInputCible) {
 
         if (ctrl == 1 && clic == 1) {
             var focusedElement = document.activeElement;
-            if (focusedElement.className == "tdInputText") {
+            if (focusedElement.className == "tdInputText" && casesSelection.includes(focusedElement) == false) {
                 SelectMultiple(focusedElement);
             }
-            SelectMultiple(event.target);
+            if (casesSelection.includes(event.target) == false) {
+                SelectMultiple(event.target);
+            }
         }
     })
 }
