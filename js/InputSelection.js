@@ -59,6 +59,7 @@ function AddEventCtrlClic(tdInputCible) {
         else {
             clic = 0;
             DeselectAllInput();
+            SelectOneInput(event.target);
         }
 
         if (ctrl == 1 && clic == 1) {
