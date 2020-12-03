@@ -17,6 +17,18 @@ function SelectOneInput(cible) {
     InputSelectBg(cible);
 }
 
+function SelectAllInput() {
+    DeselectAllInput();
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    for (let i = 0; i < tdInputText.length; i++) {
+        var parent = tdInputText[i].parentElement;
+        parent.style.backgroundColor = "orange";
+
+        casesSelection.push(tdInputText[i]);
+    }
+
+}
+
 function DeselectAllInput() {
     const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
@@ -97,4 +109,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { InputSelectBg, InputDeselectBg, AddEventCtrlClic, casesSelection };
+export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection };
