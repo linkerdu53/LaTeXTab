@@ -11,7 +11,7 @@ const fontButton = document.getElementById("font");
 const separateButton = document.getElementById("separate");
 const fusionButton = document.getElementById("fusion");
 const infoButton = document.getElementById("info");
-const allButton = document.getElementById("all");
+
 
 
 boldButton.addEventListener('click', function() {
@@ -58,12 +58,6 @@ textCenterButton.addEventListener('click', function() {
 });
 
 textRightButton.addEventListener('click', function() {
-    for (let i = 0; i < casesSelection.length; i++) {
-        casesSelection[i].style.textAlign = "right";
-    }
-});
-
-allButton.addEventListener('dblclick', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "right";
     }
