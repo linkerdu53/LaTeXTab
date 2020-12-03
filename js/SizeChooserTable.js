@@ -25,15 +25,19 @@ function tdSizeChooserSetBackground(row, col) {
 }
 
 function tdSizeChooserMouseEnter(cible) {
-    tdSizeChooserResetBackground();
+    let cibleRow = parseInt(cible.dataset.row);
+    let cibleCol = parseInt(cible.dataset.col);
 
-    tdSizeChooserSetBackground(cible.dataset.row, cible.dataset.col);
-    let rowSize = tdSizeChooser[tdSizeChooser.length - 1].dataset.row;
-    let columnSize = tdSizeChooser[tdSizeChooser.length - 1].dataset.col;
-    if(cible.dataset.col == columnSize) {
+    let rowSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.row);
+    let columnSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.col);
+
+    tdSizeChooserResetBackground();
+    tdSizeChooserSetBackground(cibleRow, cibleCol);
+
+    if(cibleCol == columnSize) {
         tdSizeChooserAddColumn(columnSize);
     }
-    if(cible.dataset.row == rowSize) {
+    if(cibleRow == rowSize) {
         tdSizeChooserAddRow(columnSize);
     }
 }
@@ -46,7 +50,7 @@ function tdSizeChooserAddColumn(columnSize) {
         const newTd = document.createElement("td");
         newTd.classList.add("tdSizeChooser");
         newTd.dataset.row = i + 1;
-        newTd.dataset.col = parseInt(columnSize) + 1;
+        newTd.dataset.col = columnSize + 1;
         tdSizeChooserAddEvent(newTd);
 
         let trParent = tdLastCol[i].parentElement;
