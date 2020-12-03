@@ -15,9 +15,24 @@ const infoButton = document.getElementById("info");
 
 
 boldButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.fontWeight == "bold"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.fontWeight == "bold") {
-            casesSelection[i].style.fontWeight = "normal";
+            if (cpt == 0) {
+                casesSelection[i].style.fontWeight = "normal";
+            }
+            else {
+                casesSelection[i].style.fontWeight = "bold";
+            }
         } else {
             casesSelection[i].style.fontWeight = "bold";
         }
@@ -25,9 +40,24 @@ boldButton.addEventListener('click', function() {
 });
 
 italicButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.fontStyle == "italic"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.fontStyle == "italic") {
-            casesSelection[i].style.fontStyle = "normal";
+            if (cpt == 0) {
+                casesSelection[i].style.fontStyle = "normal";
+            }
+            else {
+                casesSelection[i].style.fontStyle = "italic";
+            }
         } else {
             casesSelection[i].style.fontStyle = "italic";
         }
@@ -35,9 +65,24 @@ italicButton.addEventListener('click', function() {
 });
 
 underlineButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.textDecoration == "underline"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.textDecoration == "underline") {
-            casesSelection[i].style.textDecoration = "inherit";
+            if (cpt == 0) {
+                casesSelection[i].style.textDecoration = "inherit";
+            }
+            else {
+                casesSelection[i].style.textDecoration = "underline";
+            }
         } else {
             casesSelection[i].style.textDecoration = "underline";
         }
@@ -62,4 +107,5 @@ textRightButton.addEventListener('click', function() {
         casesSelection[i].style.textAlign = "right";
     }
 });
+
 
