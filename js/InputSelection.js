@@ -1,5 +1,5 @@
 function InputSelectBg(cible) {
-    cible.style.backgroundColor = "#17a2b8";
+    cible.style.backgroundColor = "#82C0F9";
 }
 
 function InputDeselectBg(cible) {
@@ -8,7 +8,7 @@ function InputDeselectBg(cible) {
 
 function SelectOneInput(cible) {
     var parent = cible.parentElement;
-    parent.style.backgroundColor = "orange";
+    parent.style.backgroundColor = "grey";
     casesSelection.push(cible);
 
     if (casesSelection.length > 1) {
