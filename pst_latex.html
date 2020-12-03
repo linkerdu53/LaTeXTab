@@ -30,14 +30,38 @@
 		<!-- Fin barre de navigation-->
 		<div class="dropdown">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Sélection taille tableau
+				Nouveau tableau
 			</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" href="#">Action</a>
-				<a class="dropdown-item" href="#">Another action</a>
-				<a class="dropdown-item" href="#">Something else here</a>
+				<span class="dropdown-item-text">Sélectionner la taille</span>
+				<div class="row mt-3"> <!-- d-none -->
+					<div class="col-auto">
+						<table class="tableSizeChoose">
+							<tbody>
+								<tr>
+									<td class="tdSizeChooser" data-row="1" data-col="1"></td>
+									<td class="tdSizeChooser" data-row="1" data-col="2"></td>
+									<td class="tdSizeChooser" data-row="1" data-col="3"></td>
+								</tr>
+								<tr>
+									<td class="tdSizeChooser" data-row="2" data-col="1"></td>
+									<td class="tdSizeChooser" data-row="2" data-col="2"></td>
+									<td class="tdSizeChooser" data-row="2" data-col="3"></td>
+								</tr>
+								<tr>
+									<td class="tdSizeChooser" data-row="3" data-col="1"></td>
+									<td class="tdSizeChooser" data-row="3" data-col="2"></td>
+									<td class="tdSizeChooser" data-row="3" data-col="3"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>	
 			</div>
 		</div>
+		
+
+
 		<!-- Tableau central -->
 		<div class="container jumbotron mt-5">
 			<div class="row">
@@ -193,5 +217,6 @@
 		<script type="module" src="js/GestionLettre.js"></script>
 		<script type="module" src="js/InputSelection.js"></script>
 		<script type="module" src="js/TableSelectAll.js"></script>
+		<script type="module" src="js/SizeChooserTable.js"></script>
 	</body>
 </html>
