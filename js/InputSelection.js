@@ -18,14 +18,21 @@ function SelectOneInput(cible) {
 }
 
 function SelectAllInput() {
-    DeselectAllInput();
+    
     const tdInputText = document.getElementsByClassName("tdInputText");
-    for (let i = 0; i < tdInputText.length; i++) {
-        var parent = tdInputText[i].parentElement;
-        parent.style.backgroundColor = "orange";
-
-        casesSelection.push(tdInputText[i]);
+    if (casesSelection.length == tdInputText.length) {
+        DeselectAllInput();
     }
+    else {
+        DeselectAllInput();
+        for (let i = 0; i < tdInputText.length; i++) {
+            var parent = tdInputText[i].parentElement;
+            parent.style.backgroundColor = "grey";
+    
+            casesSelection.push(tdInputText[i]);
+        }
+    }
+   
 
 }
 
