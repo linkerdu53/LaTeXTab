@@ -1,5 +1,5 @@
 function InputSelectBg(cible) {
-    cible.style.backgroundColor = "#17a2b8";
+    cible.style.backgroundColor = "#82C0F9";
 }
 
 function InputDeselectBg(cible) {
@@ -8,13 +8,32 @@ function InputDeselectBg(cible) {
 
 function SelectOneInput(cible) {
     var parent = cible.parentElement;
-    parent.style.backgroundColor = "orange";
+    parent.style.backgroundColor = "grey";
     casesSelection.push(cible);
 
     if (casesSelection.length > 1) {
         InputDeselectBg(casesSelection[casesSelection.length - 2]);
     }
     InputSelectBg(cible);
+}
+
+function SelectAllInput() {
+    
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    if (casesSelection.length == tdInputText.length) {
+        DeselectAllInput();
+    }
+    else {
+        DeselectAllInput();
+        for (let i = 0; i < tdInputText.length; i++) {
+            var parent = tdInputText[i].parentElement;
+            parent.style.backgroundColor = "grey";
+    
+            casesSelection.push(tdInputText[i]);
+        }
+    }
+   
+
 }
 
 function DeselectAllInput() {
@@ -97,4 +116,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { InputSelectBg, InputDeselectBg, AddEventCtrlClic, casesSelection };
+export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection };
