@@ -73,7 +73,7 @@ function AddRow() {
         newtr.appendChild(newTd);
     }
 
-    var tbodyNodes = document.getElementsByTagName("tbody");
+    var tbodyNodes = mainTable.getElementsByTagName("tbody");
     var eltLastTr = document.getElementById("lastTr");
 
     tbodyNodes[0].insertBefore(newtr, eltLastTr);
