@@ -43,6 +43,10 @@ function tdSizeChooserMouseEnter(cible) {
         tdSizeChooserAddColumn(columnSize);
     }
 
+    if(cibleRow == rowSize - 2 && cibleRow >= 2) {
+        tdSizeChooserSupprRow(rowSize, columnSize);
+    }
+
 }
 
 function tdSizeChooserAddColumn(columnSize) {
@@ -76,4 +80,10 @@ function tdSizeChooserAddRow(rowSize, columnSize) {
         newTr.appendChild(newTd);
     }
     tbody.appendChild(newTr);
+}
+
+function tdSizeChooserSupprRow() {
+
+    let tbody = tableSizeChooser.querySelectorAll("tbody")[0];
+    tbody.children[tbody.children.length - 1].remove();
 }
