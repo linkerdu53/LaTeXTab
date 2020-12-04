@@ -43,8 +43,19 @@ function tdSizeChooserMouseEnter(cible) {
         tdSizeChooserAddColumn(columnSize);
     }
 
-    if(cibleRow == rowSize - 2 && cibleRow >= 2) {
-        tdSizeChooserSupprRow(rowSize, columnSize);
+    if(cibleRow <= rowSize - 2) {
+        let nbRowToDel = rowSize - cibleRow - 1;
+        if (cibleRow == 1) {
+            nbRowToDel--;
+        }
+        tdSizeChooserSupprRow(nbRowToDel);
+    }
+    if(cibleCol <= columnSize - 2) {
+        let nbColToDel = columnSize - cibleCol - 1;
+        if (cibleCol == 1) {
+            nbColToDel--;
+        }
+        tdSizeChooserSupprColumn(nbColToDel);
     }
 
 }
@@ -82,8 +93,21 @@ function tdSizeChooserAddRow(rowSize, columnSize) {
     tbody.appendChild(newTr);
 }
 
-function tdSizeChooserSupprRow() {
+function tdSizeChooserSupprColumn(nbColToDel) {
 
     let tbody = tableSizeChooser.querySelectorAll("tbody")[0];
-    tbody.children[tbody.children.length - 1].remove();
+    let listTr = tbody.children;
+    for (let i = 0; i < nbColToDel; i++) {
+        for (let j = 0; j < listTr.length; j++) {
+            listTr[j].children[listTr[j].children.length - 1].remove();
+        }
+    }
+}
+
+function tdSizeChooserSupprRow(nbRowToDel) {
+
+    let tbody = tableSizeChooser.querySelectorAll("tbody")[0];
+    for (let i = 0; i < nbRowToDel; i++) {
+        tbody.children[tbody.children.length - 1].remove();
+    }
 }
