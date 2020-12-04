@@ -1,8 +1,10 @@
 import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
 
+const mainTable = document.getElementsByClassName('mainTable')[0];
+
 function AddColumn() {
-    var th = document.querySelectorAll("th[scope='col']");
+    var th = mainTable.querySelectorAll("th[scope='col']");
     var thNb = th.length;
 
     var eltTrHead = document.getElementById("trHead");
@@ -18,7 +20,7 @@ function AddColumn() {
     eltThLast.childNodes[0].nodeValue = nextChar((eltThLast.childNodes[0].nodeValue));
 
     //Ajout <td><input type="text"></td> dans <tbody>
-    var eltTbody = document.getElementsByTagName('tbody');
+    var eltTbody = mainTable.getElementsByTagName('tbody');
     var trTbodyChilds = eltTbody[0].querySelectorAll('tr') //récupère les tr présent dans tbody
 
     for (let index = 0; index < trTbodyChilds.length - 1; index++) {
@@ -49,8 +51,8 @@ function AddColumn() {
 }
 
 function AddRow() {
-    var theadThNb = document.querySelectorAll("th[scope='col']").length;
-    var tbodyThNb = document.querySelectorAll("th[scope='row']").length;
+    var theadThNb = mainTable.querySelectorAll("th[scope='col']").length;
+    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
     //Ajout <th scope="row">
     var newtr = document.createElement("tr");
     var newth = document.createElement("th");
@@ -86,8 +88,8 @@ function AddRow() {
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
 }
-   
-var buttonAddColumn  = document.getElementById('button-add-column');
+
+var buttonAddColumn = document.getElementById('button-add-column');
 var buttonAddRow = document.getElementById('button-add-row');
   
 if (buttonAddColumn) {
