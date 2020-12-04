@@ -1,4 +1,6 @@
-const tdSizeChooser = document.getElementsByClassName('tdSizeChooser');
+const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
+
+const tdSizeChooser = tableSizeChooser.getElementsByClassName('tdSizeChooser');
 
 for (let i = 0; i < tdSizeChooser.length; i++) {
     tdSizeChooserAddEvent(tdSizeChooser[i]);
@@ -34,18 +36,18 @@ function tdSizeChooserMouseEnter(cible) {
     tdSizeChooserResetBackground();
     tdSizeChooserSetBackground(cibleRow, cibleCol);
 
+    if(cibleRow == rowSize) {
+        tdSizeChooserAddRow(rowSize, columnSize);
+    }
     if(cibleCol == columnSize) {
         tdSizeChooserAddColumn(columnSize);
     }
-    if(cibleRow == rowSize) {
-        tdSizeChooserAddRow(columnSize);
-    }
+
 }
 
 function tdSizeChooserAddColumn(columnSize) {
 
-    let tdLastCol = document.querySelectorAll("[data-col='"+columnSize+"']")
-    console.log(tdLastCol);
+    let tdLastCol = tableSizeChooser.querySelectorAll("[data-col='"+columnSize+"']")
     for (let i = 0; i < tdLastCol.length; i++) {
         const newTd = document.createElement("td");
         newTd.classList.add("tdSizeChooser");
@@ -58,6 +60,20 @@ function tdSizeChooserAddColumn(columnSize) {
     }
 }
 
-function tdSizeChooserAddRow() {
+function tdSizeChooserAddRow(rowSize, columnSize) {
 
+    let tbody = tableSizeChooser.querySelectorAll("tbody")[0];
+
+    const newTr = document.createElement("tr");
+
+    for (let i = 0; i < columnSize; i++) {
+        const newTd = document.createElement("td");
+        newTd.classList.add("tdSizeChooser");
+        newTd.dataset.row = rowSize + 1;
+        newTd.dataset.col = i + 1;
+        tdSizeChooserAddEvent(newTd);
+
+        newTr.appendChild(newTd);
+    }
+    tbody.appendChild(newTr);
 }
