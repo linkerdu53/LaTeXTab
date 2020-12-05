@@ -102,3 +102,5 @@ if (buttonAddRow) {
         AddRow()
     }, false);
 }
+
+export { AddColumn, AddRow };

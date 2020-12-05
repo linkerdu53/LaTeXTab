@@ -1,3 +1,5 @@
+import { AddColumn, AddRow } from './TableButton.js';
+
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
 const tdSizeChooser = tableSizeChooser.getElementsByClassName('tdSizeChooser');
@@ -9,6 +11,9 @@ for (let i = 0; i < tdSizeChooser.length; i++) {
 function tdSizeChooserAddEvent(cible) {
     cible.addEventListener('mouseenter', function() {
         tdSizeChooserMouseEnter(cible)
+    });
+    cible.addEventListener('click', function() {
+        createTable(cible)
     });
 }
 
@@ -109,5 +114,28 @@ function tdSizeChooserSupprRow(nbRowToDel) {
     let tbody = tableSizeChooser.querySelectorAll("tbody")[0];
     for (let i = 0; i < nbRowToDel; i++) {
         tbody.children[tbody.children.length - 1].remove();
+    }
+}
+
+function createTable(cible) {
+    let cibleRow = parseInt(cible.dataset.row);
+    let cibleCol = parseInt(cible.dataset.col);
+    
+    const mainTable = document.getElementsByClassName('mainTable')[0];
+
+    let listTh = mainTable.querySelectorAll("th[scope='col']");
+    let colToAdd = cibleCol - (listTh.length - 2); //-2 car row th et row button
+    if (colToAdd > 0) {
+        for (let i = 0; i < colToAdd; i++) {
+            AddColumn();
+        }
+    }
+
+    let listTr = mainTable.querySelectorAll('tr');
+    let rowToAdd = cibleRow - (listTr.length - 2); //-2 car row head et row button
+    if (rowToAdd > 0) {
+        for (let i = 0; i < rowToAdd; i++) {
+            AddRow();
+        }
     }
 }
