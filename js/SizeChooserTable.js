@@ -4,6 +4,9 @@ const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
 const tdSizeChooser = tableSizeChooser.getElementsByClassName('tdSizeChooser');
 
+const rowDimSizeChooser = document.getElementById('rowDimSizeChooser');
+const colDimSizeChooser = document.getElementById('colDimSizeChooser');
+
 for (let i = 0; i < tdSizeChooser.length; i++) {
     tdSizeChooserAddEvent(tdSizeChooser[i]);
 }
@@ -62,7 +65,8 @@ function tdSizeChooserMouseEnter(cible) {
         }
         tdSizeChooserSupprColumn(nbColToDel);
     }
-
+    rowDimSizeChooser.textContent = cibleRow;
+    colDimSizeChooser.textContent = cibleCol;
 }
 
 function tdSizeChooserAddColumn(columnSize) {
