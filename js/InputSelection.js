@@ -1,3 +1,5 @@
+const tdInputText = document.getElementsByClassName("tdInputText");
+
 function InputSelectBg(cible) {
     cible.style.backgroundColor = "#82C0F9";
 }
@@ -19,7 +21,6 @@ function SelectOneInput(cible) {
 
 function SelectAllInput() {
     
-    const tdInputText = document.getElementsByClassName("tdInputText");
     if (casesSelection.length == tdInputText.length) {
         DeselectAllInput();
     }
@@ -37,7 +38,6 @@ function SelectAllInput() {
 }
 
 function DeselectAllInput() {
-    const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
         var parent = tdInputText[i].parentElement;
         parent.style.backgroundColor = "";
@@ -79,6 +79,21 @@ $('table').mousedown(function (event) {
     }
 });
 
+/*
+$('input').on('mousedown touchstart', function(event) {
+  event.preventDefault();
+});
+$('input').on('mousemove touchmove', function(event) {
+  event.preventDefault();
+});
+$(window.document).on('mouseup touchend', function(event) {
+  event.target.focus();
+});
+
+*/
+
+const mainTable = document.getElementsByClassName("mainTable")[0];
+
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
         if (ctrl == 1) {
@@ -114,6 +129,28 @@ function AddEventCtrlClic(tdInputCible) {
             }
         }
     })
+
+    document.addEventListener('mouseover', function (event) {
+        tdInputMouseEnter(event.target)
+    })
+}
+
+var mouseDown = 0;
+document.body.onmousedown = function() { 
+  ++mouseDown;
+}
+document.body.onmouseup = function() {
+  --mouseDown;
+}
+
+function tdInputMouseEnter(cible) {
+    if (mouseDown == 1 && cible.className == "tdInputText" && casesSelection.includes(cible) == 0) {
+        console.log(cible);
+        cible.blur();
+        let cibleRow = parseInt(cible.dataset.row);
+        let cibleCol = parseInt(cible.dataset.col);
+        SelectOneInput(cible);
+    }
 }
 
 export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection };

@@ -15,4 +15,5 @@ body {
 .tdInputText {
     width: 20px;
     min-width: 20px;
+    user-select: none;
 }
