@@ -3,7 +3,11 @@ import { AddEventInput } from './TableInput.js';
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 
+const tdMainTable = mainTable.getElementsByClassName('tdMainTable');
+
 function AddColumn() {
+    let columnSize = parseInt(tdMainTable[tdMainTable.length - 1].dataset.col); 
+
     var th = mainTable.querySelectorAll("th[scope='col']");
     var thNb = th.length;
 
@@ -25,6 +29,9 @@ function AddColumn() {
 
     for (let index = 0; index < trTbodyChilds.length - 1; index++) {
         const newTd = document.createElement("td");
+        newTd.dataset.row = index + 1;
+        newTd.dataset.col = columnSize + 1;
+        newTd.classList.add("tdMainTable");
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
@@ -51,6 +58,8 @@ function AddColumn() {
 }
 
 function AddRow() {
+    let rowSize = parseInt(tdMainTable[tdMainTable.length - 1].dataset.row);
+    
     var theadThNb = mainTable.querySelectorAll("th[scope='col']").length;
     var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
     //Ajout <th scope="row">
@@ -64,6 +73,9 @@ function AddRow() {
     //Ajout bon nombre de <td><input type="text"></td>
     for (let index = 0; index < theadThNb - 2; index++) {
         const newTd = document.createElement("td");
+        newTd.dataset.row = rowSize + 1;
+        newTd.dataset.col = index + 1;
+        newTd.classList.add("tdMainTable");
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
