@@ -1,4 +1,4 @@
-import { AddColumn, AddRow } from './TableButton.js';
+import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
@@ -128,18 +128,32 @@ function createTable(cible) {
     const mainTable = document.getElementsByClassName('mainTable')[0];
 
     let listTh = mainTable.querySelectorAll("th[scope='col']");
-    let colToAdd = cibleCol - (listTh.length - 2); //-2 car row th et row button
-    if (colToAdd > 0) {
-        for (let i = 0; i < colToAdd; i++) {
+    let listTr = mainTable.querySelectorAll('tr');
+
+    let colDiff = cibleCol - (listTh.length - 2); //-2 car row th et row button
+    let rowDiff = cibleRow - (listTr.length - 2); //-2 car row head et row button
+
+    if (colDiff > 0) {
+        for (let i = 0; i < colDiff; i++) {
             AddColumn();
         }
     }
 
-    let listTr = mainTable.querySelectorAll('tr');
-    let rowToAdd = cibleRow - (listTr.length - 2); //-2 car row head et row button
-    if (rowToAdd > 0) {
-        for (let i = 0; i < rowToAdd; i++) {
+    if (rowDiff > 0) {
+        for (let i = 0; i < rowDiff; i++) {
             AddRow();
+        }
+    }
+
+    if (colDiff < 0) {
+        for (let i = 0; i < colDiff * -1; i++) {
+            SupprColumn();
+        }
+    }
+
+    if (rowDiff < 0) {
+        for (let i = 0; i < rowDiff * -1; i++) {
+            SupprRow();
         }
     }
 }
