@@ -100,7 +100,7 @@
 					</button>
 				</div>
 				<div class="col-auto">
-					<button type="button" class="btn" id="info">
+					<button type="button" class="btn" data-toggle="modal" data-target="#infoModal" id="info">
 						<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
 						</svg>
@@ -117,7 +117,7 @@
 			</div>
 			<div class="row mt-3">
 				<div class="col-auto">
-					<table class="table table-sm table-bordered">
+					<table class="table table-sm table-bordered mainTable">
 						<thead>
 							<tr class="text-center" id="trHead">
 								<th scope="col" id="all">#</th>
@@ -130,9 +130,9 @@
 						<tbody>
 							<tr>
 								<th scope="row" class="align-middle">1</th>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
+								<td data-row="1" data-col="1" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="1" data-col="2" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="1" data-col="3" class="tdMainTable"><input type="text" class="tdInputText"></td>
 								<td rowSpan="3" class="align-middle">
 									<button type="button" class="btn" id="button-add-column">
 										<svg width="40px" height="40px" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -143,15 +143,15 @@
 							</tr>
 							<tr>
 								<th scope="row" class="align-middle">2</th>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
+								<td data-row="2" data-col="1" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="2" data-col="2" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="2" data-col="3" class="tdMainTable"><input type="text" class="tdInputText"></td>
 							</tr>
 							<tr>
 								<th scope="row" class="align-middle">3</th>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
-								<td><input type="text" class="tdInputText"></td>
+								<td data-row="3" data-col="1" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="3" data-col="2" class="tdMainTable"><input type="text" class="tdInputText"></td>
+								<td data-row="3" data-col="3" class="tdMainTable"><input type="text" class="tdInputText"></td>
 							</tr>
 							<tr id="lastTr">
 								<th scope="row" class="align-middle">4</th>
@@ -186,6 +186,26 @@
 						  <span class="sr-only">Chargement...</span>
 						</div>
 					  </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal INFO -->
+		<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollabl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="infoModalLabel">Infos</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						...
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					</div>
 				</div>
 			</div>
 		</div>
