@@ -2,7 +2,7 @@ import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
-
+const mainTbody = mainTable.querySelectorAll("tbody")[0];
 const tdMainTable = mainTable.getElementsByClassName('tdMainTable');
 
 function AddColumn() {
@@ -21,7 +21,7 @@ function AddColumn() {
     eltTrHead.insertBefore(newth, eltThLast);
 
     //Mise à jour du dernier th scope="col" dans le thead
-    eltThLast.childNodes[0].nodeValue = nextChar((eltThLast.childNodes[0].nodeValue));
+    eltThLast.childNodes[0].nodeValue = nextChar(eltThLast.childNodes[0].nodeValue);
 
     //Ajout <td><input type="text"></td> dans <tbody>
     var eltTbody = mainTable.getElementsByTagName('tbody');
@@ -101,6 +101,41 @@ function AddRow() {
     lastTrChild[1].innerText = tbodyThNb + 1;
 }
 
+function SupprColumn() {
+    var eltTrHead = document.getElementById("trHead");
+    var eltThLast = document.getElementById("thLast");
+    eltTrHead.children[eltTrHead.children.length - 2].remove();
+    eltThLast.childNodes[0].nodeValue = nextChar(eltTrHead.children[eltTrHead.children.length - 2].childNodes[0].nodeValue);
+
+    let listTr = mainTbody.children;
+    for (let j = 0; j < listTr.length - 1; j++) {
+        if (j == 0) {
+            listTr[j].children[listTr[j].children.length - 2].remove();
+        }
+        else {
+            listTr[j].children[listTr[j].children.length - 1].remove();
+        }
+    }
+
+    //Mise à jour de colspan pour le dernier tr
+    var lastTd = document.getElementById('lastTr').children[1];
+    lastTd.colSpan = lastTd.colSpan - 1;
+}
+
+function SupprRow() {
+    mainTbody.children[mainTbody.children.length - 2].remove();
+    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
+    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
+    var eltLastTr = document.getElementById("lastTr");
+    var lastTrChild = eltLastTr.childNodes;
+    lastTrChild[1].innerText = tbodyThNb;
+
+    //Mise à jour de rowspan pour le dernier td du premier tr de tbody
+    var trChilds = mainTable.querySelectorAll("tr")[1];
+    var lastTd = trChilds.children[trChilds.children.length - 1];
+    lastTd.rowSpan = lastTd.rowSpan - 1;
+}
+
 var buttonAddColumn = document.getElementById('button-add-column');
 var buttonAddRow = document.getElementById('button-add-row');
   
@@ -114,3 +149,5 @@ if (buttonAddRow) {
         AddRow()
     }, false);
 }
+
+export { AddColumn, AddRow, SupprColumn, SupprRow };
