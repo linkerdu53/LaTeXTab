@@ -27,48 +27,45 @@
 				<img src="img/logo.png" alt="Logo ESIEA"/>
 			</div>
 		</nav>
-		<!-- Fin barre de navigation-->
-		<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Nouveau tableau
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<span class="dropdown-item-text">Sélectionner la taille</span>
-				<div class="row mx-2">
-					<div class="col-auto">
-						<table class="tableSizeChooser">
-							<tbody>
-								<tr>
-									<td class="tdSizeChooser" data-row="1" data-col="1"></td>
-									<td class="tdSizeChooser" data-row="1" data-col="2"></td>
-									<td class="tdSizeChooser" data-row="1" data-col="3"></td>
-								</tr>
-								<tr>
-									<td class="tdSizeChooser" data-row="2" data-col="1"></td>
-									<td class="tdSizeChooser" data-row="2" data-col="2"></td>
-									<td class="tdSizeChooser" data-row="2" data-col="3"></td>
-								</tr>
-								<tr>
-									<td class="tdSizeChooser" data-row="3" data-col="1"></td>
-									<td class="tdSizeChooser" data-row="3" data-col="2"></td>
-									<td class="tdSizeChooser" data-row="3" data-col="3"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row mx-2">
-					<div class="col">
-						<p>taille: <span id="rowDimSizeChooser">0</span> X <span id="colDimSizeChooser">0</span></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-
 
 		<!-- Tableau central -->
 		<div class="container jumbotron mt-5">
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Nouveau tableau
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<span class="dropdown-item-text">Sélectionner la taille</span>
+					<div class="row mx-2">
+						<div class="col-auto">
+							<table class="tableSizeChooser">
+								<tbody>
+									<tr>
+										<td class="tdSizeChooser" data-row="1" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="1" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="1" data-col="3"></td>
+									</tr>
+									<tr>
+										<td class="tdSizeChooser" data-row="2" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="2" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="2" data-col="3"></td>
+									</tr>
+									<tr>
+										<td class="tdSizeChooser" data-row="3" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="3" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="3" data-col="3"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row mx-2">
+						<div class="col">
+							<p>taille: <span id="rowDimSizeChooser">0</span> X <span id="colDimSizeChooser">0</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row align-items-center">
 				<div class="col-auto mr-auto">
 					<button type="button" class="btn" id="text-left">
