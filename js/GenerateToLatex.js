@@ -1,5 +1,4 @@
 function GenerateToLatex() {
-    console.log("test")
     const table = document.getElementsByClassName('mainTable');
 
     let getTexFromCell = function(cell){
@@ -364,11 +363,169 @@ function GenerateToLatex() {
             return border+"\\cr";
         }
     };
+    let element = table;
+    let Matrix = function(alwaysInterpretZeroRowSpan) {
+        let table = element;
+        let rg = [];
+        let expandCells = [];
+        //rows = table.rows;
+        let rows = 3;
+        console.log(rows);
+        for(let i = 0; i < rows; i++) {
+            rg.push([]);
+        }
+        console.log("rg content in matrix: " + rg);
+        for(let i = 0; i < rows; i++){
+            let row = rows[i];
+            let realCol = 0;
+            for(let j = 0; j < row.cells.length; j++){
+                let cell = row.cells[j];
+                if(typeof rg[i][realCol] != "object" && rg[i][realCol] !== false){
+                    
+                    var rowSpan = alwaysInterpretZeroRowSpan ? parseInt(cell.getAttribute("rowSpan"),10) : cell.rowSpan;
+                    rowSpan = Math.floor(Math.abs(isNaN(rowSpan) ? 1 : rowSpan));
+                    if(rowSpan === 0 && !alwaysInterpretZeroRowSpan && cell.ownerDocument && cell.ownerDocument.compatMode == "BackCompat"){
+                        rowSpan = 1;
+                    }
+                    if(rowSpan == 1){
+                        if(!cell.colSpan || cell.colSpan < 2){
+                            rg[i][realCol]={ cell:cell, x:realCol, y:i - (this.shadowFirstRow?1:0) }
+                        }
+                        else{
+                            var o = rg[i][realCol]={ cell:cell, x:realCol, y:i - (this.shadowFirstRow?1:0)};
+                            for(var k=1;k<cell.colSpan;k++){
+                                rg[i][realCol+k]={refCell:o, x:realCol+k, y:i - (this.shadowFirstRow?1:0)};
+                            }
+                        }
+                    }
+                    else{
+                        var o = rg[i][realCol]={ cell:cell, x:realCol, y:i - (this.shadowFirstRow?1:0) };
+                        if(rowSpan === 0){
+                            expandCells.push(o);
+                        }
+                        for(var k=0, kl=Math.max(rowSpan,1);k<kl;k++){
+                            for(var l=0;l<cell.colSpan;l++){
+                                // I hate four-level loops
+                                if(!(k===0 && l===0)){
+                                    var o2 = rg[i+k][realCol+l]={refCell:o, x:realCol+l, y:i+k - (this.shadowFirstRow?1:0)}
+                                    if(rowSpan === 0){
+                                        expandCells.push(o2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else{
+                    j--;
+                }
+                realCol++;
+            }
+        }
+        if(expandCells.length){
+            for(let i = 0; i < expandCells.length; i++){
+                let expandCell = expandCells[i];
+                let x = expandCell.x;
+                let y = expandCell.y;
+                for(let j = y + 1; j < rg.length; j++) {
+                    rg[j].splice(x,0,{x:x,y:j,refCell:(expandCell.refCell||expandCell)});
+                    for(let h = x + 1; h < rg[j].length; h++){
+                        rg[j][h].x += 1;
+                    }
+                }
+            }
+        }
+        /*if(this.shadowFirstRow){
+            rg.shift();
+        }
+        if(Table.cache){
+            cache[html] = rg;
+        }*/
+        return rg;
+    };
+    let BeautifyRows = function(rows, separator){
+        separator = separator || "&";
+        var rows2 = [], n = 0, start = [], max = [];
+        if(/*$id("opt-latex-whitespace").checked &&*/ arguments.length == 1){
+            for(var i=0;i<rows.length;i++){
+                rows2[i] = "";
+                var cells = rows[i];
+                for(var j=0;j<cells.length;j++){
+                    var cell = cells[j];
+                    if(cell){
+                        if(j!==0){
+                            rows2[i] += " & ";
+                        }
+                        rows2[i] += cell.text;
+                    }
+                }
+            }
+            return rows2;
+        }
+        var intersectionPoints = [],
+        rrows = [];
+
+        // First transform into a table that take care of colSpan
+        for(var i=0;i<rows.length;i++){
+            var newrow = [];
+            for(var j=0;j<rows[i].length;j++){
+                var cell = rows[i][j];
+                if(cell){
+                    for(var h=0;h<Math.max(1,cell.colSpan||1)-1;h++){
+                        newrow.push(false);
+                    }
+                    newrow.push(cell);
+                }
+            }
+            rrows.push(newrow)
+        }
+        // Now we can handle that table to find where to put "&";
+        rows = rrows;
+        for(var j=0;j<rows[0].length;j++){
+            for(var i=0;i<rows.length;i++){
+                var cell = rows[i][j];
+                if(cell){
+                    var colspan = Math.max(1,Math.abs(cell.colSpan||1));
+                    if(!intersectionPoints[j]){
+                        if(j-colspan+1 <= 0){
+                            intersectionPoints[j] = cell.text.length+1;
+                        }
+                        else{
+                            intersectionPoints[j] = (intersectionPoints[j-colspan]||0)+2+cell.text.length+1;
+                        }
+                    }
+                    else{
+                        intersectionPoints[j] = Math.max(intersectionPoints[j], (j === 0 ? 0 : (intersectionPoints[j-colspan]||0)+2)+cell.text.length+1);
+                    }
+                }
+            }
+        }
+        for(var i=0;i<rows.length;i++){
+            var str = "";
+            for(var j=0;j<rows[i].length;j++){
+                var cell = rows[i][j],
+                colspan = Math.max(1,Math.abs(cell.colSpan||1));
+                if(cell){
+                    if(j-colspan+1 !== 0){
+                        str += separator+" ";
+                    }
+                    str += cell.text;
+                    for(var h=str.length;h<intersectionPoints[j];h++){
+                        str += " ";
+                    }
+                }
+            }
+            rows2.push(str);
+        }
+        return rows2;
+    };
     let createInterpreter = function(){
+        
         console.log("increateinterpreter")
-        //var matrix = this.matrix(),
-        //booktabs = this.element.hasAttribute("data-booktabs"),
-        //centering = this._id("table-opt-center").checked,
+        let matrix = Matrix();
+        console.log("matrix content :" + matrix);
+        //let booktabs = this.element.hasAttribute("data-booktabs");
+        //let centering = this._id("table-opt-center").checked;
         let str = "";
         /*if(centering){
             str = "$$"; 
@@ -384,48 +541,49 @@ function GenerateToLatex() {
         //headerA = headerO.align;
         //str += header;
         var rg = [];
-        /*
-        for(var i=0, border;i<matrix.length;i++){
-            //var row = matrix[i],
-            rgrow = [{text:"",colSpan:1}];
-            for(var j=0;j<row.length;j++){
+        console.log("matrix lenght: " + matrix.length);
+        for(var i = 0, border; i < matrix.length; i++) {
+            let row = matrix[i],
+            rgrow = [{text:"", colSpan:1}];
+            console.log("row content: " + row.length);
+
+            for(var j = 0; j < row.length; j++) {
                 var cell = row[j];
-                if(!cell || cell.ignore){
+                if(!cell || cell.ignore) {
                     rgrow.push(false);
                 }
-                else{
-                    //var data = cell.update(headerA[j],headerV[j]),
-                    colspan = (cell.cell||cell.refCell.cell).colSpan,
+                else {
+                    var data = cell.update(headerA[j], headerV[j]),
+                    colspan = (cell.cell || cell.refCell.cell).colSpan,
                     content = "";
-                    j+=colspan-1;
-                    if(colspan>1){
-                        if(colspan>9){
+                    j += colspan - 1;
+                    if (colspan > 1) {
+                        if(colspan > 9) {
                             colspan = "{" + colspan + "}";
                         }
-                        content = "\\multispan"+colspan+ cell.update(true);
+                        content = "\\multispan" + colspan + cell.update(true);
                     }
-                    else{
+                    else {
                         content = data;
                     }
                     rgrow.push({text:content, colSpan:colspan});
                 }
-                
             }
-            rg.push(rgrow);
-            
+            rg.push(rgrow);    
         }
-        */
-        //var beautifyRows = this.beautifyRows(rg);
-        /*for(var i=0;i<beautifyRows.length;i++){
-            if(i  == 0 && booktabs){
+        console.log("rg content :" + rg);
+        var beautifyRows = BeautifyRows(rg);
+        console.log("beautifyRows lenght :" + beautifyRows.length);
+        for(var i = 0; i < beautifyRows.length; i++) {
+            /*if(i == 0 && booktabs){
                 border = "\\noalign{\\hrule height0.8pt}"
             }
             else{
                 //border = this.HBorder(i, getHBorder, matrix);
-            }
-            str +="\\cr\n"+(border ? border + "\n" : "");
+            }*/
+            str +="\\cr\n" + (border ? border + "\n" : "");
             str += beautifyRows[i];
-        }*/
+        }
         /*var bottomborder;
         if(booktabs){
             bottomborder = "\\noalign{\\hrule height0.8pt}"
