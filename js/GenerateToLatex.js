@@ -11,43 +11,31 @@ function GenerateToLatex() {
     \end{tabular}
     \end{table}
     */
-    
-    const resDiv = document.getElementById('generateLatex')
-    //On clear
-    while (resDiv.firstChild) {
-        resDiv.removeChild(resDiv.lastChild);
-    }
-    //On ajoute
-    let newtable = document.createElement('span');
-    newtable.innerText = "\\begin{table}[]";    
-    resDiv.appendChild(newtable);
+    let str = "";
 
-    let sautdeligne = document.createElement('br');
-    resDiv.appendChild(sautdeligne);
-
-    newtable = document.createElement('span');
-    newtable.innerText = "\\begin{tabular}{lll}";    
-    resDiv.appendChild(newtable);
-
-    sautdeligne = document.createElement('br');
-    resDiv.appendChild(sautdeligne);
+    str += "\\begin{table}[]\n";
+    str += "\\begin{tabular}{lll}\n";
 
     //Récupération contenu des inputs
+    /*for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        
+    }*/
 
+    str += "\\end{tabular}\n";
+    str += "\\end{table}\n";
 
-    sautdeligne = document.createElement('br');
-    resDiv.appendChild(sautdeligne);
+    const resDiv = document.getElementById('generateLatex')
+    while (resDiv.hasChildNodes()) {
+        resDiv.removeChild(resDiv.firstChild);
+    }
 
-    newtable = document.createElement('span');
-    newtable.innerText = "\\end{tabular}";    
-    resDiv.appendChild(newtable);
+    const newTextArea = document.createElement("textarea");
+    newTextArea.rows = 20;
+    newTextArea.cols = 50;
+    newTextArea.value = str;
 
-    sautdeligne = document.createElement('br');
-    resDiv.appendChild(sautdeligne);
-
-    newtable = document.createElement('span');
-    newtable.innerText = "\\end{table}";    
-    resDiv.appendChild(newtable);
+    resDiv.appendChild(newTextArea);
 }
 
 export { GenerateToLatex };
