@@ -45,7 +45,7 @@ function AddEventInput(cible) {
     AddEventCtrlClic(cible);
     const mainTable = document.getElementsByClassName('mainTable')[0]; 
     cible.addEventListener('blur', function() {
-      GenerateToLatex(mainTable)
+      GenerateToLatex();
   });
 }
 

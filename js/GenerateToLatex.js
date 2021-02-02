@@ -1,5 +1,8 @@
 function GenerateToLatex() {
-    var getTexFromCell = function(cell){
+    console.log("test")
+    const table = document.getElementsByClassName('mainTable');
+
+    let getTexFromCell = function(cell){
         if(!cell || !cell.cell){return "";}
         var latex = generateFromHTML(this.getHTML(cell.cell));
         if(latex.indexOf("\\\\") >= 0){
@@ -11,8 +14,8 @@ function GenerateToLatex() {
         }
         latex = latex.replace(/\\textbackslash\{\}/g, "{\\char`\\\\}");
         return latex;
-    },
-    generateFromHTML = function(html, ignoreMultiline, align) {
+    };
+    let generateFromHTML = function(html, ignoreMultiline, align) {
         align = align || "l";
         var div = document.createElement("div"), hasMultiline;
         div.innerHTML = html;
@@ -105,8 +108,8 @@ function GenerateToLatex() {
             .replace(/[\n\r]+/g, "");
 
         return str
-    },
-    nonASCII = false,
+    };
+    let nonASCII = false,
     escapeStr = function(str) {
         if (!str.normalize) {
             return str;
@@ -187,8 +190,8 @@ function GenerateToLatex() {
             }
         }
         return newstr
-    },
-    useRotate = false,
+    };
+    let useRotate = false,
     updateCellInfo = function(cell, isFirst, rule, headerAlign, headerRule){
         var tex = getTexFromCell.call(this, cell), oldtex = tex, expand = arguments.length<5;
         if(headerAlign != cell.align || expand){
@@ -225,9 +228,9 @@ function GenerateToLatex() {
             }
         }
         return tex;
-    },
+    };
     // The rotate macro (\rotatecell) was made by Pr. Petr Olsak and myself. Thanks a lot for his help
-    rotateMacro = "% Insert the following macro once in your document\n\\newdimen\\boxwd\n\\newdimen\\boxht\n\n\\def\\rotatecell#1{%\n\t\\setbox 0 = \\vbox{\\baselineskip=\\normalbaselineskip \\lineskiplimit=0pt\n\t\t\\halign{##\\unskip\\kern2ex\\hfil\\cr#1\\crcr}}%\n\t\\boxwd=\\wd0\n\t\\boxht=\ht0\n\t\\setbox 1 = \\hbox{\\pdfsave\\pdfsetmatrix{0 1 -1  0}\\hbox to0pt{\\box0\\hss}\\pdfrestore}%\n\t\\ht1=\\boxwd\n\t\\boxwd=\\dp1\n\t\\kern\\boxht \\box1 \\kern\\boxwd\n}\n\n",
+    let rotateMacro = "% Insert the following macro once in your document\n\\newdimen\\boxwd\n\\newdimen\\boxht\n\n\\def\\rotatecell#1{%\n\t\\setbox 0 = \\vbox{\\baselineskip=\\normalbaselineskip \\lineskiplimit=0pt\n\t\t\\halign{##\\unskip\\kern2ex\\hfil\\cr#1\\crcr}}%\n\t\\boxwd=\\wd0\n\t\\boxht=\ht0\n\t\\setbox 1 = \\hbox{\\pdfsave\\pdfsetmatrix{0 1 -1  0}\\hbox to0pt{\\box0\\hss}\\pdfrestore}%\n\t\\ht1=\\boxwd\n\t\\boxwd=\\dp1\n\t\\kern\\boxht \\box1 \\kern\\boxwd\n}\n\n",
     generateHeaderFromMatrix = function(matrix){
         var header = "\\strut\n\\vrule height1ex depth1ex width0px #\n",
             align = [],
@@ -306,9 +309,9 @@ function GenerateToLatex() {
         return {header : header,
             rules : finalvrules,
             align : finalalign};
-    },
-    length = 0,
-    getHBorder = function(o){
+    };
+    let length = 0;
+    let getHBorder = function(o){
         if(arguments.length == ""){
             return "";
         }
@@ -360,29 +363,30 @@ function GenerateToLatex() {
             }
             return border+"\\cr";
         }
-    }
-    table.createInterpreter("plain", function(){
-
-        var matrix = this.matrix(),
-        booktabs = this.element.hasAttribute("data-booktabs"),
-                centering = this._id("table-opt-center").checked,
-        str = "";
-        if(centering){
+    };
+    let createInterpreter = function(){
+        console.log("increateinterpreter")
+        //var matrix = this.matrix(),
+        //booktabs = this.element.hasAttribute("data-booktabs"),
+        //centering = this._id("table-opt-center").checked,
+        let str = "";
+        /*if(centering){
             str = "$$"; 
-        }
+        }*/
         useRotate = false;
         str += "\\vbox{\n";
         str += "\\offinterlineskip\n"
         str += "\\halign{\n";
-        var isHeader = true,
-        headerO = generateHeaderFromMatrix.call(this, matrix),
-        header = headerO.header,
-        headerV = headerO.rules,
-        headerA = headerO.align;
-        str += header;
+        //var isHeader = true,
+        //headerO = generateHeaderFromMatrix.call(this, matrix),
+        //header = headerO.header,
+        //headerV = headerO.rules,
+        //headerA = headerO.align;
+        //str += header;
         var rg = [];
+        /*
         for(var i=0, border;i<matrix.length;i++){
-            var row = matrix[i],
+            //var row = matrix[i],
             rgrow = [{text:"",colSpan:1}];
             for(var j=0;j<row.length;j++){
                 var cell = row[j];
@@ -390,7 +394,7 @@ function GenerateToLatex() {
                     rgrow.push(false);
                 }
                 else{
-                    var data = cell.update(headerA[j],headerV[j]),
+                    //var data = cell.update(headerA[j],headerV[j]),
                     colspan = (cell.cell||cell.refCell.cell).colSpan,
                     content = "";
                     j+=colspan-1;
@@ -410,45 +414,59 @@ function GenerateToLatex() {
             rg.push(rgrow);
             
         }
-        var beautifyRows = this.beautifyRows(rg);
-        for(var i=0;i<beautifyRows.length;i++){
+        */
+        //var beautifyRows = this.beautifyRows(rg);
+        /*for(var i=0;i<beautifyRows.length;i++){
             if(i  == 0 && booktabs){
                 border = "\\noalign{\\hrule height0.8pt}"
             }
             else{
-                border = this.HBorder(i, getHBorder, matrix);
+                //border = this.HBorder(i, getHBorder, matrix);
             }
             str +="\\cr\n"+(border ? border + "\n" : "");
             str += beautifyRows[i];
-        }
-        var bottomborder;
+        }*/
+        /*var bottomborder;
         if(booktabs){
             bottomborder = "\\noalign{\\hrule height0.8pt}"
         }
         else{
-            bottomborder = this.HBorder(matrix.length, getHBorder, matrix);
+            //bottomborder = this.HBorder(matrix.length, getHBorder, matrix);
         }
         str += "\\cr"
         if(bottomborder){
             str += "\n"+bottomborder
-        }
+        }*/
         str += "\n}\n}";
-        if(centering){
+        /*if(centering){
             str += "$$";
-        }
+        }*/
         if(useRotate){
-            this.message("The rotation macro for Plain TeX only works with PDFTeX.", "warning");
+            //this.message("The rotation macro for Plain TeX only works with PDFTeX.", "warning");
             str = rotateMacro+str;
         }
-        if(document.getElementById('opt-tex-escape').checked){
+        /*if(document.getElementById('opt-tex-escape').checked){
             // We escape the characters in the document
             str = escapeStr(str);
             if(nonASCII){
-                this.message("Your generated TeX code still contains non-ASCII characters.", "warning")
+                //this.message("Your generated TeX code still contains non-ASCII characters.", "warning")
             }
-        }
+        }*/
         return str;
-    })
+    };
+
+    let str = createInterpreter();
+    const resDiv = document.getElementById('generateLatex') 
+    while (resDiv.hasChildNodes()) {  
+        resDiv.removeChild(resDiv.firstChild);
+    }
+
+    const newTextArea = document.createElement("textarea");
+    newTextArea.rows = 20;
+    newTextArea.cols = 50;
+    newTextArea.value = str;
+
+    resDiv.appendChild(newTextArea);
 }
 
 export { GenerateToLatex };
