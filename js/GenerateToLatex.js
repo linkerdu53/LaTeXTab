@@ -1,6 +1,31 @@
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 
+function GetTableData() {
+    let matrice = [];
+    const tbody = mainTable.childNodes[3];
+    let nbrow = tbody.children.length - 1;
+
+    for (let i = 0; i < nbrow; i++) {
+        matrice.push([]);
+        let row = tbody.children[i];
+        let nbtd;
+        if (i == 0) {
+            nbtd = row.children.length - 2;
+        }
+        else {
+            nbtd = row.children.length - 1;
+        }
+        console.log(row);
+        for (let j = 0; j < nbtd; j++) {
+            matrice[i][j] = row.children[j + 1].children[0].value;
+        }
+    }
+    console.log(matrice);
+
+    return matrice;
+}
+
 function GenerateToLatex() {
     /*
     \begin{table}[]
@@ -11,16 +36,20 @@ function GenerateToLatex() {
     \end{tabular}
     \end{table}
     */
+    let matrice = GetTableData();
+
     let str = "";
 
     str += "\\begin{table}[]\n";
     str += "\\begin{tabular}{lll}\n";
 
-    //Récupération contenu des inputs
-    /*for (let i = 0; i < array.length; i++) {
-        const element = array[i];
-        
-    }*/
+    for (let i = 0; i < matrice.length; i++) {
+        for (let j = 0; j < matrice[i].length; j++) {
+            str += matrice[i][j];
+            str += " & ";
+        }
+        str += "\n";
+    }
 
     str += "\\end{tabular}\n";
     str += "\\end{table}\n";
