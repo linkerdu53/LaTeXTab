@@ -31,15 +31,6 @@ function GetTableData() {
 }
 
 function GenerateToLatex() {
-    /*
-    \begin{table}[]
-    \begin{tabular}{lll}
-    &  &  \\
-    &  &  \\
-    &  & 
-    \end{tabular}
-    \end{table}
-    */
     let matrice = GetTableData();
 
     let str = "";
@@ -66,9 +57,11 @@ function GenerateToLatex() {
             //Si italique
 
             //Suivant
-            str += " & ";
+
+            if (j != matrice[i].length - 1) {
+                str += " & ";
+            }           
         }
-        //
         if (i < matrice.length - 1) {
             str += "\\\\";
         }
