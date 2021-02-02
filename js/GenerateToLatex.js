@@ -41,7 +41,11 @@ function GenerateToLatex() {
     let str = "";
 
     str += "\\begin{table}[]\n";
-    str += "\\begin{tabular}{lll}\n";
+    str += "\\begin{tabular}{";
+    for (let i = 0; i < matrice[0].length; i++) {
+        str += "l";
+    }   
+    str+= "}\n";
 
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
