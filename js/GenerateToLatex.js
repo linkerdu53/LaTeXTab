@@ -16,12 +16,16 @@ function GetTableData() {
         else {
             nbtd = row.children.length - 1;
         }
-        console.log(row);
         for (let j = 0; j < nbtd; j++) {
-            matrice[i][j] = row.children[j + 1].children[0].value;
+            let input = row.children[j + 1].children[0];
+
+            matrice[i][j] = {};
+            matrice[i][j].value = input.value;
+            if (input.classList.contains("bold") == bold) { 
+                matrice[i][j].bold = 1;
+            }
         }
     }
-    console.log(matrice);
 
     return matrice;
 }
@@ -49,9 +53,22 @@ function GenerateToLatex() {
 
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
-            str += matrice[i][j];
+
+            //Si gras
+            if (matrice[i][j].bold == 1) {
+                str += "\\textbf{";
+                str += matrice[i][j].value;
+                str += "}";
+            }
+            else {
+                str += matrice[i][j].value;
+            }
+            //Si italique
+
+            //Suivant
             str += " & ";
         }
+        //
         if (i < matrice.length - 1) {
             str += "\\\\";
         }
