@@ -48,6 +48,9 @@ function GenerateToLatex() {
             str += matrice[i][j];
             str += " & ";
         }
+        if (i < matrice.length - 1) {
+            str += "\\\\";
+        }
         str += "\n";
     }
 
