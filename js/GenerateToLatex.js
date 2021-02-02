@@ -1,411 +1,454 @@
 function GenerateToLatex() {
-    console.log("geneLatex")
-    tabuColors = {};
-    let tabuColorsDic = {};
-    packages = {};
-    let useCustomColors = false;
-    let actualMainColor = mainColor();
-    let actualColor = actualMainColor;
-    useTabu = shouldUseTabu(); // Must we use "tabu" package ?
-    if(useTabu){
-        // we avoid \arrayrulecolor
-        actualMainColor = actualColor = "#000000";
-        message("Usage of <tt>tabu</tt> is <a href=\"https://github.com/tabu-issues-for-future-maintainer/tabu\">not recommanded</a> by the LaTeX3 Project Team.","warning");
-    }
-    if(!useTabu && (hasBorderType("hdashline") || hasBorderType("dottedline"))){
-        packages["arydshln"] = true;
-    }
-    var table = element,
-        fit = $id("opt-fit-table").value,
-        scale = fit.indexOf("sc") >= 0,
-        shrink = fit.indexOf("sh") >= 0,
-        firstPart = "",
-        float = _id("opt-latex-float").checked,
-        str = "",
-        useLongtable = _id("opt-latex-split").checked,
-        rotateTable = _id("opt-latex-landscape").checked;
-    console.log(table);
-    shrink = shrink;
-    var caption = caption(),
-        booktabs = table.hasAttribute("data-booktabs"),
-        rg = matrix(),
-        border,
-        useTabu = useTabu, // Must we use "tabu" package ?
-        asteriskMultirow = false;
-    if(useLongtable){
-        asteriskMultirow = true;
-    }
-    noColor = blacklistPackages["colortbl"];
-    var colHeaders = headers(rg),
-    borderNewLine = $id("opt-latex-border").checked,
-    header = colHeaders.join(""),
-    startingDshCommand = "",
-    startingColor = actualMainColor;
-    if(header.charAt(0) == "@"){
-        header = header.replace(/^@\{(\\array[^\{]+\{[^\}]+\})\}/, function(full, command){
-            startingDshCommand = command;
-            command.replace(/\{(?:[\s,]*([\d.]+)[\s,]*([\d.]+)[\s,]*([\d.]+)[\s,]*|([^\}]+))\}/, function(full, r, g, b, name){
-                if(name){
-                    startingColor = name;
-                }
-                else {
-                    startingColor = "rgb("+(+r*255)+","+(+g*255)+","+(+b*255)+")";
-                }
-            })
-            return "";
-        })
-    }
-    actualColor = startingColor;
-    var booktabColor = false;
-    if(useBooktab() && useBackgroundColor(rg)){
-        booktabColor = "\\setlength{\\extrarowheight}{0pt}\n";
-        booktabColor += "\\addtolength{\\extrarowheight}{\\aboverulesep}\n";
-        booktabColor += "\\addtolength{\\extrarowheight}{\\belowrulesep}\n";
-        booktabColor += "\\setlength{\\aboverulesep}{0pt}\n";
-        booktabColor += "\\setlength{\\belowrulesep}{0pt}\n";
-    }
-    if(useLongtable){
-        if(rotateTable){
-            packages["pdflscape"] = true;
-            firstPart += "\\begin{landscape}\n";
+    var getTexFromCell = function(cell){
+        if(!cell || !cell.cell){return "";}
+        var latex = generateFromHTML(this.getHTML(cell.cell));
+        if(latex.indexOf("\\\\") >= 0){
+            latex = "\\vtop{\\hbox{\\strut " + latex.replace(/\s*\\{2}\s*/g, "}\\hbox{\\strut ") + "}}";
         }
-        if(booktabColor){
-            if(!rotateTable){
-                firstPart += "{\n";
-            }
-            rotateTable += booktabColor
+        if(cell.cell.hasAttribute("data-rotated") && document.getElementById('opt-tex-macro').checked){
+            useRotate = true;
+            latex = "\\rotatecell{"+latex+"}";
         }
-        if(!areSameColors(startingColor, "black")){
-            firstPart += "\\arrayrulecolor" + getColor(startingColor) + "\n";
-        }
-        if (caption.label && !caption.caption) {
-            firstPart += "\\refstepcounter{table}\n";
-            firstPart += "\\label{" + caption.label + "}\n";
-        }
-        str += "\\begin{" + (useTabu ? "longtabu" : "longtable") + "}{" + header + "}";
-        if (caption.caption) {
-            if(caption.numbered){
-                str += "\n\\caption*{"+ caption.caption;
+        latex = latex.replace(/\\textbackslash\{\}/g, "{\\char`\\\\}");
+        return latex;
+    },
+    generateFromHTML = function(html, ignoreMultiline, align) {
+        align = align || "l";
+        var div = document.createElement("div"), hasMultiline;
+        div.innerHTML = html;
+        var el = div.querySelectorAll("span.latex-equation");
+        var eq = []
+        for (var i = 0; i < el.length; i++) {
+            var text_formula = el[i].innerText || el[i].textContent;
+            if(/\S/.test(text_formula)){
+                var kbd = document.createElement("kbd");
+                eq.push("$" + (el[i].innerText || el[i].textContent) + "$");
+                el[i].parentNode.replaceChild(kbd, el[i]);
             }
             else{
-                str += "\n\\caption{"+ caption.caption;
-            }
-            if(caption.label){
-                str += "\\label{"+caption.label+"}";
-            }
-            str += "}\\\\";
-        }
-        if(scale){
-            message("'scale' option can't be used with longtable or longtabu.");
-        }
-    }
-    else{
-        if(!float && rotateTable){
-            packages["adjustbox"] = true;
-            var adjustargs = ["angle=90","nofloat=table"];
-            if(caption.caption){
-                adjustargs.push("caption={"+caption.caption+"}");
-            }
-            if(caption.label){
-                adjustargs.push("label={"+caption.label+"}");
-            }
-            firstPart = "\\begin{adjustbox}{"+adjustargs.join(",")+"}\n";
-            if(_id("table-opt-center").checked){
-                firstPart += "\\centering\n"
-            }
-            if(booktabColor){
-                firstPart += booktabColor;
+                el[i].parentNode.removeChild(el[i]);
             }
         }
-        else{ 
-            if(float){
-                firstPart = "\\begin{"+ (rotateTable ? "sidewaystable" : "table") +"}\n";
+        html = div.innerHTML;
+        var str = "", kbdcount = 0, ulcount = 0, lastcrcr = -1;
+        for(var i=0,c;i<html.length;i++){
+            c = html.charAt(i);
+            if(c == "<"){
+                var inside = html.substring(i, html.indexOf(">", i+1)+1),
+                tagname = /^<?\s*\/?\s*([a-z]+)/i.exec(inside)[1].toLowerCase();
+                if(/^<?\s*\//.test(inside)){tagname="/"+tagname;}
+                if(tagname == "br"){
+                    hasMultiline = true;
+                    str += "\\\\";
+                }
+                else if(tagname == "kbd"){
+                    str += eq[kbdcount];
+                    kbdcount++;
+                }
+                else if(tagname == "b"){
+                    str += "{\\bf ";
+                }
+                else if(tagname == "i"){
+                    str += "{\\it ";
+                }
+                else if(tagname == "/b" || tagname == "/i"){
+                    str += "}";
+                }
+                i += inside.length-1;
+                continue;
+            }
+            else if(c == "&"){
+                var inside = html.substring(i, html.indexOf(";", i+1)+1);
+                if(inside == "&nbsp;"){
+                    str += "~";
+                }
+                else if(inside == "&lt;"){
+                    str += "$<$";
+                }
+                else if(inside == "&amp;"){
+                    str += "\\&";
+                }
+                else if(inside == "&quot;"){
+                    str += '"';
+                }
+                else if(inside == "&gt;"){
+                    str += "$>$";
+                }
+                i += inside.length-1;
+            }
+            else if(c == "\\"){
+                str += "\\textbackslash{}"; // Will be changed later.
+            }
+            else if(c == ">"){
+                str += "$>$";
+            }
+            else if(c == "$" || c == "%" || c == "^" || c == "_" || c == "{" || c == "}" || c == "#"){
+                str += "\\" + c;
+            }
+            else if(c == "|"){
+                str += "$|$";
+            }
+            else if(c.charCodeAt(0)==182){
+                str += "\\P{}";
+            }
+            else if(c == "~"){
+                str += "{\\char`\\~}";
             }
             else{
-                firstPart = "\\noindent\\begin{minipage}{\\linewidth}\n";
-            }
-            if(_id("table-opt-center").checked){
-                firstPart += "\\centering\n"
-            }
-            if(booktabColor){
-                firstPart += booktabColor;
-            }
-            if (caption.caption) {
-                if(caption.numbered){
-                    packages["caption"] = true;
-                    firstPart += "\\captionsetup{labelformat=empty}\n";
-                }
-                if(float){
-                    firstPart += "\\caption{" + caption.caption + "}\n";
-                }
-                else{
-                    packages["caption"] = true;
-                    firstPart += "\\captionof{table}{" + caption.caption + "}";
-                }
-            }
-            if (caption.label) {
-                if(!caption.caption){
-                    firstPart += "\\refstepcounter{table}\n";
-                }
-                firstPart += "\\label{" + caption.label + "}\n";
+                str+= c;
             }
         }
-        if(!areSameColors(startingColor, "black")){
-            firstPart += "\\arrayrulecolor" + getColor(startingColor) + "\n";
+        if(str.length == lastcrcr){
+            str = str.slice(0,-2);
         }
-    }
-    if(scale && !useLongtable){
-        packages["graphicx"] = true;
-        str += "\\resizebox{\\linewidth}{!}{%\n";
-    }
-    if(useTabu){
-        packages["tabu"] = true;
-    }
-    if(!useLongtable){
-        str += "\\begin{"+(useTabu ? "tabu" : "tabular")+"}{" + header + "}";
-    }
-    var rg2 = [],rowIndex = [],isVCell = [],
-    multiRows = {},rowI=0;
-    for(var i=0;i<rg.length;i++){
-        var cells = rg[i];
-        var row = [];
-        var valign = false;
-        //if(!blacklistPackages["vcell"]){
-        //	valign = vcell(i,rg); // Vertical align
-        //}
-        for(var j=0;j<cells.length;j++){
-            var cell = cells[j],
-            header = colHeaders[j] || "l";
-            if(cell.rowSpan > 1){
-                for(var k=i;k<i+cell.rowSpan;k++){
-                    multiRows[k] = true;
-                }
-            }
-            if(!cell || cell.ignore){
-                row.push(false);
-            }
-            else{
-                if(cell.switch){
-                    cell = rg[i+cell.rowSpan-1][j]
-                    cell.unswitch = true;
-                }
-                else if(cell.unswitch){
-                    cell = cell.refCell
-                }
-                var text = "";
-                if(j == 0){
-                    // rowColor;
-                    text = rowColor(i, rg);
-                    if(text){ text += " " }
-                }
-                if(cell.vcell){
-                    valign = true;
-                }
-                text += cell.getFullContent(actualColor);
-                row.push({
-                        text: text, 
-                        colSpan : cell.colSpan || (cell.refCell ? cell.refCell.colSpan : 1) || 1
-                     })
-            }
+        str = str.replace(/[ ]{2,}/g, " ")
+            .replace(/[\n\r]+/g, "");
+
+        return str
+    },
+    nonASCII = false,
+    escapeStr = function(str) {
+        if (!str.normalize) {
+            return str;
         }
-        isVCell.push(false);
-        rowIndex.push(rowI);
-        rg2.push(row);
-        if(valign){
-            row = [];
-            for(var j=0;j<cells.length;j++){
-                var cell = cells[j],
-                text = "";
-                if(!cell || cell.ignore){
-                    row.push(false);
+        var newstr = "",
+            graph_table = {
+                "768": "`",
+                "769": "'",
+                "770": "^",
+                "776": "\"",
+                "807": "c ",
+                "771": "~",
+                "776": "\"",
+                "865": "t ",
+                "772": "=",
+                "775": ".",
+                "778": "r ",
+                "774": "u ",
+                "780": "v ",
+                "779": "H ",
+                "808": "k ",
+                "803": "d ",
+                "817": "b ",
+            },
+            char_table = {
+                "338": "OE",
+                "339": "oe",
+                "198": "AE",
+                "230": "ae",
+                "216": "O",
+                "248": "o",
+                "338": "OE",
+                "321": "L",
+                "322": "l",
+                "223": "ss"
+            };
+        str = str.normalize("NFD");
+        var lastchar = "",
+            waiting = false;
+        for (var i = 0, code, char; i < str.length; i++) {
+            var code = str.charCodeAt(i),
+                char = str.charAt(i);
+            if (waiting) {
+                if (char == "i" || char == "j") {
+                    newstr += "\\";
                 }
-                else{
-                    var text = "";
-                    if(j == 0){
-                        // rowColor;
-                        text = rowColor(i, rg);
-                        if(text){ text += " " }
+                newstr += char + "}";
+                waiting = false;
+                continue;
+            }
+            waiting = false;
+            if (code < 128) {
+                newstr += "" + char;
+                lastchar = char;
+            } else if (graph_table[code.toString()]) {
+                var code = graph_table[code.toString()];
+                newstr = newstr.slice(0, -1)
+                if (code == "t ") {
+                    newstr += "\\t{";
+                    if (lastchar == "i" || lastchar == "j") {
+                        newstr += "\\";
                     }
-                    cell.vcell = false;
-                    if((cell.refCell||cell).rowSpan == 1){
-                        text += cell.getVCellContent(actualColor);
+                    newstr += lastchar;
+                    waiting = true;
+                } else {
+                    newstr += "\\" + code;
+                    if (lastchar == "i" || lastchar == "j") {
+                        newstr += "\\";
+                    }
+                    newstr += lastchar;
+                }
+            } else if (char_table[code.toString()]) {
+                newstr += "\\" + char_table[code.toString()] + "{}";
+            } else {
+                nonASCII = true;
+                newstr += "" + char;
+                lastchar = char;
+            }
+        }
+        return newstr
+    },
+    useRotate = false,
+    updateCellInfo = function(cell, isFirst, rule, headerAlign, headerRule){
+        var tex = getTexFromCell.call(this, cell), oldtex = tex, expand = arguments.length<5;
+        if(headerAlign != cell.align || expand){
+            if(cell.align == "c"){
+                tex = "\\hfill " + tex + "\\hfill";
+            }
+            else if(cell.align == "r"){
+                tex = "\\hfill " + tex
+            }
+            else{
+                tex += "\\hfill"
+            }
+        }
+        if(headerRule != rule || expand){
+            if(oldtex == tex){
+                tex = "\\kern3pt " + tex + "\\hfill\\kern3pt ";
+            }
+            else{
+                tex = "\\kern3pt " + tex + "\\kern3pt ";
+            }
+            if(isFirst){
+                if(/^[^%]+%/.test(rule)){
+                    tex = "\\vrule"+tex;
+                }
+                if(/%[^%]+$/.test(rule)){
+                    tex += "\\vrule";
+                }
+            }
+            else if(/[^a-z]+$/.test(rule)){
+                tex += "\\vrule";				
+            }
+            if(!expand){
+                tex = "\\omit" + tex;
+            }
+        }
+        return tex;
+    },
+    // The rotate macro (\rotatecell) was made by Pr. Petr Olsak and myself. Thanks a lot for his help
+    rotateMacro = "% Insert the following macro once in your document\n\\newdimen\\boxwd\n\\newdimen\\boxht\n\n\\def\\rotatecell#1{%\n\t\\setbox 0 = \\vbox{\\baselineskip=\\normalbaselineskip \\lineskiplimit=0pt\n\t\t\\halign{##\\unskip\\kern2ex\\hfil\\cr#1\\crcr}}%\n\t\\boxwd=\\wd0\n\t\\boxht=\ht0\n\t\\setbox 1 = \\hbox{\\pdfsave\\pdfsetmatrix{0 1 -1  0}\\hbox to0pt{\\box0\\hss}\\pdfrestore}%\n\t\\ht1=\\boxwd\n\t\\boxwd=\\dp1\n\t\\kern\\boxht \\box1 \\kern\\boxwd\n}\n\n",
+    generateHeaderFromMatrix = function(matrix){
+        var header = "\\strut\n\\vrule height1ex depth1ex width0px #\n",
+            align = [],
+            vrules = [];
+        for(var i=0;i<matrix.length;i++){
+            var cells = matrix[i];
+            for(var j=0;j<cells.length;j++){
+                var cell = cells[j];
+                if(!cell.ignore){
+                    if(!align[j]){align[j]={}}
+                    if(!vrules[j]){vrules[j]={}}
+                    if(!align[j][cell.align]){align[j][cell.align]=0}
+                    align[j][cell.align]++
+                    var comparable = this.getComparableHeader(cells[j-1],cell,cells[j+((cell.cell||{}).colSpan||1)]),
+                    rules="";
+                    if(cells[j-1]){
+                        rules=comparable.replace(/[a-z]+/ig,"");
                     }
                     else{
-                        var refCell = rg[(cell.refCell||cell).y+1][(cell.refCell||cell).x];											text += refCell.getVCellContent(actualColor);
+                        rules = comparable.replace(/[a-z]+/ig,"%");
                     }
-                    row.push({
-                        text: text, 
-                        colSpan : cell.colSpan || (cell.refCell ? cell.refCell.colSpan : 1) || 1
-                    })
+                    if(!vrules[j][rules]){vrules[j][rules]=0}
+                    vrules[j][rules]++;
+                    cell.update = updateCellInfo.bind(this, cell, !cells[j-1], rules);
                 }
             }
-            rg2.push(row);
-            rowIndex.push(rowI);
-            isVCell.push(true);
         }
-        rowI++;
-    }
-    var beautifyRows = beautifyRows(rg2);
-    var foundFirst = false;
-    for(var i=0;i<beautifyRows.length;i++){
-        var row = beautifyRows[i];
-        if (isVCell[i]){
-            str += " \\\\";
-            if(useLongtable){
-                str += "*";
-            }
-            str += "[-\\rowheight]";
-        }
-        else{
-            if (i === 0 && booktabs) {
-                if(borderNewLine){
-                    border = " \n\\toprule";
-                }
-                else{
-                    border = " \\toprule";
-                }
-            } else {
-                border = getBorder(rowIndex[i], rg);
-                if(borderNewLine){
-                    border = border ? " \n" + border : ""
-                }
-                else{
-                    border = border ? " " + border : "";
+        var finalalign = [],
+        actufinalalign = 0, actufinalalignnb=0;
+        for(var i=0;i<align.length;i++){
+            for(var j in align[i]){
+                if(align[i].hasOwnProperty(j)){
+                    if(align[i][j] > actufinalalignnb){
+                        actufinalalign = j;
+                        actufinalalignnb = align[i][j]
+                    }
                 }
             }
-            if (rowIndex[i] !== 0) {
-                if(!foundFirst && useLongtable && !multiRows[rowIndex[i]]){
-                    str += " \\endfirsthead";
+            finalalign.push(actufinalalign);
+            actufinalalign = actufinalalignnb = 0;
+        }
+        var finalvrules = [],
+        actufinalvrules = "", actufinalvrulesnb=0;
+        for(var i=0;i<vrules.length;i++){
+            for(var j in vrules[i]){
+                if(vrules[i].hasOwnProperty(j)){
+                    if(vrules[i][j] > actufinalvrulesnb){
+                        actufinalvrules = j;
+                        actufinalvrulesnb = vrules[i][j]
+                    }
                 }
-                else{						
-                    str += " \\\\";
-                }
-                if(asteriskMultirow && multiRows[rowIndex[i]]){
-                    str+= "*";
-                }
-                else{foundFirst = true;}
-                str += border
-            } else {
-                str += border;
             }
+            finalvrules.push(actufinalvrules);
+            actufinalvrules = "";actufinalvrulesnb = 0;
         }
-        str += "\n" + row;
-    }
-    if (booktabs) {
-        str += " \\\\"+ (borderNewLine ? "\n" : " ") +"\\bottomrule"
-    } else {
-        border = getBorder(rg.length, rg);
-        if (border) {
-            str += " \\\\"+ (borderNewLine ? "\n" : " ") + border;
-        }
-    }
-    if(useLongtable){
-        if(!useTabu){
-            packages["longtable"] = true;
-        }
-        str += "\n\\end{"+(useTabu ? "longtabu" : "longtable")+"}\n"
-        if(booktabColor && !rotateTable){
-            str += "}\n";
-        }
-    }
-    else{
-        str += "\n\\end{"+(useTabu ? "tabu" : "tabular")+"}\n"
-        if(scale){
-            str += "}\n";
-        }
-    }
-    // Booktabs
-    if (/\\(bottomrule)|(toprule)|(midrule)|(cmidrule)|(heavyrulewidth)|(lightrulewidth)/.test(str)) {
-        packages["booktabs"] = true;
-    }
-    // arydshln
-    if (/\\(cdashline|hdashline)/.test(str)) {
-        packages["arydshln"] = true;
-    }
-    if(str.indexOf("\\hhline")>-1){
-        packages["hhline"] = true;
-    }
-    if(str.indexOf("\\vcell")>-1){
-        packages["vcell"] = true;
-        uniqueLog("If you get an <kbd>File 'vcell.sty' not found</kbd> error, download the file <a href='https://ctan.org/pkg/vcell' target='_blank'>here</a> and install it in the same repertory as your table.","warning");
-    }
-    if(str.indexOf("\\arrayrulecolor") > -1 || firstPart.indexOf("\\arrayrulecolor") > -1 
-       || str.indexOf("\\doublerulesepcolor") > -1 || firstPart.indexOf("\\doublerulesepcolor") > -1){
-        packages["colortbl"] = true;
-        if(!areSameColors(actualColor, "#000000")){
-            str += "\\arrayrulecolor"+getColor("#000000")+"\n";
-        }
-        if(!useTabu && packages["arydshln"]){
-            firstPart += "\\ADLnullwidehline\n";
-        }
-        if(firstPart.indexOf("\\arrayrulecolor")<0){
-            firstPart += "\\arrayrulecolor"+getColor("#000000")+"\n";
-        }
-    }
-    else if(str.indexOf("\\cellcolor") > -1 || str.indexOf("\\rowcolor") > -1 || str.indexOf("\\columncolor") > -1){
-        packages["colortbl"] = true;
-    }
-    if(useTabu || useCustomColors){
-        // Let see if we have some colors from tabu that we have to declare
-        var tabuColors = tabuColors;
-        for(var i in tabuColors){
-            if(tabuColors.hasOwnProperty(i)){
-                var color = tabuColors[i];
-                firstPart += "\\definecolor{"+color.name+"}{rgb}{"+color.rgb.join(",")+"}\n";
+        for(var i=0;i<finalvrules.length;i++){
+            header += "&";
+            if(i==0 && finalvrules[i] && finalvrules[i].charAt(0) != "%"){
+                header+="\\vrule";
             }
-        }
-    }
-    if(!useLongtable){
-        if(float){
-            if(rotateTable){
-                packages["rotating"] = true;
+            header += "\\kern3pt "
+            if(finalalign[i] != "l"){
+                header += "\\hfil ";
             }
-            str +="\\end{"+(rotateTable ? "sidewaystable" : "table")+"}";
+            header += "#";
+            if(finalalign[i] != "r"){
+                header += "\\hfil";
+            }
+            header+="\\kern3pt";
+            if(finalvrules[i] && !/^[^%]*%$/.test(finalvrules[i])){
+                header += "\\vrule"
+            }
+            header+= "\n";
         }
-        else{
-            if(rotateTable){
-                str+= "\\end{adjustbox}";
+        length = finalvrules.length;
+        return {header : header,
+            rules : finalvrules,
+            align : finalalign};
+    },
+    length = 0,
+    getHBorder = function(o){
+        if(arguments.length == ""){
+            return "";
+        }
+        var complete = o.complete,
+        borders = o.borders,
+        border = "";
+        if(complete){
+            if(!borders[0]){
+                return "";
             }
             else{
-                str += "\\end{minipage}";
+                return "\\noalign{" +
+                    (({
+                        "toprule" : "\\hrule height0.8pt",
+                        "bottomrule" : "\\hrule height0.8pt",
+                        "midrule" : "\\hrule height0.5pt",
+                        "double" : "\\hrule\\kern1pt\\hrule"
+                    }[borders[0].type]) || "\\hrule" )
+                + "}"
             }
         }
-    }
-    else if(rotateTable){
-        str += "\\end{landscape}";
-    }
-    // Packages
-    var packages = "";
-    for (var i in packages) {
-        if (packages.hasOwnProperty(i)) {
-            if(i == "ulem"){
-                packages += "% \\usepackage[normalem]{ulem}\n";
+        else{
+            for(var i=-1;i<borders.length;i++){
+                var borderO = borders[i];
+                if(i!=-1){border+= "&"}
+                else{border+="\\omit"}
+                if(borderO){
+                    border+="\\omit" + ({
+                            "toprule" : "\\leavevmode\\leaders\\hrule height 0.8pt\\hfill\\kern 0pt",
+                            "bottomrule" : "\\leavevmode\\leaders\\hrule height 0.8pt\\hfill\\kern 0pt",
+                            "midrule" : "\\leavevmode\\leaders\\hrule height 0.5pt\\hfill\\kern 0pt",
+                            "double" : "\\hrulefill"
+                        }[borderO.type] || "\\hrulefill") 
+                }
             }
-            else if(i == "multirow" && useLongtable){
-                packages += "% \\usepackage[longtable]{multirow}\n";
+            if(o.types["double"]){
+                border += "\\cr\n\\noalign{\\kern1pt}\n"
+                for(var i=-1;i<borders.length;i++){
+                    var borderO = borders[i];
+                    if(i!=-1){border+= "&"}
+                    else{border+="\\omit"}
+                    if(borderO){
+                        border += "\\omit";
+                        if(borderO.type == "double"){
+                            border += "\\hrulefill";
+                        }
+                    }
+                }
             }
-            else if(i != "arydshln" && !(i == "color" && packages["colortbl"])){
-                packages += "% \\usepackage{" + i + "}\n";
-            }
+            return border+"\\cr";
         }
     }
-    if (!useTabu && packages["arydshln"]) {
-        // Compatibility between packages
-        packages += "% \\usepackage{arydshln}\n";
-    }
-    /* Show some message*/
-    if (shrink && packages["multirow"]){
-        message("The shrink algorithmn might not work with cells spanning multiple rows.","warning");
-    }
-    if (element.querySelector("td[data-two-diagonals]")) {
-        message(
-            "If you get an '! FP error: Logarithm of negative value!.' error, the content of the bottom part of one of your cells with two diagonals is too long.", "warning"
-        )
-    }
-    /* Show some information about packages used */
-    showPackagesInformation(packages);
-    console.log((packages ? packages + "\n\n" : "") + firstPart + str);
-    return (packages ? packages + "\n\n" : "") + firstPart + str;
+    table.createInterpreter("plain", function(){
+
+        var matrix = this.matrix(),
+        booktabs = this.element.hasAttribute("data-booktabs"),
+                centering = this._id("table-opt-center").checked,
+        str = "";
+        if(centering){
+            str = "$$"; 
+        }
+        useRotate = false;
+        str += "\\vbox{\n";
+        str += "\\offinterlineskip\n"
+        str += "\\halign{\n";
+        var isHeader = true,
+        headerO = generateHeaderFromMatrix.call(this, matrix),
+        header = headerO.header,
+        headerV = headerO.rules,
+        headerA = headerO.align;
+        str += header;
+        var rg = [];
+        for(var i=0, border;i<matrix.length;i++){
+            var row = matrix[i],
+            rgrow = [{text:"",colSpan:1}];
+            for(var j=0;j<row.length;j++){
+                var cell = row[j];
+                if(!cell || cell.ignore){
+                    rgrow.push(false);
+                }
+                else{
+                    var data = cell.update(headerA[j],headerV[j]),
+                    colspan = (cell.cell||cell.refCell.cell).colSpan,
+                    content = "";
+                    j+=colspan-1;
+                    if(colspan>1){
+                        if(colspan>9){
+                            colspan = "{" + colspan + "}";
+                        }
+                        content = "\\multispan"+colspan+ cell.update(true);
+                    }
+                    else{
+                        content = data;
+                    }
+                    rgrow.push({text:content, colSpan:colspan});
+                }
+                
+            }
+            rg.push(rgrow);
+            
+        }
+        var beautifyRows = this.beautifyRows(rg);
+        for(var i=0;i<beautifyRows.length;i++){
+            if(i  == 0 && booktabs){
+                border = "\\noalign{\\hrule height0.8pt}"
+            }
+            else{
+                border = this.HBorder(i, getHBorder, matrix);
+            }
+            str +="\\cr\n"+(border ? border + "\n" : "");
+            str += beautifyRows[i];
+        }
+        var bottomborder;
+        if(booktabs){
+            bottomborder = "\\noalign{\\hrule height0.8pt}"
+        }
+        else{
+            bottomborder = this.HBorder(matrix.length, getHBorder, matrix);
+        }
+        str += "\\cr"
+        if(bottomborder){
+            str += "\n"+bottomborder
+        }
+        str += "\n}\n}";
+        if(centering){
+            str += "$$";
+        }
+        if(useRotate){
+            this.message("The rotation macro for Plain TeX only works with PDFTeX.", "warning");
+            str = rotateMacro+str;
+        }
+        if(document.getElementById('opt-tex-escape').checked){
+            // We escape the characters in the document
+            str = escapeStr(str);
+            if(nonASCII){
+                this.message("Your generated TeX code still contains non-ASCII characters.", "warning")
+            }
+        }
+        return str;
+    })
 }
 
 export { GenerateToLatex };
