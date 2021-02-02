@@ -1,4 +1,5 @@
 import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
+import { GenerateToLatex } from './GenerateToLatex.js';
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
@@ -13,10 +14,11 @@ for (let i = 0; i < tdSizeChooser.length; i++) {
 
 function tdSizeChooserAddEvent(cible) {
     cible.addEventListener('mouseenter', function() {
-        tdSizeChooserMouseEnter(cible)
+        tdSizeChooserMouseEnter(cible);
     });
     cible.addEventListener('click', function() {
-        createTable(cible)
+        createTable(cible);
+        GenerateToLatex();
     });
 }
 
