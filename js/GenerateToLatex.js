@@ -59,10 +59,14 @@ function GenerateToLatex() {
         resDiv.removeChild(resDiv.firstChild);
     }
 
+    //Compte le nombre de saut de ligne pour connaitre hauteur TextArea
+    let nbrowsTextArea = (str.match(/\n/g) || []).length + 1;
+
     const newTextArea = document.createElement("textarea");
-    newTextArea.rows = 20;
+    newTextArea.rows = nbrowsTextArea;
     newTextArea.cols = 50;
     newTextArea.value = str;
+    newTextArea.className = "form-control";
 
     resDiv.appendChild(newTextArea);
 }
