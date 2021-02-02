@@ -1,5 +1,6 @@
 import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
+import { GenerateToLatex } from './GenerateToLatex.js';
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -141,12 +142,14 @@ var buttonAddRow = document.getElementById('button-add-row');
   
 if (buttonAddColumn) {
     buttonAddColumn.addEventListener('click', function() {
-        AddColumn()
+        AddColumn();
+        GenerateToLatex();
     }, false);
 }
 if (buttonAddRow) {
     buttonAddRow.addEventListener('click', function() {
-        AddRow()
+        AddRow();
+        GenerateToLatex();
     }, false);
 }
 
