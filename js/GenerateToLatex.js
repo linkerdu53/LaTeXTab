@@ -21,8 +21,35 @@ function GetTableData() {
 
             matrice[i][j] = {};
             matrice[i][j].value = input.value;
-            if (input.classList.contains("bold") == bold) { 
+            if (input.classList.contains("boldOn")) { 
                 matrice[i][j].bold = 1;
+            }
+            if (input.classList.contains("italicOn")) { 
+                matrice[i][j].italic = 1;
+            }
+            if (input.classList.contains("underlineOn")) { 
+                matrice[i][j].underline = 1;
+            }
+            if (input.classList.contains("alignLeftOn")) { 
+                matrice[i][j].alignLeft = 1;
+            }
+            if (input.classList.contains("alignCenterOn")) { 
+                matrice[i][j].alignCenter = 1;
+            }
+            if (input.classList.contains("alignRightOn")) { 
+                matrice[i][j].alignRight = 1;
+            }
+            if (input.classList.contains("borderLeftOn")) { 
+                matrice[i][j].borderLeft = 1;
+            }
+            if (input.classList.contains("borderRightOn")) { 
+                matrice[i][j].borderRight = 1;
+            }
+            if (input.classList.contains("borderTopOn")) { 
+                matrice[i][j].borderTop = 1;
+            }
+            if (input.classList.contains("borderBottomOn")) { 
+                matrice[i][j].borderBottom = 1;
             }
         }
     }
