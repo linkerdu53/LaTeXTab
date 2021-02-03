@@ -72,16 +72,27 @@ function GenerateToLatex() {
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
 
-            //Si gras
+            let nbCrochets = 0;
+            //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
-                str += matrice[i][j].value;
+                nbCrochets++;
+            }
+            //Italic
+            if (matrice[i][j].italic == 1) {
+                str += "\\textit{";
+                nbCrochets++;
+            }
+            //Underline
+            if (matrice[i][j].underline == 1) {
+                str += "{\\ul ";
+                nbCrochets++;
+            }
+            str += matrice[i][j].value;
+            //Fermeture bold/italic
+            for (let k = 0; k < nbCrochets; k++) {
                 str += "}";
             }
-            else {
-                str += matrice[i][j].value;
-            }
-            //Si italique
 
             //Suivant
 
