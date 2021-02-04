@@ -62,6 +62,12 @@ function GenerateToLatex() {
 
     let str = "";
 
+    if (matrice.some(row => row.some(col => col['underlineOn'] === 1))) {
+        str += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
+        str += "% \\usepackage[normalem]{ulem}\n";
+        str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
+    }
+
     str += "\\begin{table}[]\n";
     str += "\\begin{tabular}{";
     for (let i = 0; i < matrice[0].length; i++) {
