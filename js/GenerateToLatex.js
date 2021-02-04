@@ -73,6 +73,16 @@ function GenerateToLatex() {
         for (let j = 0; j < matrice[i].length; j++) {
 
             let nbCrochets = 0;
+            //Align center
+            if (matrice[i][j].alignCenter == 1) {
+                str += "\\multicolumn{1}{c}{";
+                nbCrochets++;
+            }
+            //Align right
+            if (matrice[i][j].alignRight == 1) {
+                str += "\\multicolumn{1}{r}{";
+                nbCrochets++;
+            }
             //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
