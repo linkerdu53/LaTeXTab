@@ -1,3 +1,4 @@
+import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 
 
@@ -37,6 +38,7 @@ boldButton.addEventListener('click', function() {
             casesSelection[i].style.fontWeight = "bold";
         }
     }
+    GenerateToLatex();
 });
 
 italicButton.addEventListener('click', function() {
@@ -62,6 +64,7 @@ italicButton.addEventListener('click', function() {
             casesSelection[i].style.fontStyle = "italic";
         }
     }
+    GenerateToLatex();
 });
 
 underlineButton.addEventListener('click', function() {
@@ -87,6 +90,7 @@ underlineButton.addEventListener('click', function() {
             casesSelection[i].style.textDecoration = "underline";
         }
     }
+    GenerateToLatex();
 });
 
 
@@ -94,18 +98,21 @@ textLeftButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "left";
     }
+    GenerateToLatex();
 });
 
 textCenterButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "center";
     }
+    GenerateToLatex();
 });
 
 textRightButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "right";
     }
+    GenerateToLatex();
 });
 
 

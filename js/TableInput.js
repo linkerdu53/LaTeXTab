@@ -1,4 +1,5 @@
-import { InputSelectBg, InputDeselectBg, AddEventCtrlClic } from './InputSelection.js';
+import { AddEventCtrlClic } from './InputSelection.js';
+import { GenerateToLatex } from './GenerateToLatex.js';
 
 function InputAutoSize(cible) {
     cible.style.width = getInputValueWidth.call(cible) + 'px';
@@ -38,10 +39,15 @@ var getInputValueWidth = (function(){
 
 function AddEventInput(cible) {
     cible.addEventListener('input', function() {
-        InputAutoSize(cible)
+      InputAutoSize(cible);
+      GenerateToLatex();
     });
 
     AddEventCtrlClic(cible);
+
+    cible.addEventListener('blur', function() {
+      GenerateToLatex();
+  });
 }
 
 const tdInputText  = document.getElementsByClassName('tdInputText');
