@@ -31,9 +31,11 @@ boldButton.addEventListener('click', function() {
         if (casesSelection[i].style.fontWeight == "bold") {
             if (cpt == 0) {
                 casesSelection[i].style.fontWeight = "normal";
+                casesSelection[i].classList.remove("boldOn");
             }
             else {
                 casesSelection[i].style.fontWeight = "bold";
+                casesSelection[i].classList.add("boldOn");
             }
         } else {
             casesSelection[i].style.fontWeight = "bold";
@@ -58,9 +60,11 @@ italicButton.addEventListener('click', function() {
         if (casesSelection[i].style.fontStyle == "italic") {
             if (cpt == 0) {
                 casesSelection[i].style.fontStyle = "normal";
+                casesSelection[i].classList.remove("italicOn");
             }
             else {
                 casesSelection[i].style.fontStyle = "italic";
+                casesSelection[i].classList.add("italicOn");
             }
         } else {
             casesSelection[i].style.fontStyle = "italic";
@@ -85,9 +89,11 @@ underlineButton.addEventListener('click', function() {
         if (casesSelection[i].style.textDecoration == "underline") {
             if (cpt == 0) {
                 casesSelection[i].style.textDecoration = "inherit";
+                casesSelection[i].classList.remove("underlineOn");
             }
             else {
                 casesSelection[i].style.textDecoration = "underline";
+                casesSelection[i].classList.add("underlineOn");
             }
         } else {
             casesSelection[i].style.textDecoration = "underline";
