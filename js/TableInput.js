@@ -2,7 +2,7 @@ import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 
 function InputAutoSize(cible) {
-    cible.style.width = getInputValueWidth.call(cible) + 'px';
+    cible.style.width = getInputValueWidth.call(cible) + 10 + 'px';
 }
 
 var getInputValueWidth = (function(){
