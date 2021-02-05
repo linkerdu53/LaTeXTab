@@ -1,4 +1,4 @@
-import { casesSelection, SelectAllInput  } from './InputSelection.js';
+import { SelectAllInput  } from './InputSelection.js';
 
 const allButton = document.getElementById("all");
 

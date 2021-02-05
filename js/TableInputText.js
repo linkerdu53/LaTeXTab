@@ -8,11 +8,12 @@ const underlineButton = document.getElementById("underline");
 const textLeftButton = document.getElementById("text-left");
 const textCenterButton = document.getElementById("text-center");
 const textRightButton = document.getElementById("text-right");
-const fontButton = document.getElementById("font");
-const separateButton = document.getElementById("separate");
-const fusionButton = document.getElementById("fusion");
-const infoButton = document.getElementById("info");
-
+const borderAllButton = document.getElementById("border-all");
+const borderLeftButton = document.getElementById("border-left");
+const borderRightButton = document.getElementById("border-right");
+const borderBottomButton = document.getElementById("border-bottom");
+const borderTopButton = document.getElementById("border-top");
+const copyButton = document.getElementById("copyButton");
 
 
 boldButton.addEventListener('click', function() {
@@ -36,6 +37,7 @@ boldButton.addEventListener('click', function() {
             }
         } else {
             casesSelection[i].style.fontWeight = "bold";
+            casesSelection[i].classList.add("boldOn");
         }
     }
     GenerateToLatex();
@@ -62,6 +64,7 @@ italicButton.addEventListener('click', function() {
             }
         } else {
             casesSelection[i].style.fontStyle = "italic";
+            casesSelection[i].classList.add("italicOn");
         }
     }
     GenerateToLatex();
@@ -88,6 +91,7 @@ underlineButton.addEventListener('click', function() {
             }
         } else {
             casesSelection[i].style.textDecoration = "underline";
+            casesSelection[i].classList.add("underlineOn");
         }
     }
     GenerateToLatex();
@@ -97,6 +101,9 @@ underlineButton.addEventListener('click', function() {
 textLeftButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "left";
+        casesSelection[i].classList.add("alignLeftOn");
+        casesSelection[i].classList.remove("alignRightOn");
+        casesSelection[i].classList.remove("alignCenterOn");
     }
     GenerateToLatex();
 });
@@ -104,6 +111,9 @@ textLeftButton.addEventListener('click', function() {
 textCenterButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "center";
+        casesSelection[i].classList.add("alignCenterOn");
+        casesSelection[i].classList.remove("alignRightOn");
+         casesSelection[i].classList.remove("alignLeftOn");
     }
     GenerateToLatex();
 });
@@ -111,6 +121,75 @@ textCenterButton.addEventListener('click', function() {
 textRightButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "right";
+        casesSelection[i].classList.add("alignRightOn");
+        casesSelection[i].classList.remove("alignCenterOn");
+        casesSelection[i].classList.remove("alignLeftOn");
+    }
+});
+
+borderAllButton.addEventListener('click', function() {
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.border == "medium solid") {
+            casesSelection[i].style.border = "";
+            casesSelection[i].classList.remove("borderLeftOn");
+            casesSelection[i].classList.remove("borderRightOn");
+            casesSelection[i].classList.remove("borderTopOn");
+            casesSelection[i].classList.remove("borderBottomOn");
+        } else {
+            casesSelection[i].style.border = "solid";
+            casesSelection[i].classList.add("borderLeftOn");
+            casesSelection[i].classList.add("borderRightOn");
+            casesSelection[i].classList.add("borderTopOn");
+            casesSelection[i].classList.add("borderBottomOn");
+        }
+    }
+});
+
+borderLeftButton.addEventListener('click', function() {
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.borderLeft == "medium solid") {
+            casesSelection[i].style.borderLeft = "";
+            casesSelection[i].classList.remove("borderLeftOn");
+        } else {
+            casesSelection[i].style.borderLeft = "solid";
+            casesSelection[i].classList.add("borderLeftOn");
+        }
+    }
+});
+
+borderRightButton.addEventListener('click', function() {
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.borderRight == "medium solid") {
+            casesSelection[i].style.borderRight = "";
+            casesSelection[i].classList.remove("borderRightOn");
+        } else {
+            casesSelection[i].style.borderRight = "solid";
+            casesSelection[i].classList.add("borderRightOn");
+        }
+    }
+});
+
+borderTopButton.addEventListener('click', function() {
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.borderTop == "medium solid") {
+            casesSelection[i].style.borderTop = "";
+            casesSelection[i].classList.remove("borderTopOn");
+        } else {
+            casesSelection[i].style.borderTop = "solid";
+            casesSelection[i].classList.add("borderTopOn");
+        }
+    }
+});
+
+borderBottomButton.addEventListener('click', function() {
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.borderBottom == "medium solid") {
+            casesSelection[i].style.borderBottom = "";
+            casesSelection[i].classList.remove("borderBottomOn");
+        } else {
+            casesSelection[i].style.borderBottom = "solid";
+            casesSelection[i].classList.add("borderBottomOn");
+        }
     }
     GenerateToLatex();
 });
