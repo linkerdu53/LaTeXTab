@@ -1,8 +1,16 @@
 import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 
+const tdInputText  = document.getElementsByClassName('tdInputText');
+
 function InputAutoSize(cible) {
     cible.style.width = getInputValueWidth.call(cible) + 10 + 'px';
+
+    for (let i = 0; i < tdInputText.length; i++) {
+        if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
+            tdInputText[i].style.width = cible.style.width;
+        }
+    }
 }
 
 var getInputValueWidth = (function(){
@@ -49,8 +57,6 @@ function AddEventInput(cible) {
       GenerateToLatex();
   });
 }
-
-const tdInputText  = document.getElementsByClassName('tdInputText');
 
 for (let i = 0; i < tdInputText.length; i++) {
     AddEventInput(tdInputText[i])
