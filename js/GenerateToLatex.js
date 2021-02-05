@@ -69,9 +69,9 @@ function GenerateToLatex() {
     }
 
     str += "\\begin{table}[]\n";
-    str += "\\begin{tabular}{";
+    str += "\\begin{tabular}{ ";
     for (let i = 0; i < matrice[0].length; i++) {
-        str += "l";
+        str += "l ";
     }   
     str+= "}\n";
 

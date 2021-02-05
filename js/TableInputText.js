@@ -144,6 +144,7 @@ borderAllButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderBottomOn");
         }
     }
+    GenerateToLatex();
 });
 
 borderLeftButton.addEventListener('click', function() {
@@ -156,6 +157,7 @@ borderLeftButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderLeftOn");
         }
     }
+    GenerateToLatex();
 });
 
 borderRightButton.addEventListener('click', function() {
@@ -168,6 +170,7 @@ borderRightButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderRightOn");
         }
     }
+    GenerateToLatex();
 });
 
 borderTopButton.addEventListener('click', function() {
@@ -180,6 +183,7 @@ borderTopButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderTopOn");
         }
     }
+    GenerateToLatex();
 });
 
 borderBottomButton.addEventListener('click', function() {
@@ -192,6 +196,7 @@ borderBottomButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderBottomOn");
         }
     }
+    GenerateToLatex();
 });
 
 
