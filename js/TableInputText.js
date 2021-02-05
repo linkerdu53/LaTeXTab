@@ -16,10 +16,24 @@ const copyButton = document.getElementById("copyButton");
 
 
 boldButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.fontWeight == "bold"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.fontWeight == "bold") {
-            casesSelection[i].style.fontWeight = "normal";
-            casesSelection[i].classList.remove("boldOn");
+            if (cpt == 0) {
+                casesSelection[i].style.fontWeight = "normal";
+            }
+            else {
+                casesSelection[i].style.fontWeight = "bold";
+            }
         } else {
             casesSelection[i].style.fontWeight = "bold";
             casesSelection[i].classList.add("boldOn");
@@ -28,10 +42,24 @@ boldButton.addEventListener('click', function() {
 });
 
 italicButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.fontStyle == "italic"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.fontStyle == "italic") {
-            casesSelection[i].style.fontStyle = "normal";
-            casesSelection[i].classList.remove("italicOn");
+            if (cpt == 0) {
+                casesSelection[i].style.fontStyle = "normal";
+            }
+            else {
+                casesSelection[i].style.fontStyle = "italic";
+            }
         } else {
             casesSelection[i].style.fontStyle = "italic";
             casesSelection[i].classList.add("italicOn");
@@ -40,10 +68,24 @@ italicButton.addEventListener('click', function() {
 });
 
 underlineButton.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].style.textDecoration == "underline"){
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.textDecoration == "underline") {
-            casesSelection[i].style.textDecoration = "inherit";
-            casesSelection[i].classList.remove("underlineOn");
+            if (cpt == 0) {
+                casesSelection[i].style.textDecoration = "inherit";
+            }
+            else {
+                casesSelection[i].style.textDecoration = "underline";
+            }
         } else {
             casesSelection[i].style.textDecoration = "underline";
             casesSelection[i].classList.add("underlineOn");
