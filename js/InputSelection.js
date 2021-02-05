@@ -18,7 +18,6 @@ function SelectOneInput(cible) {
 }
 
 function SelectAllInput() {
-    
     const tdInputText = document.getElementsByClassName("tdInputText");
     if (casesSelection.length == tdInputText.length) {
         DeselectAllInput();

@@ -82,7 +82,7 @@ textRightButton.addEventListener('click', function() {
 borderAllButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.border == "medium solid") {
-            casesSelection[i].style.border = "none";
+            casesSelection[i].style.border = "";
             casesSelection[i].classList.remove("borderLeftOn");
             casesSelection[i].classList.remove("borderRightOn");
             casesSelection[i].classList.remove("borderTopOn");
@@ -100,7 +100,7 @@ borderAllButton.addEventListener('click', function() {
 borderLeftButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.borderLeft == "medium solid") {
-            casesSelection[i].style.borderLeft = "none";
+            casesSelection[i].style.borderLeft = "";
             casesSelection[i].classList.remove("borderLeftOn");
         } else {
             casesSelection[i].style.borderLeft = "solid";
@@ -112,7 +112,7 @@ borderLeftButton.addEventListener('click', function() {
 borderRightButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.borderRight == "medium solid") {
-            casesSelection[i].style.borderRight = "none";
+            casesSelection[i].style.borderRight = "";
             casesSelection[i].classList.remove("borderRightOn");
         } else {
             casesSelection[i].style.borderRight = "solid";
@@ -124,7 +124,7 @@ borderRightButton.addEventListener('click', function() {
 borderTopButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.borderTop == "medium solid") {
-            casesSelection[i].style.borderTop = "none";
+            casesSelection[i].style.borderTop = "";
             casesSelection[i].classList.remove("borderTopOn");
         } else {
             casesSelection[i].style.borderTop = "solid";
@@ -136,7 +136,7 @@ borderTopButton.addEventListener('click', function() {
 borderBottomButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.borderBottom == "medium solid") {
-            casesSelection[i].style.borderBottom = "none";
+            casesSelection[i].style.borderBottom = "";
             casesSelection[i].classList.remove("borderBottomOn");
         } else {
             casesSelection[i].style.borderBottom = "solid";
