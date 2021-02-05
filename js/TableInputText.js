@@ -125,6 +125,7 @@ textRightButton.addEventListener('click', function() {
         casesSelection[i].classList.remove("alignCenterOn");
         casesSelection[i].classList.remove("alignLeftOn");
     }
+    GenerateToLatex();
 });
 
 borderAllButton.addEventListener('click', function() {
@@ -191,7 +192,6 @@ borderBottomButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderBottomOn");
         }
     }
-    GenerateToLatex();
 });
 
 
