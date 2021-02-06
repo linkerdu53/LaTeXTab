@@ -4,13 +4,22 @@ import { GenerateToLatex } from './GenerateToLatex.js';
 const tdInputText  = document.getElementsByClassName('tdInputText');
 
 function InputAutoSize(cible) {
-    cible.style.width = getInputValueWidth.call(cible) + 10 + 'px';
-
-    for (let i = 0; i < tdInputText.length; i++) {
-        if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
-            tdInputText[i].style.width = cible.style.width;
-        }
+  let lePlusLong = 0;
+  for (let i = 0; i < tdInputText.length; i++) {
+    if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
+      //On récupère l'input avec le contenu le plus long de la colonne;
+      let inputSize = getInputValueWidth.call(tdInputText[i]);
+      if (inputSize > lePlusLong) {
+        lePlusLong = inputSize;
+      }
     }
+  }
+  let NewSize = lePlusLong + 10 + 'px';
+  for (let i = 0; i < tdInputText.length; i++) {
+    if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
+      tdInputText[i].style.width = NewSize;
+    }
+  }
 }
 
 var getInputValueWidth = (function(){
