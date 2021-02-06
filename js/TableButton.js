@@ -71,15 +71,33 @@ function AddRow() {
     newth.innerText = tbodyThNb;
     newtr.appendChild(newth);
 
+    const tdInputText  = document.getElementsByClassName('tdInputText');
+
     //Ajout bon nombre de <td><input type="text"></td>
     for (let index = 0; index < theadThNb - 2; index++) {
         const newTd = document.createElement("td");
         newTd.dataset.row = rowSize + 1;
         newTd.dataset.col = index + 1;
         newTd.classList.add("tdMainTable");
+
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
+        
+        let lePlusLong = 0;
+        for (let i = 0; i < tdInputText.length; i++) {
+            if (tdInputText[i].parentElement.dataset.col == (index + 1)) {
+                //On récupère l'input le plus long de la colonne où sera l'input
+                if (parseInt(tdInputText[i].style.width) > lePlusLong) {
+                    lePlusLong = tdInputText[i].style.width;
+                }            
+            }
+        }
+        if (lePlusLong === 0) {
+            lePlusLong = 30 + 'px'
+        }
+        newInput.style.width = lePlusLong;
+
         AddEventInput(newInput);
 
         newTd.appendChild(newInput);
