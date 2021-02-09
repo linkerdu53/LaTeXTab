@@ -55,15 +55,21 @@ var getInputValueWidth = (function(){
 })();
 
 function AddEventInput(cible) {
-    cible.addEventListener('input', function() {
-      InputAutoSize(cible);
-      GenerateToLatex();
-    });
+  cible.addEventListener('focus', function() {
+    GenerateToLatex();
+  });
+
+  cible.addEventListener('input', function() {
+    InputAutoSize(cible);
+    GenerateToLatex();
+  });
 
     AddEventCtrlClic(cible);
 
     cible.addEventListener('blur', function() {
       GenerateToLatex();
+  cible.addEventListener('blur', function() {
+    GenerateToLatex();
   });
 }
 
