@@ -24,11 +24,11 @@ function update(event) {
 fontColorButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.color = fontColorButton.style.color;
-        if (casesSelection[i].style.color != rgb(0, 0, 0)) {
-            casesSelection[i].classList.add("colorOn");
+        if (casesSelection[i].style.color == 'rgb(0, 0, 0)') {
+            casesSelection[i].classList.remove("colorOn");
         }
         else {
-            casesSelection[i].classList.remove("colorOn");
+            casesSelection[i].classList.add("colorOn");
         }
     }
 });
