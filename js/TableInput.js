@@ -1,7 +1,10 @@
 import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 
-const tdInputText  = document.getElementsByClassName('tdInputText');
+const tdInputText = document.getElementsByClassName('tdInputText');
+
+//Met les inputs à la bonne taille s'ils ont du contenu au chargement de la page
+UpdateInputSize(tdInputText);
 
 function InputAutoSize(cible) {
   let lePlusLong = 0;
@@ -22,7 +25,7 @@ function InputAutoSize(cible) {
   }
 }
 
-var getInputValueWidth = (function(){
+function getInputValueWidth() {
   function copyNodeStyle(sourceNode, targetNode) {
     var computedStyle = window.getComputedStyle(sourceNode);
     Array.from(computedStyle).forEach(key => targetNode.style.setProperty(key, computedStyle.getPropertyValue(key), computedStyle.getPropertyPriority(key)))
@@ -48,11 +51,14 @@ var getInputValueWidth = (function(){
     
     return meassureElm;
   }
-  
-  return function(){
-    return createInputMeassureElm(this).offsetWidth;
+  return createInputMeassureElm(this).offsetWidth;
+};
+
+function UpdateInputSize(inputsList) {
+  for (let i = 0; i < inputsList.length; i++) {
+    InputAutoSize(inputsList[i]);
   }
-})();
+}
 
 function AddEventInput(cible) {
   cible.addEventListener('focus', function() {
@@ -75,4 +81,4 @@ for (let i = 0; i < tdInputText.length; i++) {
   AddEventInput(tdInputText[i])
 }
 
-export { InputAutoSize, AddEventInput };
+export { AddEventInput, UpdateInputSize };
