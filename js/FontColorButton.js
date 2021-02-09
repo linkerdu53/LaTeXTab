@@ -24,7 +24,7 @@ function update(event) {
 fontColorButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.color = fontColorButton.style.color;
-        if (casesSelection[i].style.color != "#000000") {
+        if (casesSelection[i].style.color != rgb(0, 0, 0)) {
             casesSelection[i].classList.add("colorOn");
         }
         else {
