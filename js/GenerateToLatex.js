@@ -68,7 +68,6 @@ function GenerateToLatex() {
         str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
 
-    str += "\\begin{table}[]\n";
     str += "\\begin{tabular}{ ";
     for (let i = 0; i < matrice[0].length; i++) {
         str += "l ";
@@ -123,7 +122,6 @@ function GenerateToLatex() {
     }
 
     str += "\\end{tabular}\n";
-    str += "\\end{table}\n";
 
     const resDiv = document.getElementById('generateLatex')
     while (resDiv.hasChildNodes()) {
