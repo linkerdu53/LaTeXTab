@@ -59,6 +59,7 @@ function GetTableData() {
 
 function GenerateToLatex() {
     let matrice = GetTableData();
+    let matriceSize = matrice.length * matrice[0].length;
 
     let str = "";
 
@@ -72,25 +73,47 @@ function GenerateToLatex() {
     if (modeMaths === true) {
         str += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
     }
+    console.log(matrice)
+    //On remplie 2 tableaux de bordure pour les colonnes et rangées
+    let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
+    let fullBorderRow = Array(matrice.length + 1).fill(0);
+    for (let i = 0; i < matrice.length; i++) {
+        for (let j = 0; j < matrice[i].length; j++) {
+            if (matrice[i][j].borderLeft) {
+                fullBorderColonne[j]++;
+                if (j + 1 === matrice[0].length && matrice[i][j].borderRight) {
+                    fullBorderColonne[j + 1]++;
+                }
+            }
+            if (matrice[i][j].borderTop) {
+                fullBorderRow[i]++;
+                if (i + 1 === matrice.length && matrice[i][j].borderBottom) {
+                    fullBorderRow[i + 1]++;
+                }
+            }
+        }
+    }
+    console.log(fullBorderColonne)
+    console.log(fullBorderRow)
 
     str += "\\begin{tabular}{ ";
+
+    //Si bordure sur toute la colonne à gauche
+    if (fullBorderColonne[0] === matrice.length) {
+        str += "|";
+    }
     for (let i = 0; i < matrice[0].length; i++) {
-        str += "l ";
+        str += " l ";
+        if (fullBorderColonne[i + 1] === matrice.length) {
+            str += "|";
+        }
     }   
     str+= "}\n";
 
+    if (fullBorderRow[0] === matrice[0].length) {
+        str += "\\hline\n";
+    }
     for (let i = 0; i < matrice.length; i++) {
-        
-        let fullBorderRow = 0;
-        for (let j = 0; j < matrice[i].length; j++) {
-            if (matrice[i][j].borderLeft && matrice[i][j].borderRight && matrice[i][j].borderTop && matrice[i][j].borderBottom) {
-                fullBorderRow++;
-            }
-        }
-        if (fullBorderRow === matrice[i].length) {
-            str += "\\hline\n";
-        }
-
         for (let j = 0; j < matrice[i].length; j++) {
 
             let nbCrochets = 0;
@@ -140,10 +163,11 @@ function GenerateToLatex() {
                 str += " & ";
             }           
         }
-        if (i < matrice.length - 1) {
-            str += "\\\\";
-        }
+        str += " \\\\";
         str += "\n";
+        if (fullBorderRow[i + 1] === matrice[0].length) {
+            str += "\\hline\n";
+        }
     }
 
     str += "\\end{tabular}\n";
