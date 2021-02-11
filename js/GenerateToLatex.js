@@ -136,6 +136,7 @@ function GenerateToLatex() {
     newTextArea.cols = 50;
     newTextArea.value = str;
     newTextArea.className = "form-control";
+    newTextArea.id = "to-copy";
 
     resDiv.appendChild(newTextArea);
 }

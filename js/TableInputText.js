@@ -209,3 +209,10 @@ borderBottomButton.addEventListener('click', function() {
     }
     GenerateToLatex();
 });
+
+copyButton.addEventListener('click', function() {
+    const textToCopy = document.getElementById("to-copy");
+    textToCopy.select();
+	document.execCommand( 'copy' );
+	return false;
+});
