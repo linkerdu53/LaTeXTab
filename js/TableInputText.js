@@ -14,7 +14,7 @@ const borderRightButton = document.getElementById("border-right");
 const borderBottomButton = document.getElementById("border-bottom");
 const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
-
+const modeMaths = document.getElementById('modeMaths');
 
 boldButton.addEventListener('click', function() {
     let cpt = 0;
@@ -215,4 +215,8 @@ copyButton.addEventListener('click', function() {
     textToCopy.select();
 	document.execCommand( 'copy' );
 	return false;
+});
+
+modeMaths.addEventListener('click', function() {
+    GenerateToLatex();
 });
