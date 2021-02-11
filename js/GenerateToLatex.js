@@ -80,6 +80,17 @@ function GenerateToLatex() {
     str+= "}\n";
 
     for (let i = 0; i < matrice.length; i++) {
+        
+        let fullBorderRow = 0;
+        for (let j = 0; j < matrice[i].length; j++) {
+            if (matrice[i][j].borderLeft && matrice[i][j].borderRight && matrice[i][j].borderTop && matrice[i][j].borderBottom) {
+                fullBorderRow++;
+            }
+        }
+        if (fullBorderRow === matrice[i].length) {
+            str += "\\hline\n";
+        }
+
         for (let j = 0; j < matrice[i].length; j++) {
 
             let nbCrochets = 0;
