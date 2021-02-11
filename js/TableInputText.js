@@ -109,6 +109,7 @@ underlineButton.addEventListener('click', function() {
     GenerateToLatex();
 });
 
+
 textLeftButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.textAlign = "left";
