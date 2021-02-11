@@ -128,31 +128,30 @@ function GenerateToLatex() {
             //Si aligné à gauche avec bordure 
             if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) && matrice[i][j].alignLeft == 1) {
                 str += "\\multicolumn{1}{";
-                if (matrice[i][j].borderLeft == 1) {
+                if (j == 0 && matrice[i][j].borderLeft == 1) {
                     str += "| "
                 }
                 str += "l";
+                if (matrice[i][j].borderRight == 1) {
+                    str += " |"
+                }
                 nbCrochets++;
             }
-            //Align center
-            if (matrice[i][j].alignCenter == 1) {
+            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1) {
                 str += "\\multicolumn{1}{";
-                if (matrice[i][j].borderLeft == 1) {
+                if (fullBorderTable === false && j == 0 && matrice[i][j].borderLeft == 1) {
                     str += "| "
                 }
-                str += "c";
-                nbCrochets++;
-            }
-            else if (matrice[i][j].alignRight == 1) {
-                str += "\\multicolumn{1}{";
-                if (matrice[i][j].borderLeft == 1) {
-                    str += "| "
+                if (matrice[i][j].alignCenter == 1) {
+                    str += "c";
                 }
-                str += "r";
+                else if (matrice[i][j].alignRight == 1) {
+                    str += "r";
+                }
+                if (matrice[i][j].borderRight == 1) {
+                    str += " |"
+                }
                 nbCrochets++;
-            }
-            if (fullBorderTable === false && j == matrice[i].length - 1 && matrice[i][j].borderRight == 1) {
-                str += " |"
             }
             if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) || (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1)) {
                 str += "}{";
