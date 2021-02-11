@@ -30,15 +30,22 @@ function GetTableData() {
             if (input.classList.contains("underlineOn")) { 
                 matrice[i][j].underline = 1;
             }
-            if (input.classList.contains("alignLeftOn")) { 
-                matrice[i][j].alignLeft = 1;
-            }
+            matrice[i][j].alignLeft = 0;
+            matrice[i][j].alignCenter = 0;
+            matrice[i][j].alignRight = 0;
             if (input.classList.contains("alignCenterOn")) { 
                 matrice[i][j].alignCenter = 1;
             }
-            if (input.classList.contains("alignRightOn")) { 
+            else if (input.classList.contains("alignRightOn")) { 
                 matrice[i][j].alignRight = 1;
             }
+            else { 
+                matrice[i][j].alignLeft = 1;
+            }
+            matrice[i][j].borderLeft = 0;
+            matrice[i][j].borderRight = 0;
+            matrice[i][j].borderTop = 0;
+            matrice[i][j].borderBottom = 0;
             if (input.classList.contains("borderLeftOn")) { 
                 matrice[i][j].borderLeft = 1;
             }
@@ -73,8 +80,8 @@ function GenerateToLatex() {
     if (modeMaths === true) {
         str += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
     }
-    console.log(matrice)
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
+    let fullBorderTable = false;
     let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
     let fullBorderRow = Array(matrice.length + 1).fill(0);
     for (let i = 0; i < matrice.length; i++) {
@@ -93,8 +100,9 @@ function GenerateToLatex() {
             }
         }
     }
-    console.log(fullBorderColonne)
-    console.log(fullBorderRow)
+    if (fullBorderRow.reduce((a, b) => a + b, 0) === (matrice.length + 1) * matrice[0].length && fullBorderColonne.reduce((a, b) => a + b, 0) === matrice.length * (matrice[0].length + 1)) {
+        fullBorderTable = true;
+    }
 
     str += "\\begin{tabular}{ ";
 
@@ -117,16 +125,39 @@ function GenerateToLatex() {
         for (let j = 0; j < matrice[i].length; j++) {
 
             let nbCrochets = 0;
+            //Si aligné à gauche avec bordure 
+            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) && matrice[i][j].alignLeft == 1) {
+                str += "\\multicolumn{1}{";
+                if (matrice[i][j].borderLeft == 1) {
+                    str += "| "
+                }
+                str += "l";
+                nbCrochets++;
+            }
             //Align center
             if (matrice[i][j].alignCenter == 1) {
-                str += "\\multicolumn{1}{c}{";
+                str += "\\multicolumn{1}{";
+                if (matrice[i][j].borderLeft == 1) {
+                    str += "| "
+                }
+                str += "c";
                 nbCrochets++;
             }
-            //Align right
-            if (matrice[i][j].alignRight == 1) {
-                str += "\\multicolumn{1}{r}{";
+            else if (matrice[i][j].alignRight == 1) {
+                str += "\\multicolumn{1}{";
+                if (matrice[i][j].borderLeft == 1) {
+                    str += "| "
+                }
+                str += "r";
                 nbCrochets++;
             }
+            if (fullBorderTable === false && j == matrice[i].length - 1 && matrice[i][j].borderRight == 1) {
+                str += " |"
+            }
+            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) || (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1)) {
+                str += "}{";
+            }
+
             //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
