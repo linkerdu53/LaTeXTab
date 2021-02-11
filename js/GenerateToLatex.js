@@ -126,9 +126,9 @@ function GenerateToLatex() {
 
             let nbCrochets = 0;
             //Si aligné à gauche avec bordure 
-            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) && matrice[i][j].alignLeft == 1) {
+            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) && matrice[i][j].alignLeft == 1 && fullBorderColonne[j] != matrice.length) {
                 str += "\\multicolumn{1}{";
-                if (j == 0 && matrice[i][j].borderLeft == 1) {
+                if (j == 0 && matrice[i][0].borderLeft == 1) {
                     str += "| "
                 }
                 str += "l";
@@ -153,7 +153,10 @@ function GenerateToLatex() {
                 }
                 nbCrochets++;
             }
-            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) || (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1)) {
+            if (fullBorderTable === false && fullBorderColonne[j] != matrice.length && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) ) {
+                str += "}{";
+            }
+            else if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1) {
                 str += "}{";
             }
 
