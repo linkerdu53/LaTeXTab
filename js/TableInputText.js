@@ -1,6 +1,6 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
-
+import { UpdateInputSize } from './TableInput.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -14,7 +14,7 @@ const borderRightButton = document.getElementById("border-right");
 const borderBottomButton = document.getElementById("border-bottom");
 const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
-
+const modeMaths = document.getElementById('modeMaths');
 
 boldButton.addEventListener('click', function() {
     let cpt = 0;
@@ -42,6 +42,8 @@ boldButton.addEventListener('click', function() {
             casesSelection[i].classList.add("boldOn");
         }
     }
+    UpdateInputSize(casesSelection);
+
     GenerateToLatex();
 });
 
@@ -71,6 +73,8 @@ italicButton.addEventListener('click', function() {
             casesSelection[i].classList.add("italicOn");
         }
     }
+    UpdateInputSize(casesSelection);
+
     GenerateToLatex();
 });
 
@@ -100,9 +104,10 @@ underlineButton.addEventListener('click', function() {
             casesSelection[i].classList.add("underlineOn");
         }
     }
+    UpdateInputSize(casesSelection);
+
     GenerateToLatex();
 });
-
 
 
 textLeftButton.addEventListener('click', function() {
@@ -206,4 +211,13 @@ borderBottomButton.addEventListener('click', function() {
     GenerateToLatex();
 });
 
+copyButton.addEventListener('click', function() {
+    const textToCopy = document.getElementById("to-copy");
+    textToCopy.select();
+	document.execCommand( 'copy' );
+	return false;
+});
 
+modeMaths.addEventListener('click', function() {
+    GenerateToLatex();
+});

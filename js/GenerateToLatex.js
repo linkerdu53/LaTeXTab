@@ -68,7 +68,11 @@ function GenerateToLatex() {
         str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
 
-    str += "\\begin{table}[]\n";
+    let modeMaths = document.getElementById('modeMaths').checked;
+    if (modeMaths === true) {
+        str += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
+    }
+
     str += "\\begin{tabular}{ ";
     for (let i = 0; i < matrice[0].length; i++) {
         str += "l ";
@@ -104,7 +108,16 @@ function GenerateToLatex() {
                 str += "{\\ul ";
                 nbCrochets++;
             }
+            //Début écriture mathématiques
+            if (modeMaths === true && matrice[i][j].value != "") {
+                str += "$";
+            }
             str += matrice[i][j].value;
+
+            //Fin écriture mathématiques
+            if (modeMaths === true && matrice[i][j].value != "") {
+                str += "$";
+            }
             //Fermeture bold/italic
             for (let k = 0; k < nbCrochets; k++) {
                 str += "}";
@@ -123,7 +136,6 @@ function GenerateToLatex() {
     }
 
     str += "\\end{tabular}\n";
-    str += "\\end{table}\n";
 
     const resDiv = document.getElementById('generateLatex')
     while (resDiv.hasChildNodes()) {
@@ -138,6 +150,7 @@ function GenerateToLatex() {
     newTextArea.cols = 50;
     newTextArea.value = str;
     newTextArea.className = "form-control";
+    newTextArea.id = "to-copy";
 
     resDiv.appendChild(newTextArea);
 }
