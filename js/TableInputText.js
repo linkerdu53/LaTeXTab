@@ -210,6 +210,13 @@ borderBottomButton.addEventListener('click', function() {
     GenerateToLatex();
 });
 
+copyButton.addEventListener('click', function() {
+    const textToCopy = document.getElementById("to-copy");
+    textToCopy.select();
+	document.execCommand( 'copy' );
+	return false;
+});
+
 function UpdateInputSize() {
     for (let i = 0; i < casesSelection.length; i++) {
         InputAutoSize(casesSelection[i]);
