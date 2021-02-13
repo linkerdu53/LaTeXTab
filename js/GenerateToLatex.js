@@ -86,17 +86,18 @@ function GenerateToLatex() {
     let fullBorderRow = Array(matrice.length + 1).fill(0);
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
-            if (matrice[i][j].borderLeft) {
-                fullBorderColonne[j]++;
-                if (j + 1 === matrice[0].length && matrice[i][j].borderRight) {
-                    fullBorderColonne[j + 1]++;
-                }
+            if (j === 0 && matrice[i][0].borderLeft) {
+                fullBorderColonne[0]++;
             }
-            if (matrice[i][j].borderTop) {
-                fullBorderRow[i]++;
-                if (i + 1 === matrice.length && matrice[i][j].borderBottom) {
-                    fullBorderRow[i + 1]++;
-                }
+            if (matrice[i][j].borderRight) {
+                fullBorderColonne[j + 1]++;
+            }
+            
+            if (i == 0 && matrice[0][j].borderTop) {
+                fullBorderRow[0]++;
+            }
+            if (matrice[i][j].borderBottom) {
+                fullBorderRow[i + 1]++;
             }
         }
     }
@@ -121,43 +122,57 @@ function GenerateToLatex() {
     if (fullBorderRow[0] === matrice[0].length) {
         str += "\\hline\n";
     }
+    else if(fullBorderRow[0] > 0) {
+        let nbBorder = 0;
+        for (let j = 0; j < matrice[0].length; j++) {
+            if (matrice[0][j].borderTop == 1) {
+                if (nbBorder == 0) {
+                    str += "\\cline{";
+                    str += j + 1;
+                    str += "-"
+                    nbBorder = j + 1;
+                }
+                else {
+                    nbBorder++;
+                }
+            }
+            else if (matrice[0][j].borderTop == 0 && nbBorder != 0) {
+                str += nbBorder;
+                str += "}";
+                nbBorder = 0;
+            }
+        }
+        if (nbBorder != 0) {
+            str += nbBorder;
+            str += "}";
+        }
+        str += "\n";
+    }
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
 
             let nbCrochets = 0;
-            //Si aligné à gauche avec bordure 
-            if (fullBorderTable === false && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) && matrice[i][j].alignLeft == 1 && fullBorderColonne[j] != matrice.length) {
+            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || fullBorderColonne[0] != matrice.length || fullBorderColonne[j + 1] != matrice.length) {
                 str += "\\multicolumn{1}{";
-                if (j == 0 && matrice[i][0].borderLeft == 1) {
+                if (j == 0 && matrice[i][j].borderLeft == 1) {
                     str += "| "
                 }
-                str += "l";
-                if (matrice[i][j].borderRight == 1) {
-                    str += " |"
+                if (matrice[i][j].alignLeft == 1) {
+                    str += "l";
                 }
-                nbCrochets++;
-            }
-            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1) {
-                str += "\\multicolumn{1}{";
-                if (fullBorderTable === false && j == 0 && matrice[i][j].borderLeft == 1) {
-                    str += "| "
-                }
-                if (matrice[i][j].alignCenter == 1) {
+                else if (matrice[i][j].alignCenter == 1) {
                     str += "c";
                 }
                 else if (matrice[i][j].alignRight == 1) {
                     str += "r";
                 }
                 if (matrice[i][j].borderRight == 1) {
-                    str += " |"
+                    str += " |}{";
+                }
+                else {
+                    str += "}{";
                 }
                 nbCrochets++;
-            }
-            if (fullBorderTable === false && fullBorderColonne[j] != matrice.length && (matrice[i][j].borderLeft == 1 || matrice[i][j].borderRight == 1) ) {
-                str += "}{";
-            }
-            else if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1) {
-                str += "}{";
             }
 
             //Bold
@@ -198,8 +213,39 @@ function GenerateToLatex() {
         }
         str += " \\\\";
         str += "\n";
+
+        //Si la ligne est en bordure
         if (fullBorderRow[i + 1] === matrice[0].length) {
             str += "\\hline\n";
+        }
+        //Si seulement des parties de la ligne sont en bordure
+        else if(fullBorderRow[i + 1] > 0) {
+            let nbBorder = 0;
+            for (let j = 0; j < matrice[i].length; j++) {
+                if (matrice[i][j].borderBottom == 1) {
+                    if (nbBorder == 0) {
+                        str += "\\cline{";
+                        str += j + 1;
+                        str += "-"
+                        nbBorder = j + 1;
+                    }
+                    else {
+                        nbBorder++;
+                    }
+                }
+                else if (matrice[i][j].borderBottom == 0 && nbBorder != 0) {
+                    console.log("test2")
+                    str += nbBorder;
+                    str += "}";
+                    nbBorder = 0;
+                }
+            }
+            if (nbBorder != 0) {
+                console.log("test1")
+                str += nbBorder;
+                str += "}";
+            }
+            str += "\n";
         }
     }
 
