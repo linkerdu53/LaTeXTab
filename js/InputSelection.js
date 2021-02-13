@@ -115,4 +115,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection };
+export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection};
