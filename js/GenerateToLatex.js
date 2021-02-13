@@ -66,11 +66,9 @@ function GetTableData() {
 
 function GenerateToLatex() {
     let matrice = GetTableData();
-    let matriceSize = matrice.length * matrice[0].length;
 
     let str = "";
-
-    if (matrice.some(row => row.some(col => col['underlineOn'] === 1))) {
+    if (matrice.some(row => row.some(col => col['underline'] === 1))) {
         str += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
         str += "% \\usepackage[normalem]{ulem}\n";
         str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
@@ -81,7 +79,6 @@ function GenerateToLatex() {
         str += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
     }
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
-    let fullBorderTable = false;
     let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
     let fullBorderRow = Array(matrice.length + 1).fill(0);
     for (let i = 0; i < matrice.length; i++) {
@@ -92,7 +89,7 @@ function GenerateToLatex() {
             if (matrice[i][j].borderRight) {
                 fullBorderColonne[j + 1]++;
             }
-            
+
             if (i == 0 && matrice[0][j].borderTop) {
                 fullBorderRow[0]++;
             }
@@ -100,9 +97,6 @@ function GenerateToLatex() {
                 fullBorderRow[i + 1]++;
             }
         }
-    }
-    if (fullBorderRow.reduce((a, b) => a + b, 0) === (matrice.length + 1) * matrice[0].length && fullBorderColonne.reduce((a, b) => a + b, 0) === matrice.length * (matrice[0].length + 1)) {
-        fullBorderTable = true;
     }
 
     str += "\\begin{tabular}{ ";
@@ -119,10 +113,11 @@ function GenerateToLatex() {
     }   
     str+= "}\n";
 
+    //Si la ligne du haut est entièrement avec une bordure
     if (fullBorderRow[0] === matrice[0].length) {
         str += "\\hline\n";
     }
-    else if(fullBorderRow[0] > 0) {
+    else if(fullBorderRow[0] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
         let nbBorder = 0;
         for (let j = 0; j < matrice[0].length; j++) {
             if (matrice[0][j].borderTop == 1) {
@@ -150,7 +145,6 @@ function GenerateToLatex() {
     }
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
-
             let nbCrochets = 0;
             if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || fullBorderColonne[0] != matrice.length || fullBorderColonne[j + 1] != matrice.length) {
                 str += "\\multicolumn{1}{";
@@ -214,12 +208,11 @@ function GenerateToLatex() {
         str += " \\\\";
         str += "\n";
 
-        //Si la ligne est en bordure
+        //Si la ligne basse de i est entièrement avec une bordure
         if (fullBorderRow[i + 1] === matrice[0].length) {
             str += "\\hline\n";
         }
-        //Si seulement des parties de la ligne sont en bordure
-        else if(fullBorderRow[i + 1] > 0) {
+        else if(fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
             let nbBorder = 0;
             for (let j = 0; j < matrice[i].length; j++) {
                 if (matrice[i][j].borderBottom == 1) {
@@ -234,14 +227,12 @@ function GenerateToLatex() {
                     }
                 }
                 else if (matrice[i][j].borderBottom == 0 && nbBorder != 0) {
-                    console.log("test2")
                     str += nbBorder;
                     str += "}";
                     nbBorder = 0;
                 }
             }
             if (nbBorder != 0) {
-                console.log("test1")
                 str += nbBorder;
                 str += "}";
             }
