@@ -146,7 +146,7 @@ function GenerateToLatex() {
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
-            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
+            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
                 str += "\\multicolumn{1}{";
                 if (j == 0 && matrice[i][j].borderLeft == 1) {
                     str += "| "
