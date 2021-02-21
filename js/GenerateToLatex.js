@@ -30,6 +30,14 @@ function GetTableData() {
             if (input.classList.contains("underlineOn")) { 
                 matrice[i][j].underline = 1;
             }
+            if (input.classList.contains("colorOn")) { 
+                matrice[i][j].textColor = 1;
+                console.log(input.style.color)
+                console.log(input.style.color.r)
+                console.log(input.style.color.g)
+                console.log(input.style.color.b)
+                matrice[i][j].textColorCode = rgbToHex(r,g,b);
+            }
             matrice[i][j].alignLeft = 0;
             matrice[i][j].alignCenter = 0;
             matrice[i][j].alignRight = 0;
@@ -64,6 +72,15 @@ function GetTableData() {
     return matrice;
 }
 
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+  
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
 function GenerateToLatex() {
     let matrice = GetTableData();
 
@@ -72,6 +89,10 @@ function GenerateToLatex() {
         str += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
         str += "% \\usepackage[normalem]{ulem}\n";
         str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
+    }
+    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
+        str += "% Vous devez ajouter le package suivants pour pouvoir colorer le texte :\n"
+        str += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
     let modeMaths = document.getElementById('modeMaths').checked;
@@ -169,6 +190,10 @@ function GenerateToLatex() {
                 nbCrochets++;
             }
 
+            //Color
+            if (matrice[i][j].textColor == 1) {
+                str += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
+            }
             //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
