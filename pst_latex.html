@@ -244,19 +244,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="embed-responsive embed-responsive-16by9">
-				<button onclick="myFunction()">Try it</button>
-				<script>
-					function myFunction() {
-					  var uri = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}blabla\\end{document}&force=true";
-					  var res = encodeURI(uri);
-					  console.log(res)
-					}
-				</script>
-				<!--Mettre // à la place de / dans l'URL-->
-				<iframe id="resultLaTeX"
-					src="https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}blabla\\end{document}&force=true">
-				</iframe>
+			<div class="row mt-2 justify-content-center">
+				<button type="button" class="btn btn-primary mb-2" id="boutonPDF">Afficher le PDF</button>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe id="IframeLaTeX" class ="d-none" src=""></iframe>
+				</div>
 			</div>
 		</div>
 		<!-- Modal INFO -->
