@@ -264,18 +264,13 @@ function GenerateToLatex() {
 
 function OverviewLatex() {
     let latexCode = GenerateToLatex();
-    //latexCode = latexCode.replaceAll("&", "\\%26")
     latexCode = encodeURIComponent(latexCode);
 
     let url = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}"+ latexCode +"\\end{document}&force=true";
-    console.log(url)
-    console.log(encodeURI(url))
-    let result = url;
-    console.log(result);
     
     const IframeLateX = document.getElementById("IframeLaTeX");
     IframeLateX.classList.remove("d-none");
-    IframeLateX.src = result;
+    IframeLateX.src = url;
 
     document.getElementById("boutonPDF").innerText = "Actualiser le PDF";
 
