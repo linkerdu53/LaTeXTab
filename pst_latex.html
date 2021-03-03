@@ -244,8 +244,21 @@
 					</div>
 				</div>
 			</div>
+			<div class="embed-responsive embed-responsive-16by9">
+				<button onclick="myFunction()">Try it</button>
+				<script>
+					function myFunction() {
+					  var uri = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}blabla\\end{document}&force=true";
+					  var res = encodeURI(uri);
+					  console.log(res)
+					}
+				</script>
+				<!--Mettre // à la place de / dans l'URL-->
+				<iframe id="resultLaTeX"
+					src="https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}blabla\\end{document}&force=true">
+				</iframe>
+			</div>
 		</div>
-
 		<!-- Modal INFO -->
 		<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollabl">
