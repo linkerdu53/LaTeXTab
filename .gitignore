@@ -1,2 +1,9 @@
-
+node_modules
 .vscode/launch.json
+LatexTab-linux
+LatexTab-macos
+LatexTab-win.exe
+LatexTab.exe
+LatexTab-win.zip
+LatexTab-WML.zip
+LatexTabCode.code-workspace
