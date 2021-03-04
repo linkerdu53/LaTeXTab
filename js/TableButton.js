@@ -20,6 +20,7 @@ function AddColumn() {
     //Ajout <th scope="col"> dans <thead>
     var newth = document.createElement("th");
     newth.scope = 'col';
+    newth.className = 'user-select-none';
     newth.setAttribute("role", "button");
     newth.innerText = eltThLast.childNodes[0].nodeValue;
     AddEventSelectColumn(newth, thNb - 1);
@@ -71,7 +72,7 @@ function AddRow() {
     var newtr = document.createElement("tr");
     var newth = document.createElement("th");
     newth.scope = 'row';
-    newth.className = 'align-middle';
+    newth.className = 'align-middle user-select-none';
     newth.setAttribute("role", "button");
     newth.innerText = tbodyThNb;
     AddEventSelectRow(newth, tbodyThNb);
