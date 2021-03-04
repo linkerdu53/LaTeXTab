@@ -7,6 +7,8 @@ const tdSizeChooser = tableSizeChooser.getElementsByClassName('tdSizeChooser');
 
 const rowDimSizeChooser = document.getElementById('rowDimSizeChooser');
 const colDimSizeChooser = document.getElementById('colDimSizeChooser');
+const rowOldDimSizeChooser = document.getElementById('rowOldDimSizeChooser');
+const colOldDimSizeChooser = document.getElementById('colOldDimSizeChooser');
 
 for (let i = 0; i < tdSizeChooser.length; i++) {
     tdSizeChooserAddEvent(tdSizeChooser[i]);
@@ -158,4 +160,7 @@ function createTable(cible) {
             SupprRow();
         }
     }
+
+    rowOldDimSizeChooser.textContent = cibleRow;
+    colOldDimSizeChooser.textContent = cibleCol;
 }
