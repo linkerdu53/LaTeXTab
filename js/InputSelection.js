@@ -66,7 +66,7 @@ function SelectRow(rowId) {
             nbCasesRowSelect++;
         }
     }
-    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
+    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
             if(nbCasesRowSelect != rowLength) {
