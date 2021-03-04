@@ -35,6 +35,26 @@ function SelectAllInput() {
 
 }
 
+function SelectColumn(columnId) {
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    for (let j = 0; j < tdInputText.length; j++) {
+        //On récupère le parent de l'input qui contient le numéro de la colonne et on compare avec i qui est le num de la colonne où est le bouton
+        if(tdInputText[j].parentNode.dataset.col == columnId) {
+            SelectOneInput(tdInputText[j]);
+        }
+    }
+}
+
+function SelectRow(rowId) {
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    for (let j = 0; j < tdInputText.length; j++) {
+        //On récupère le parent de l'input qui contient le numéro de la colonne et on compare avec i qui est le num de la colonne où est le bouton
+        if(tdInputText[j].parentNode.dataset.row == rowId) {
+            SelectOneInput(tdInputText[j]);
+        }
+    }
+}
+
 function DeselectAllInput() {
     const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
@@ -115,4 +135,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, SelectOneInput, casesSelection };
+export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
