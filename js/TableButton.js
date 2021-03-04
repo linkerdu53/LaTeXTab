@@ -18,6 +18,7 @@ function AddColumn() {
     //Ajout <th scope="col"> dans <thead>
     var newth = document.createElement("th");
     newth.scope = 'col';
+    newth.setAttribute("role", "button");
     newth.innerText = eltThLast.childNodes[0].nodeValue;
     eltTrHead.insertBefore(newth, eltThLast);
 
@@ -68,6 +69,7 @@ function AddRow() {
     var newth = document.createElement("th");
     newth.scope = 'row';
     newth.className = 'align-middle';
+    newth.setAttribute("role", "button");
     newth.innerText = tbodyThNb;
     newtr.appendChild(newth);
 
