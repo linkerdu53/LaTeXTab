@@ -1,6 +1,8 @@
 import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { AddEventSelectColumn } from './TableSelectColumn.js'
+import { AddEventSelectRow } from './TableSelectRow.js'
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -20,6 +22,7 @@ function AddColumn() {
     newth.scope = 'col';
     newth.setAttribute("role", "button");
     newth.innerText = eltThLast.childNodes[0].nodeValue;
+    AddEventSelectColumn(newth, thNb - 1);
     eltTrHead.insertBefore(newth, eltThLast);
 
     //Mise à jour du dernier th scope="col" dans le thead
@@ -71,6 +74,7 @@ function AddRow() {
     newth.className = 'align-middle';
     newth.setAttribute("role", "button");
     newth.innerText = tbodyThNb;
+    AddEventSelectRow(newth, tbodyThNb);
     newtr.appendChild(newth);
 
     const tdInputText  = document.getElementsByClassName('tdInputText');
