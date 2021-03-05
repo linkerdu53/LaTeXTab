@@ -67,16 +67,19 @@ function GetTableData() {
 function GenerateToLatex() {
     let matrice = GetTableData();
 
-    let str = "";
+    let strMessage = "";
+    let strPackage = "";
+    let strLaTeX = ""
+    let str = "" //Concaténation de strMessage + strPackage + strLaTeX
     if (matrice.some(row => row.some(col => col['underline'] === 1))) {
-        str += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
-        str += "% \\usepackage[normalem]{ulem}\n";
-        str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
+        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
+        strPackage += "% \\usepackage[normalem]{ulem}\n";
+        strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
 
     let modeMaths = document.getElementById('modeMaths').checked;
     if (modeMaths === true) {
-        str += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
+        strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
     }
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
     let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
@@ -99,32 +102,32 @@ function GenerateToLatex() {
         }
     }
 
-    str += "\\begin{tabular}{ ";
+    strLaTeX += "\\begin{tabular}{ ";
 
     //Si bordure sur toute la colonne à gauche
     if (fullBorderColonne[0] === matrice.length) {
-        str += "|";
+        strLaTeX += "|";
     }
     for (let i = 0; i < matrice[0].length; i++) {
-        str += " l ";
+        strLaTeX += " l ";
         if (fullBorderColonne[i + 1] === matrice.length) {
-            str += "|";
+            strLaTeX += "|";
         }
     }   
-    str+= "}\n";
+    strLaTeX+= "}\n";
 
     //Si la ligne du haut est entièrement avec une bordure
     if (fullBorderRow[0] === matrice[0].length) {
-        str += "\\hline\n";
+        strLaTeX += "\\hline\n";
     }
     else if(fullBorderRow[0] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
         let nbBorder = 0;
         for (let j = 0; j < matrice[0].length; j++) {
             if (matrice[0][j].borderTop == 1) {
                 if (nbBorder == 0) {
-                    str += "\\cline{";
-                    str += j + 1;
-                    str += "-"
+                    strLaTeX += "\\cline{";
+                    strLaTeX += j + 1;
+                    strLaTeX += "-"
                     nbBorder = j + 1;
                 }
                 else {
@@ -132,94 +135,94 @@ function GenerateToLatex() {
                 }
             }
             else if (matrice[0][j].borderTop == 0 && nbBorder != 0) {
-                str += nbBorder;
-                str += "}";
+                strLaTeX += nbBorder;
+                strLaTeX += "}";
                 nbBorder = 0;
             }
         }
         if (nbBorder != 0) {
-            str += nbBorder;
-            str += "}";
+            strLaTeX += nbBorder;
+            strLaTeX += "}";
         }
-        str += "\n";
+        strLaTeX += "\n";
     }
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
             if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
-                str += "\\multicolumn{1}{";
+                strLaTeX += "\\multicolumn{1}{";
                 if (j == 0 && matrice[i][j].borderLeft == 1) {
-                    str += "| "
+                    strLaTeX += "| "
                 }
                 if (matrice[i][j].alignLeft == 1) {
-                    str += "l";
+                    strLaTeX += "l";
                 }
                 else if (matrice[i][j].alignCenter == 1) {
-                    str += "c";
+                    strLaTeX += "c";
                 }
                 else if (matrice[i][j].alignRight == 1) {
-                    str += "r";
+                    strLaTeX += "r";
                 }
                 if (matrice[i][j].borderRight == 1) {
-                    str += " |}{";
+                    strLaTeX += " |}{";
                 }
                 else {
-                    str += "}{";
+                    strLaTeX += "}{";
                 }
                 nbCrochets++;
             }
 
             //Bold
             if (matrice[i][j].bold == 1) {
-                str += "\\textbf{";
+                strLaTeX += "\\textbf{";
                 nbCrochets++;
             }
             //Italic
             if (matrice[i][j].italic == 1) {
-                str += "\\textit{";
+                strLaTeX += "\\textit{";
                 nbCrochets++;
             }
             //Underline
             if (matrice[i][j].underline == 1) {
-                str += "{\\ul ";
+                strLaTeX += "{\\ul ";
                 nbCrochets++;
             }
             //Début écriture mathématiques
             if (modeMaths === true && matrice[i][j].value != "") {
-                str += "$";
+                strLaTeX += "$";
             }
-            str += matrice[i][j].value;
+            strLaTeX += matrice[i][j].value;
 
             //Fin écriture mathématiques
             if (modeMaths === true && matrice[i][j].value != "") {
-                str += "$";
+                strLaTeX += "$";
             }
             //Fermeture bold/italic
             for (let k = 0; k < nbCrochets; k++) {
-                str += "}";
+                strLaTeX += "}";
             }
 
             //Suivant
 
             if (j != matrice[i].length - 1) {
-                str += " & ";
+                strLaTeX += " & ";
             }           
         }
-        str += " \\\\";
-        str += "\n";
+        strLaTeX += " \\\\";
+        strLaTeX += "\n";
 
         //Si la ligne basse de i est entièrement avec une bordure
         if (fullBorderRow[i + 1] === matrice[0].length) {
-            str += "\\hline\n";
+            strLaTeX += "\\hline\n";
         }
         else if(fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
             let nbBorder = 0;
             for (let j = 0; j < matrice[i].length; j++) {
                 if (matrice[i][j].borderBottom == 1) {
                     if (nbBorder == 0) {
-                        str += "\\cline{";
-                        str += j + 1;
-                        str += "-"
+                        strLaTeX += "\\cline{";
+                        strLaTeX += j + 1;
+                        strLaTeX += "-"
                         nbBorder = j + 1;
                     }
                     else {
@@ -227,26 +230,27 @@ function GenerateToLatex() {
                     }
                 }
                 else if (matrice[i][j].borderBottom == 0 && nbBorder != 0) {
-                    str += nbBorder;
-                    str += "}";
+                    strLaTeX += nbBorder;
+                    strLaTeX += "}";
                     nbBorder = 0;
                 }
             }
             if (nbBorder != 0) {
-                str += nbBorder;
-                str += "}";
+                strLaTeX += nbBorder;
+                strLaTeX += "}";
             }
-            str += "\n";
+            strLaTeX += "\n";
         }
     }
 
-    str += "\\end{tabular}\n";
+    strLaTeX += "\\end{tabular}\n";
 
     const resDiv = document.getElementById('generateLatex')
     while (resDiv.hasChildNodes()) {
         resDiv.removeChild(resDiv.firstChild);
     }
 
+    str = strMessage + strPackage + strLaTeX;
     //Compte le nombre de saut de ligne pour connaitre hauteur TextArea
     let nbrowsTextArea = (str.match(/\n/g) || []).length + 1;
 
@@ -259,32 +263,23 @@ function GenerateToLatex() {
 
     resDiv.appendChild(newTextArea);
     
-    return str;
+    return [ strPackage, strLaTeX ];
 }
 
 function OverviewLatex() {
-    let latexCode = GenerateToLatex();
-    latexCode = encodeURIComponent(latexCode);
+    let values = GenerateToLatex();
 
-    let url = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}\\begin{document}"+ latexCode +"\\end{document}&force=true";
+    let packageCode = values[0].replace(/%/g, ""); //On enlève les % du code LaTeX qui commentaient les packages à ajouter
+    packageCode = encodeURIComponent(packageCode);
+    let latexCode = encodeURIComponent(values[1]);
+
+    let url = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}" + packageCode + "\\begin{document}"+ latexCode +"\\end{document}&force=true";
     
     const IframeLateX = document.getElementById("IframeLaTeX");
     IframeLateX.classList.remove("d-none");
     IframeLateX.src = url;
 
     document.getElementById("boutonPDF").innerText = "Actualiser le PDF";
-
-    /*let fs = require("fs");
-    console.log("Going to write into existing file");
-    // Open a new file with name input.txt and write Simply Easy Learning! to it.
-    fs.writeFile('LaTeX.txt', "\\documentclass[10pt,a4paper]{article}\\begin{document}"+ latexCode +"\\end{document}", function(err) {
-        if (err) {
-            return console.error(err);
-        }
-    });
-    const IframeLateX = document.getElementById("IframeLaTeX");
-    IframeLateX.classList.remove("d-none");
-    IframeLateX.src = "https://latexonline.cc/compile?url=https://latextab.qt1.fr/online/LaTeX.txt";*/
 }
 
 export { GenerateToLatex, OverviewLatex};
