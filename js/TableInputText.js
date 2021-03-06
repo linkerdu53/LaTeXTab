@@ -1,4 +1,4 @@
-import { GenerateToLatex } from './GenerateToLatex.js';
+import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
 
@@ -15,6 +15,7 @@ const borderBottomButton = document.getElementById("border-bottom");
 const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
 const modeMaths = document.getElementById('modeMaths');
+const affichagePDF = document.getElementById('boutonPDF');
 
 //Active les tooltips sur tous les boutons
 $(function () {
@@ -225,4 +226,8 @@ copyButton.addEventListener('click', function() {
 
 modeMaths.addEventListener('click', function() {
     GenerateToLatex();
+});
+
+affichagePDF.addEventListener('click', function() {
+    OverviewLatex();
 });
