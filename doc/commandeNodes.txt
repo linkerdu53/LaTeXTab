@@ -1,0 +1,29 @@
+----- pour le dev ----- 
+// prérequis
+- node js 14(LTS) https://nodejs.org/en/
+- vscode (editeur de texte avec ligne de commande) https://code.visualstudio.com/
+
+
+//pour l'importation des nodes modules
+npm install
+
+
+// pour lancer l'application
+ecrire dans la commande node : npm run start
+cela  appel --> "start": "start explorer http://localhost:8080 && node app.js",
+
+//lancer le build de l'application pour que windows (.exe)
+ecrire dans la commande node : npm run build
+cela  appel --> "build": "pkg package.json -t node14-win-x64 "
+
+//lancer le build de l'application pour windows linux mac
+ecrire dans la commande node : npm run buildAll
+cela  appel --> "buildAll": "pkg package.json"
+
+//lancer le build de l'application pour que windows (.exe) puis le met en zip
+ecrire dans la commande node : npm run buildWinZip
+cela  appel --> "buildWinZip": "pkg package.json -t node14-win-x64 && node zipWin.js"
+
+//lancer le build de l'application pour windows linux mac puis le met en zip
+ecrire dans la commande node : npm run buildAllZip
+cela  appel --> "buildAllZip": "pkg package.json && node zipAll.js"

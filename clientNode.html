@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>LATEX TAB</title>
+  <link rel="icon" href="" />
+  <!-- style.css-->
+</head>
+
+<body>
+    <div class="main">
+          <form id="saisieFlottant" class="insertCommand" method="post" action="/">
+            <input id="inputCMD" class="inputTextCMD" name="inputCMD" type="text" placeholder="Insert command here|"
+              required>
+            <button id="validInputCMD" class="submitCMD" type="submit"></button>
+          </form>
+          <div class="actionLog">
+            <h3 class="titleResults">LOGS</h3>
+            <button onclick="restartLog()" href="#" id="clearLog" class="clearLog"  type="button" value=""></button>
+            <a target="_blank" href="./downloadExportDataLog" id="exportLog" class="exportLog" type="button" onclick="randomNumDownload('downloadExportDataLog?dataLog=','exportLog')" ></a>
+          </div>
+          
+          <div id="CMDMsg" class="blocMessages">
+          </div>
+    </div>
+  </div>
+
+
+  </div>
+
+  <!-- IMPORT LIB JS-->
+
+  <!-- socket.io.js -->
+  <script src="/socket.io/socket.io.js"></script>
+
+
+  <!-- FIN IMPORT LIB JS-->
+
+  <!-- PROGRAMME JS-->
+
+  <script src="./js/clientNode.js"></script>
+  
+</body>
+
+</html>
