@@ -7,14 +7,16 @@ function InputDeselectBg(cible) {
 }
 
 function SelectOneInput(cible) {
-    var parent = cible.parentElement;
-    parent.style.backgroundColor = "grey";
-    casesSelection.push(cible);
+    if (!casesSelection.includes(cible)) {
+        let parent = cible.parentElement;
+        parent.style.backgroundColor = "grey";
+        casesSelection.push(cible);
 
-    if (casesSelection.length > 1) {
-        InputDeselectBg(casesSelection[casesSelection.length - 2]);
+        if (casesSelection.length > 1) {
+            InputDeselectBg(casesSelection[casesSelection.length - 2]);
+        }
+        InputSelectBg(cible);
     }
-    InputSelectBg(cible);
 }
 
 function SelectAllInput() {
