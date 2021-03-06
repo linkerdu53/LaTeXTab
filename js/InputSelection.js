@@ -83,16 +83,7 @@ $('table').mousedown(function (event) {
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
         if (ctrl == 1) {
-            clic = 1;
-        }
-        else {
-            clic = 0;
-            DeselectAllInput();
-            SelectOneInput(event.target);
-        }
-
-        if (ctrl == 1 && clic == 1) {
-            var focusedElement = document.activeElement;
+            let focusedElement = document.activeElement;
 
             if (focusedElement.className == "tdInputText") {
                 if (casesSelection.includes(focusedElement) == false) { //Si input de départ (input focus) pas dans la sélection alors on l'ajoute
@@ -113,6 +104,12 @@ function AddEventCtrlClic(tdInputCible) {
                     DeselectOneInput(event.target);
                 }
             }
+        }
+    })
+    tdInputCible.addEventListener('focus', function (event) {
+        if (ctrl != 1) {
+        DeselectAllInput();
+        SelectOneInput(event.target);
         }
     })
 }
