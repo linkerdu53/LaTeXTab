@@ -1,6 +1,8 @@
 import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { AddEventSelectColumn } from './TableSelectColumn.js'
+import { AddEventSelectRow } from './TableSelectRow.js'
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -18,7 +20,15 @@ function AddColumn() {
     //Ajout <th scope="col"> dans <thead>
     var newth = document.createElement("th");
     newth.scope = 'col';
+    newth.className = 'user-select-none';
+    //Tooltips
+    newth.setAttribute("role", "button");
+    newth.setAttribute("data-toggle", "tooltip");
+    newth.setAttribute("data-placement", "top");
+    newth.setAttribute("title", "Sélectioner la colonne");
+    $(newth).tooltip();
     newth.innerText = eltThLast.childNodes[0].nodeValue;
+    AddEventSelectColumn(newth, thNb - 1);
     eltTrHead.insertBefore(newth, eltThLast);
 
     //Mise à jour du dernier th scope="col" dans le thead
@@ -67,8 +77,16 @@ function AddRow() {
     var newtr = document.createElement("tr");
     var newth = document.createElement("th");
     newth.scope = 'row';
-    newth.className = 'align-middle';
+    newth.className = 'align-middle user-select-none';
+    newth.setAttribute("role", "button");
+    //Tooltips
+    newth.setAttribute("role", "button");
+    newth.setAttribute("data-toggle", "tooltip");
+    newth.setAttribute("data-placement", "left");
+    newth.setAttribute("title", "Sélectioner la rangée");
+    $(newth).tooltip();
     newth.innerText = tbodyThNb;
+    AddEventSelectRow(newth, tbodyThNb);
     newtr.appendChild(newth);
 
     const tdInputText  = document.getElementsByClassName('tdInputText');
