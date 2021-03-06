@@ -1,7 +1,7 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
-import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom } from './CheckBordure.js';
+import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, checkBordureAll } from './CheckBordure.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -174,6 +174,7 @@ borderAllButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderBottomOn");
         }
     }
+    checkBordureAll();
     GenerateToLatex();
 });
 

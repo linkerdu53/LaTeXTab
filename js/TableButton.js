@@ -1,6 +1,7 @@
 import { nextChar } from './GestionLettre.js';
 import { AddEventInput } from './TableInput.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { checkBordureAll } from './CheckBordure.js';
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -56,6 +57,7 @@ function AddColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
     lastTd[0].colSpan = thNb - 1;
+    checkBordureAll();
 }
 
 function AddRow() {
@@ -118,6 +120,7 @@ function AddRow() {
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
+    checkBordureAll();
 }
 
 function SupprColumn() {

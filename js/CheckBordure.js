@@ -19,8 +19,10 @@ function CheckBordureRight() {
         else {
             if (!tdInputText[i + 1].classList.contains("borderLeftOn"))
             {
-                tdInputText[i + 1].style.borderLeft = "solid";
-                tdInputText[i + 1].classList.add("borderLeftOn");
+                if (i%nbCol != nbCol - 1) {      
+                    tdInputText[i + 1].style.borderLeft = "solid";
+                    tdInputText[i + 1].classList.add("borderLeftOn");
+                }
             } 
         }
     }
@@ -43,8 +45,10 @@ function CheckBordureLeft() {
         else {
             if (!tdInputText[i - 1].classList.contains("borderRightOn"))
             {
-                tdInputText[i - 1].style.borderRight = "solid";
-                tdInputText[i - 1].classList.add("borderRightOn");
+                if (i%nbCol != 0) {
+                    tdInputText[i - 1].style.borderRight = "solid";
+                    tdInputText[i - 1].classList.add("borderRightOn");
+                }
             } 
         }
     }
@@ -96,4 +100,12 @@ function CheckBordureBottom() {
     }
 }
 
-export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom };
+function checkBordureAll() {
+    CheckBordureBottom();
+    CheckBordureRight();
+    CheckBordureLeft();
+    CheckBordureTop();
+ 
+}
+
+export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, checkBordureAll };
