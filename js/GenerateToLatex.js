@@ -30,11 +30,11 @@ function GetTableData() {
             if (input.classList.contains("underlineOn")) { 
                 matrice[i][j].underline = 1;
             }
-            if (input.classList.contains("colorOn")) { 
+
+            if (input.classList.contains("colorOn") && input.style.color !== "") { 
                 matrice[i][j].textColor = 1;
                 let matchColors = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
                 let match = matchColors.exec(input.style.color);
-                console.log(match)
                 matrice[i][j].textColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
             }
             matrice[i][j].alignLeft = 0;
@@ -88,8 +88,8 @@ function GenerateToLatex() {
         strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
     if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        str += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
-        str += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
+        strPackage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
+        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
     let modeMaths = document.getElementById('modeMaths').checked;
@@ -188,7 +188,7 @@ function GenerateToLatex() {
             }
             //Color
             if (matrice[i][j].textColor == 1) {
-                str += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
+                strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
             }
             //Bold
             if (matrice[i][j].bold == 1) {
