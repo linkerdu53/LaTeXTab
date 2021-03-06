@@ -1,4 +1,5 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { casesSelection } from './InputSelection.js';
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
@@ -100,12 +101,43 @@ function CheckBordureBottom() {
     }
 }
 
-function checkBordureAll() {
-    CheckBordureBottom();
+function CheckBordureAll() {
+
     CheckBordureRight();
-    CheckBordureLeft();
     CheckBordureTop();
+    for (let i = 0; i < casesSelection.length; i++) {
+        casesSelection[i].style.border = "solid";
+        casesSelection[i].classList.add("borderLeftOn");
+        casesSelection[i].classList.add("borderRightOn");
+        casesSelection[i].classList.add("borderTopOn");
+        casesSelection[i].classList.add("borderBottomOn");
+    }
+    CheckBordureLeft();
+    CheckBordureBottom();
  
 }
 
-export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, checkBordureAll };
+function CheckBordureOff() {
+
+    CheckBordureRight();
+    CheckBordureTop();
+    for (let i = 0; i < casesSelection.length; i++) {
+        casesSelection[i].style.border = "";
+        casesSelection[i].classList.remove("borderLeftOn");
+        casesSelection[i].classList.remove("borderRightOn");
+        casesSelection[i].classList.remove("borderTopOn");
+        casesSelection[i].classList.remove("borderBottomOn");
+    }
+    CheckBordureLeft();
+    CheckBordureBottom();
+}
+
+function CheckBordureClass() {
+    for (let i = 0; i < tdInputText.length; i++) {
+        if ((tdInputText[i].classList.contains("borderLeftOn")) && (tdInputText[i].classList.contains("borderRightOn")) && (tdInputText[i].classList.contains("borderTopOn")) && (tdInputText[i].classList.contains("borderBottomOn"))) {
+            tdInputText[i].style.border = "solid";
+        }
+    }
+}
+
+export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll, CheckBordureOff, CheckBordureClass};
