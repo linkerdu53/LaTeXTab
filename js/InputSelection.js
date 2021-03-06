@@ -37,6 +37,50 @@ function SelectAllInput() {
 
 }
 
+function SelectColumn(columnId) {
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
+    let nbCasesColSelect = 0
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].parentNode.dataset.col == columnId){
+            nbCasesColSelect++;
+        }
+    }
+    let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
+    for (let j = 0; j < tdInputText.length; j++) {
+        if(tdInputText[j].parentNode.dataset.col == columnId) {
+            if(nbCasesColSelect != colLength) {
+                SelectOneInput(tdInputText[j]);
+            }
+            else {
+                DeselectOneInput(tdInputText[j]);
+            }
+        }
+    }
+}
+
+function SelectRow(rowId) {
+    const tdInputText = document.getElementsByClassName("tdInputText");
+    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
+    let nbCasesRowSelect = 0
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].parentNode.dataset.row == rowId){
+            nbCasesRowSelect++;
+        }
+    }
+    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
+    for (let j = 0; j < tdInputText.length; j++) {
+        if(tdInputText[j].parentNode.dataset.row == rowId) {
+            if(nbCasesRowSelect != rowLength) {
+                SelectOneInput(tdInputText[j]);
+            }
+            else {
+                DeselectOneInput(tdInputText[j]);
+            }
+        }
+    }
+}
+
 function DeselectAllInput() {
     const tdInputText = document.getElementsByClassName("tdInputText");
     for (let i = 0; i < tdInputText.length; i++) {
@@ -83,16 +127,7 @@ $('table').mousedown(function (event) {
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
         if (ctrl == 1) {
-            clic = 1;
-        }
-        else {
-            clic = 0;
-            DeselectAllInput();
-            SelectOneInput(event.target);
-        }
-
-        if (ctrl == 1 && clic == 1) {
-            var focusedElement = document.activeElement;
+            let focusedElement = document.activeElement;
 
             if (focusedElement.className == "tdInputText") {
                 if (casesSelection.includes(focusedElement) == false) { //Si input de départ (input focus) pas dans la sélection alors on l'ajoute
@@ -115,6 +150,12 @@ function AddEventCtrlClic(tdInputCible) {
             }
         }
     })
+    tdInputCible.addEventListener('focus', function (event) {
+        if (ctrl != 1) {
+        DeselectAllInput();
+        SelectOneInput(event.target);
+        }
+    })
 }
 
-export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, casesSelection};
+export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
