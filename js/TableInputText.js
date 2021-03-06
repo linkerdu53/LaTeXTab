@@ -16,6 +16,11 @@ const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
 const modeMaths = document.getElementById('modeMaths');
 
+//Active les tooltips sur tous les boutons
+$(function () {
+    $('[data-toggle="tooltip').tooltip();
+});
+
 boldButton.addEventListener('click', function() {
     let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
@@ -108,6 +113,7 @@ underlineButton.addEventListener('click', function() {
 
     GenerateToLatex();
 });
+
 
 textLeftButton.addEventListener('click', function() {
     for (let i = 0; i < casesSelection.length; i++) {

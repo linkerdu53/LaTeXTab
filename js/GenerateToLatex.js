@@ -194,6 +194,7 @@ function GenerateToLatex() {
             if (matrice[i][j].textColor == 1) {
                 str += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
             }
+
             //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
