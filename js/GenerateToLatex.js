@@ -32,11 +32,10 @@ function GetTableData() {
             }
             if (input.classList.contains("colorOn")) { 
                 matrice[i][j].textColor = 1;
-                console.log(input.style.color)
-                console.log(input.style.color.r)
-                console.log(input.style.color.g)
-                console.log(input.style.color.b)
-                matrice[i][j].textColorCode = rgbToHex(r,g,b);
+                let matchColors = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+                let match = matchColors.exec(input.style.color);
+                console.log(match)
+                matrice[i][j].textColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
             }
             matrice[i][j].alignLeft = 0;
             matrice[i][j].alignCenter = 0;
@@ -72,13 +71,8 @@ function GetTableData() {
     return matrice;
 }
 
-function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-}
-  
 function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
 function GenerateToLatex() {
@@ -91,7 +85,7 @@ function GenerateToLatex() {
         str += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
     if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        str += "% Vous devez ajouter le package suivants pour pouvoir colorer le texte :\n"
+        str += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         str += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
@@ -189,12 +183,10 @@ function GenerateToLatex() {
                 }
                 nbCrochets++;
             }
-
             //Color
             if (matrice[i][j].textColor == 1) {
                 str += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
             }
-
             //Bold
             if (matrice[i][j].bold == 1) {
                 str += "\\textbf{";
