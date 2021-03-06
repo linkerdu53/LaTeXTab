@@ -276,7 +276,7 @@ function OverviewLatex() {
     let url = "https://latexonline.cc/compile?text=\\documentclass[10pt,a4paper]{article}" + packageCode + "\\begin{document}"+ latexCode +"\\end{document}&force=true";
     
     const IframeLateX = document.getElementById("IframeLaTeX");
-    IframeLateX.classList.remove("d-none");
+    IframeLateX.parentNode.classList.remove("d-none");
     IframeLateX.src = url;
 
     document.getElementById("boutonPDF").innerText = "Actualiser le PDF";
