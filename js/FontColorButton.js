@@ -31,4 +31,5 @@ fontColorButton.addEventListener('click', function() {
             casesSelection[i].classList.add("colorOn");
         }
     }
+    GenerateToLatex();
 });
