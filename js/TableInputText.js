@@ -1,7 +1,7 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
-import { CheckBordureRight } from './CheckBordure.js';
+import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom } from './CheckBordure.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -201,7 +201,7 @@ borderLeftButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderLeftOn");
         }
     }
- 
+    CheckBordureLeft();
     GenerateToLatex();
 });
 
@@ -220,7 +220,7 @@ borderRightButton.addEventListener('click', function() {
             if (cpt == 0) {
                 casesSelection[i].style.borderRight = "";
                 casesSelection[i].classList.remove("borderRightOn");
-                CheckBordureRight();
+               
             } else {
                 casesSelection[i].style.borderRight = "solid";
                 casesSelection[i].classList.add("borderRightOn");
@@ -231,7 +231,7 @@ borderRightButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderRightOn");
         }
     }
-
+    CheckBordureRight();
     GenerateToLatex();
 });
 
@@ -259,6 +259,7 @@ borderTopButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderTopOn");
         }
     }
+    CheckBordureTop();
     GenerateToLatex();
 });
 
@@ -286,6 +287,7 @@ borderBottomButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderBottomOn");
         }
     }
+    CheckBordureBottom();
     GenerateToLatex();
 });
 
