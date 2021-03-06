@@ -88,7 +88,7 @@ function GenerateToLatex() {
         strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
     }
     if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        strPackage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
+        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
