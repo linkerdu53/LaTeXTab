@@ -51,35 +51,32 @@ function CheckBordureLeft() {
 }
 
 function CheckBordureTop() {
-    var nbRow = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
     var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    for (let i = tdInputText.length-1; i > nbCol; i--)
+    for (let i = tdInputText.length-1; i > nbCol-1; i--)
     {
-        console.log(i);
-        /*if (!tdInputText[i].classList.contains("borderTopOn"))
+        if (!tdInputText[i].classList.contains("borderTopOn"))
         {
-            if (tdInputText[i - nbRow].classList.contains("borderBottomOn"))
+            if (tdInputText[i - nbCol].classList.contains("borderBottomOn"))
             {             
-                tdInputText[i - nbRow].style.borderBottom = "";
-                tdInputText[i - nbRow].classList.remove("borderBottomOn");
+                tdInputText[i - nbCol].style.borderBottom = "";
+                tdInputText[i - nbCol].classList.remove("borderBottomOn");
             }   
         }
         else {
-            if (!tdInputText[i - nbRow].classList.contains("borderBottomOn"))
+            if (!tdInputText[i - nbCol].classList.contains("borderBottomOn"))
             {
-                tdInputText[i - nbRow].style.borderBottom = "solid";
-                tdInputText[i - nbRow].classList.add("borderBottomOn");
+                tdInputText[i - nbCol].style.borderBottom = "solid";
+                tdInputText[i - nbCol].classList.add("borderBottomOn");
             } 
-        }*/
+        }
     }
 }
 
 function CheckBordureBottom() {
-    var nbRow = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
     var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
     for (let i = 0; i < tdInputText.length - nbCol; i++)
     {
-        var tmp = i + parseInt(nbRow);
+        var tmp = i + parseInt(nbCol);
         if (!tdInputText[i].classList.contains("borderBottomOn"))
         {
             if (tdInputText[tmp].classList.contains("borderTopOn"))
