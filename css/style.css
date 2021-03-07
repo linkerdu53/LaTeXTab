@@ -13,7 +13,17 @@ body {
 }
 
 .tdInputText {
-    width: 20px;
+    width: 30px;
     min-width: 20px;
     user-select: none;
+}
+
+.tableSizeChooser {
+    border-collapse: separate;
+}
+
+.tdSizeChooser {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
 }

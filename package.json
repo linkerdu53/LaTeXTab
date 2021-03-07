@@ -1,0 +1,45 @@
+{
+    "name": "LatexTab",
+    "version": "1.1.1",
+    "private": true,
+    "dependencies": {
+        "express": "^3.21.2",
+        "file-system": "^2.2.2",
+        "os": "^0.1.1",
+        "pkg": "^4.4.0",
+        "request": "^2.88.2",
+        "session.socket.io": "^0.2.1",
+        "socket.io": "^1.7.4"
+    },
+    "main": "app.js",
+    "bin": "./app.js",
+    "pkg": {
+        "assets": [
+            "pst_latex.html",
+            "css/*",
+            "favicon/*",
+            "img/*",
+            "police/**/*",
+            "ressource/*",
+            "js/**/*"
+        ]
+    },
+    "author": "Linker <q.wascheul@gmail.com> (https://qt1.fr)",
+    "description": "",
+    "scripts": {
+        "debugAll": "QWDEBUG=true || set QWDEBUG=true && node app.js && set QWDEBUG=",
+        "start": "start explorer http://localhost:8080 && node app.js",
+        "startChrm": "start chrome http://localhost:8080o && node app.js",
+        "startEdge": "start microsoft-edge:http://localhost:8080 && node app.js",
+        "build": "pkg package.json -t node14-win-x64 ",
+        "buildAll": "pkg package.json",
+        "buildWinZip": "pkg package.json -t node14-win-x64 && node zipWin.js",
+        "buildAllZip": "pkg package.json && node zipAll.js"
+    },
+    "devDependencies": {
+        "adm-zip": "^0.4.16",
+        "node-pre-gyp": "^0.15.0",
+        "underscore": "^1.10.2",
+        "xhr2": "^0.2.0"
+    }
+}
