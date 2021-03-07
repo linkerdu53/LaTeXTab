@@ -187,12 +187,8 @@ borderAllButton.addEventListener('click', function() {
             tmp = 1;
         }
     }
-    if (tmp == 1) {
-        CheckBordureAll();
-    }
-    if (tmp == 0) {
-        CheckBordureOff();
-    }
+    CheckBordureAll();
+
     GenerateToLatex();
 });
 
