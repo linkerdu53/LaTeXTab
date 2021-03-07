@@ -139,6 +139,7 @@ $(window.document).on('mouseup touchend', function(event) {
 */
 
 const mainTable = document.getElementsByClassName("mainTable")[0];
+let inputDebut = null;
 
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
@@ -167,32 +168,40 @@ function AddEventCtrlClic(tdInputCible) {
         }
     })
     tdInputCible.addEventListener('focus', function (event) {
+        if (inputDebut === null) {
+            inputDebut = event.target;
+        }
         if (ctrl != 1) {
         DeselectAllInput();
         SelectOneInput(event.target);
         }
     })
-
     document.addEventListener('mouseover', function (event) {
         tdInputMouseEnter(event.target)
     })
 }
 
-var mouseDown = 0;
-document.body.onmousedown = function() { 
-  ++mouseDown;
+let mouseDown = 0;
+document.body.onmousedown = function() {
+    mouseDown++;
 }
 document.body.onmouseup = function() {
-  --mouseDown;
+    mouseDown--;
+    inputDebut = null;
 }
 
 function tdInputMouseEnter(cible) {
-    if (mouseDown == 1 && cible.className == "tdInputText" && casesSelection.includes(cible) == 0) {
-        console.log(cible);
+    if (mouseDown == 1 && cible.className == "tdInputText") {
         cible.blur();
-        let cibleRow = parseInt(cible.dataset.row);
-        let cibleCol = parseInt(cible.dataset.col);
-        SelectOneInput(cible);
+        let cibleRow = parseInt(cible.parentNode.dataset.row);
+        let cibleCol = parseInt(cible.parentNode.dataset.col);
+        DeselectAllInput();
+        for (let i = 0; i < tdInputText.length; i++) {
+            let tdData = tdInputText[i].parentNode.dataset;
+            if(tdData.row <= cibleRow && tdData.col <= cibleCol && tdData.row >= inputDebut.parentNode.dataset.row && tdData.col >= inputDebut.parentNode.dataset.col) {
+                SelectOneInput(tdInputText[i]);
+            }
+        }
     }
 }
 
