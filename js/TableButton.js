@@ -67,7 +67,7 @@ function AddColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
     lastTd[0].colSpan = thNb - 1;
-    CheckBordureAll();
+    //CheckBordureAll();
 }
 
 function AddRow() {
@@ -138,7 +138,7 @@ function AddRow() {
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
-    CheckBordureAll();
+    //CheckBordureAll();
 }
 
 function SupprColumn() {
