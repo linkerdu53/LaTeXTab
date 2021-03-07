@@ -168,15 +168,15 @@ function AddEventCtrlClic(tdInputCible) {
         }
     })
     tdInputCible.addEventListener('focus', function (event) {
-        if (inputDebut === null) {
-            inputDebut = event.target;
-        }
         if (ctrl != 1) {
         DeselectAllInput();
         SelectOneInput(event.target);
         }
     })
     document.addEventListener('mouseover', function (event) {
+        if (mouseDown == 1 && inputDebut === null) {
+            inputDebut = event.target;
+        }
         tdInputMouseEnter(event.target)
     })
 }
@@ -192,14 +192,32 @@ document.body.onmouseup = function() {
 
 function tdInputMouseEnter(cible) {
     if (mouseDown == 1 && cible.className == "tdInputText") {
-        cible.blur();
         let cibleRow = parseInt(cible.parentNode.dataset.row);
         let cibleCol = parseInt(cible.parentNode.dataset.col);
         DeselectAllInput();
         for (let i = 0; i < tdInputText.length; i++) {
             let tdData = tdInputText[i].parentNode.dataset;
-            if(tdData.row <= cibleRow && tdData.col <= cibleCol && tdData.row >= inputDebut.parentNode.dataset.row && tdData.col >= inputDebut.parentNode.dataset.col) {
-                SelectOneInput(tdInputText[i]);
+            //Partie haute
+            if(tdData.row >= cibleRow && tdData.row <= inputDebut.dataset.row) {
+                //Partie droite
+                if(tdData.col >= cibleCol && tdData.col <= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+                //Partie gauche
+                else if(tdData.col <= cibleCol && tdData.col >= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+            }
+            //Partie basse
+            else if(tdData.row <= cibleRow && tdData.row >= inputDebut.dataset.row) {
+                //Partie gauche
+                if(tdData.col >= cibleCol && tdData.col <= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+                //Partie droite
+                else if(tdData.col <= cibleCol && tdData.col >= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
             }
         }
     }
