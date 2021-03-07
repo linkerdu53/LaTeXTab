@@ -199,11 +199,11 @@ function tdInputMouseEnter(cible) {
             let tdData = tdInputText[i].parentNode.dataset;
             //Partie haute
             if(tdData.row >= cibleRow && tdData.row <= inputDebut.dataset.row) {
-                //Partie droite
+                //Partie gauche
                 if(tdData.col >= cibleCol && tdData.col <= inputDebut.dataset.col) {
                     SelectOneInput(tdInputText[i]);
                 }
-                //Partie gauche
+                //Partie droite
                 else if(tdData.col <= cibleCol && tdData.col >= inputDebut.dataset.col) {
                     SelectOneInput(tdInputText[i]);
                 }
