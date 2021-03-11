@@ -1,7 +1,7 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
-import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll, CheckBordureClass } from './CheckBordure.js';
+import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -149,7 +149,6 @@ textRightButton.addEventListener('click', function() {
 
 borderAllButton.addEventListener('click', function() {
     let cpt = 0;
-    CheckBordureClass();
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.border == "medium solid"){
             cpt++;
@@ -182,7 +181,6 @@ borderAllButton.addEventListener('click', function() {
         }
     }
     CheckBordureAll();
-    console.log("test")
 
     GenerateToLatex();
 });
