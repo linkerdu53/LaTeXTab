@@ -1,3 +1,4 @@
+let casesSelection = [];
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 function InputSelectBg(cible) {
@@ -9,38 +10,36 @@ function InputDeselectBg(cible) {
 }
 
 function SelectOneInput(cible) {
+    //Empeche la duplication
     if (!casesSelection.includes(cible)) {
         let parent = cible.parentElement;
         parent.style.backgroundColor = "grey";
+        cible.classList.add("selected")
+
         casesSelection.push(cible);
 
+        // Suppression fond sur la case focus précédemment
         if (casesSelection.length > 1) {
             InputDeselectBg(casesSelection[casesSelection.length - 2]);
         }
+        // Ajout fond sur la case focus
         InputSelectBg(cible);
     }
 }
 
 function SelectAllInput() {
-    const tdInputText = document.getElementsByClassName("tdInputText");
+    //Si tout les inputs déjà focus alors toutes désélectionnées
     if (casesSelection.length == tdInputText.length) {
         DeselectAllInput();
     }
     else {
-        DeselectAllInput();
         for (let i = 0; i < tdInputText.length; i++) {
-            var parent = tdInputText[i].parentElement;
-            parent.style.backgroundColor = "grey";
-    
-            casesSelection.push(tdInputText[i]);
+            SelectOneInput(tdInputText[i])
         }
     }
-   
-
 }
 
 function SelectColumn(columnId) {
-    const tdInputText = document.getElementsByClassName("tdInputText");
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
     let nbCasesColSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
@@ -62,7 +61,6 @@ function SelectColumn(columnId) {
 }
 
 function SelectRow(rowId) {
-    const tdInputText = document.getElementsByClassName("tdInputText");
     //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
     let nbCasesRowSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
@@ -85,24 +83,19 @@ function SelectRow(rowId) {
 
 function DeselectAllInput() {
     for (let i = 0; i < tdInputText.length; i++) {
-        var parent = tdInputText[i].parentElement;
-        parent.style.backgroundColor = "";
-
-        InputDeselectBg(tdInputText[i])
+        DeselectOneInput(tdInputText[i])
     }
     casesSelection = [];
 }
 
 function DeselectOneInput(cible) {
-    var parent = cible.parentElement;
-    parent.style.backgroundColor = ""; 
-    let cibleIndex = casesSelection.indexOf(cible);
-    casesSelection.splice(cibleIndex, 1)
+    let parent = cible.parentElement;
+    parent.style.backgroundColor = "";
+    cible.classList.remove("selected")
+    casesSelection.splice(casesSelection.indexOf(cible), 1)
 
     InputDeselectBg(cible)
 }
-
-let casesSelection = [];
 
 let ctrl = 0;
 let clic = 0;
@@ -223,4 +216,4 @@ function tdInputMouseEnter(cible) {
     }
 }
 
-export { InputSelectBg, SelectAllInput, InputDeselectBg, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
+export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
