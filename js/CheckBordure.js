@@ -3,141 +3,89 @@ import { casesSelection } from './InputSelection.js';
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
-function CheckBordureRight() {
-    var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    for (let i = 0; i < tdInputText.length - 1; i++)
-    {
-        if (!tdInputText[i].classList.contains("borderRightOn"))
-        {
-            if (tdInputText[i + 1].classList.contains("borderLeftOn"))
-            {
-                if (i%nbCol != nbCol - 1) {               
-                    tdInputText[i + 1].style.borderLeft = "";
-                    tdInputText[i + 1].classList.remove("borderLeftOn");
-                }
-            }   
+//TODO changer "&& !inputDroit.parentNode.style.backgroundColor" par un test class si case sélectionnée
+//  Il faut pour ça ajouter une class quand une case est sélectionnée
+
+function CheckBordureRight(input) {
+    let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
+    if (parseInt(input.parentNode.dataset.col) !== nbCol) {
+        let inputDroit = tdInputText[(parseInt(input.parentNode.dataset.row) - 1) * nbCol + (parseInt(input.parentNode.dataset.col) + 1) - 1];
+        if (!input.classList.contains("borderRightOn")) {
+            if (inputDroit.classList.contains("borderLeftOn") && !inputDroit.parentNode.style.backgroundColor) {
+                inputDroit.style.borderLeft = "";
+                inputDroit.classList.remove("borderLeftOn");
+            }
         }
-        else {
-            if (!tdInputText[i + 1].classList.contains("borderLeftOn"))
-            {
-                if (i%nbCol != nbCol - 1) {      
-                    tdInputText[i + 1].style.borderLeft = "solid";
-                    tdInputText[i + 1].classList.add("borderLeftOn");
-                }
-            } 
+        else if (!inputDroit.classList.contains("borderLeftOn")) {
+            inputDroit.style.borderLeft = "solid";
+            inputDroit.classList.add("borderLeftOn");
         }
     }
 }
 
-function CheckBordureLeft() {
-    var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    for (let i = tdInputText.length-1; i > 0; i--)
-    {
-        if (!tdInputText[i].classList.contains("borderLeftOn"))
-        {
-            if (tdInputText[i - 1].classList.contains("borderRightOn"))
-            {
-                if (i%nbCol != 0) {               
-                    tdInputText[i - 1].style.borderRight = "";
-                    tdInputText[i - 1].classList.remove("borderRightOn");
-                }
-            }   
+function CheckBordureLeft(input) {
+    let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
+    if (parseInt(input.parentNode.dataset.col) !== 1) {
+        let inputGauche = tdInputText[(parseInt(input.parentNode.dataset.row) - 1) * nbCol + (parseInt(input.parentNode.dataset.col) -1) - 1];
+        if (!input.classList.contains("borderLeftOn")) {
+            if (inputGauche.classList.contains("borderRightOn") && !inputGauche.parentNode.style.backgroundColor) {             
+                inputGauche.style.borderRight = "";
+                inputGauche.classList.remove("borderRightOn");
+            }
         }
-        else {
-            if (!tdInputText[i - 1].classList.contains("borderRightOn"))
-            {
-                if (i%nbCol != 0) {
-                    tdInputText[i - 1].style.borderRight = "solid";
-                    tdInputText[i - 1].classList.add("borderRightOn");
-                }
-            } 
+        else if (!inputGauche.classList.contains("borderRightOn")) {
+            inputGauche.style.borderRight = "solid";
+            inputGauche.classList.add("borderRightOn");
         }
     }
 }
 
-function CheckBordureTop() {
-    var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    for (let i = tdInputText.length-1; i > nbCol-1; i--)
-    {
-        if (!tdInputText[i].classList.contains("borderTopOn"))
-        {
-            if (tdInputText[i - nbCol].classList.contains("borderBottomOn"))
-            {             
-                tdInputText[i - nbCol].style.borderBottom = "";
-                tdInputText[i - nbCol].classList.remove("borderBottomOn");
-            }   
+function CheckBordureTop(input) {
+    let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
+    if (parseInt(input.parentNode.dataset.row) !== 1) {
+        let inputDessus = tdInputText[(parseInt(input.parentNode.dataset.row) - 2) * nbCol + parseInt(input.parentNode.dataset.col) - 1];
+        if (!input.classList.contains("borderTopOn")) {
+            if (inputDessus.classList.contains("borderBottomOn") && !inputDessus.parentNode.style.backgroundColor) {             
+                inputDessus.style.borderBottom = "";
+                inputDessus.classList.remove("borderBottomOn");
+            }
         }
-        else {
-            if (!tdInputText[i - nbCol].classList.contains("borderBottomOn"))
-            {
-                tdInputText[i - nbCol].style.borderBottom = "solid";
-                tdInputText[i - nbCol].classList.add("borderBottomOn");
-            } 
+        else if (!inputDessus.classList.contains("borderBottomOn")) {
+            inputDessus.style.borderBottom = "solid";
+            inputDessus.classList.add("borderBottomOn");
         }
     }
 }
 
-function CheckBordureBottom() {
-    var nbCol = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    for (let i = 0; i < tdInputText.length - nbCol; i++)
-    {
-        var tmp = i + parseInt(nbCol);
-        if (!tdInputText[i].classList.contains("borderBottomOn"))
-        {
-            if (tdInputText[tmp].classList.contains("borderTopOn"))
-            {              
-                tdInputText[tmp].style.borderTop = "";
-                tdInputText[tmp].classList.remove("borderTopOn");
-                
-            }   
+function CheckBordureBottom(input) {
+    let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
+    let nbRow = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.row);
+    if (parseInt(input.parentNode.dataset.row) !== nbRow) {
+        let inputDessous = tdInputText[parseInt(input.parentNode.dataset.row) * nbCol + parseInt(input.parentNode.dataset.col) - 1];
+        if (!input.classList.contains("borderBottomOn")) {
+            if (inputDessous.classList.contains("borderTopOn") && !inputDessous.parentNode.style.backgroundColor) {
+                inputDessous.style.borderTop = "";
+                inputDessous.classList.remove("borderTopOn");
+            }
         }
-        else {
-            if (!tdInputText[tmp].classList.contains("borderTopOn"))
-            {
-                tdInputText[tmp].style.borderTop = "solid";
-                tdInputText[tmp].classList.add("borderTopOn");
-            } 
+        else if (!inputDessous.classList.contains("borderTopOn")) {
+            inputDessous.style.borderTop = "solid";
+            inputDessous.classList.add("borderTopOn");
         }
     }
 }
 
 function CheckBordureAll() {
-
-    CheckBordureRight();
-    CheckBordureTop();
-    for (let i = 0; i < casesSelection.length; i++) {
-        casesSelection[i].style.border = "solid";
-        casesSelection[i].classList.add("borderLeftOn");
-        casesSelection[i].classList.add("borderRightOn");
-        casesSelection[i].classList.add("borderTopOn");
-        casesSelection[i].classList.add("borderBottomOn");
-    }
-    CheckBordureLeft();
-    CheckBordureBottom();
- 
-}
-
-function CheckBordureOff() {
-
-    CheckBordureRight();
-    CheckBordureTop();
-    for (let i = 0; i < casesSelection.length; i++) {
-        casesSelection[i].style.border = "";
-        casesSelection[i].classList.remove("borderLeftOn");
-        casesSelection[i].classList.remove("borderRightOn");
-        casesSelection[i].classList.remove("borderTopOn");
-        casesSelection[i].classList.remove("borderBottomOn");
-    }
-    CheckBordureLeft();
-    CheckBordureBottom();
-}
-
-function CheckBordureClass() {
     for (let i = 0; i < tdInputText.length; i++) {
-        if ((tdInputText[i].classList.contains("borderLeftOn")) && (tdInputText[i].classList.contains("borderRightOn")) && (tdInputText[i].classList.contains("borderTopOn")) && (tdInputText[i].classList.contains("borderBottomOn"))) {
-            tdInputText[i].style.border = "solid";
-        }
+        //Check la bordure à gauche de la case à droite de la case tdInputText[i]
+        CheckBordureRight(tdInputText[i]);
+        //Check la bordure droite de la case à gauche de la case tdInputText[i]
+        CheckBordureLeft(tdInputText[i]);
+        //Check la bordure du bas de la case au dessus de la case tdInputText[i]
+        CheckBordureTop(tdInputText[i]);
+        //Check la bordure du haut de la case en dessous de la case tdInputText[i]
+        CheckBordureBottom(tdInputText[i]);
     }
 }
 
-export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll, CheckBordureOff, CheckBordureClass};
+export { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll};
