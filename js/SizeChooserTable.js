@@ -1,5 +1,6 @@
 import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { CleanAllInputs } from './CleanInput.js'
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
@@ -136,6 +137,9 @@ function createTable(cible) {
 
     let colDiff = cibleCol - (listTh.length - 2); //-2 car row th et row button
     let rowDiff = cibleRow - (listTr.length - 2); //-2 car row head et row button
+
+    //On retire les données des cases déjà présentes
+    CleanAllInputs();
 
     if (colDiff > 0) {
         for (let i = 0; i < colDiff; i++) {
