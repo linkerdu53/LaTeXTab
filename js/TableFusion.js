@@ -1,4 +1,5 @@
 import { casesSelection } from './InputSelection.js';
+import { AddEventInput } from './TableInput.js';
 
 function Fusion() {
     // Pas assez de cases à fusionner
@@ -9,32 +10,49 @@ function Fusion() {
     let casesSort = casesSelection.slice()
     casesSort.sort((a, b) => { return a.parentNode.dataset.col - b.parentNode.dataset.col })
     casesSort.sort((a, b) => { return a.parentNode.dataset.row - b.parentNode.dataset.row })
-    let inputsGroups = []
-    inputsGroups.push([casesSort[0]])
-    for (let i = 0; i < casesSort.length; i++) {
-        //Test si sur la même ligne et à coté
-        console.log(inputsGroups[inputsGroups.length - 1])
-        console.log(inputsGroups[0][0])
-        console.log(inputsGroups[inputsGroups.length - 1][inputsGroups[0].length - 1])
-        console.log(inputsGroups[inputsGroups.length - 1][inputsGroups[inputsGroups.length - 1].length])
-        if (casesSort[i].parentNode.dataset.row == inputsGroups[inputsGroups.length - 1][inputsGroups[inputsGroups.length - 1].length].parentNode.dataset.row && casesSort[i].parentNode.dataset.col == inputsGroups[inputsGroups.length - 1].parentNode.dataset.col + 1) {
-            inputsGroups[inputsGroups.length].push(casesSort[i])
+    let tdGroups = []
+    tdGroups.push([casesSort[0].parentNode])
+    for (let i = 1; i < casesSort.length; i++) {
+        //Test si sur la même ligne et à coté du groupe précédent
+        if (casesSort[i].parentNode.dataset.row == tdGroups[tdGroups.length - 1][tdGroups[tdGroups.length - 1].length - 1].dataset.row && casesSort[i].parentNode.dataset.col - 1 == tdGroups[tdGroups.length - 1][tdGroups[tdGroups.length - 1].length - 1].dataset.col) {
+            tdGroups[tdGroups.length - 1].push(casesSort[i].parentNode)
         }
         //Test si sur la même colonne et en dessous
-        else if (casesSort[i].parentNode.dataset.row == inputsGroups[inputsGroups.length - 1].parentNode.dataset.row + 1 && casesSort[i].parentNode.dataset.col == inputsGroups[inputsGroups.length - 1].parentNode.dataset.col) {
-            inputsGroups[inputsGroups.length].push(casesSort[i])
+        else if (casesSort[i].parentNode.dataset.row - 1 == tdGroups[tdGroups.length - 1][tdGroups[tdGroups.length - 1].length - 1].dataset.row && casesSort[i].parentNode.dataset.col == tdGroups[tdGroups.length - 1][tdGroups[tdGroups.length - 1].length - 1].dataset.col) {
+            tdGroups[tdGroups.length - 1].push(casesSort[i].parentNode)
         }
         //Sinon on créer une nouvelle zone
         else {
-            inputsGroups.push(casesSort[i])
+            tdGroups.push([casesSort[i].parentNode])
         }
     }
 
-    console.log(inputsGroups)
-
     //Une fois les cases regroupée par zones
-    for (let i = 0; i < inputsGroups.length; i++) {
-        
+    for (let i = 0; i < tdGroups.length; i++) {
+        if (tdGroups[i].length > 1) { // Il faut + d'une case pour fusionner
+            const newTd = document.createElement("td")
+            //newTd.dataset.row = index + 1
+            //newTd.dataset.col = columnSize + 1
+            if (tdGroups[i][0].dataset.row == tdGroups[i][1].dataset.row) { //Si sur la même ligne
+                newTd.colSpan = tdGroups[i].length
+            }
+            else {
+                newTd.rowSpan = tdGroups[i].length
+            }
+            newTd.classList.add("tdMainTable")
+            const newInput = document.createElement("input")
+            newInput.type = 'text'
+            newInput.classList.add("tdInputText")
+            AddEventInput(newInput)
+
+            newTd.appendChild(newInput);
+
+            tdGroups[i][0].parentNode.insertBefore(newTd, tdGroups[i][0]);
+
+            for (let j = 0; j < tdGroups[i].length; j++) {
+                tdGroups[i][j].remove()
+            }
+        }
     }
 }
 
