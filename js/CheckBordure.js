@@ -3,9 +3,6 @@ import { casesSelection } from './InputSelection.js';
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
-//TODO changer "&& !inputDroit.parentNode.style.backgroundColor" par un test class si case sélectionnée
-//  Il faut pour ça ajouter une class quand une case est sélectionnée
-
 function CheckBordureRight(input) {
     let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
     if (parseInt(input.parentNode.dataset.col) !== nbCol) {
