@@ -1,7 +1,7 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
-import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll, CheckBordureOff, CheckBordureClass } from './CheckBordure.js';
+import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { Fusion } from './TableFusion.js'
 
 const boldButton = document.getElementById("bold");
@@ -154,17 +154,13 @@ fusionButton.addEventListener('click', function() {
 });
 
 borderAllButton.addEventListener('click', function() {
-    let cpt = 0, tmp = 0;
-    CheckBordureClass();
+    let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].style.border == "medium solid"){
             cpt++;
-            console.log(cpt);
         }
         if (cpt == casesSelection.length){
             cpt = 0;
-            tmp = 2;
-            console.log("oui");
         }
     }
     for (let i = 0; i < casesSelection.length; i++) {
@@ -175,14 +171,12 @@ borderAllButton.addEventListener('click', function() {
                 casesSelection[i].classList.remove("borderRightOn");
                 casesSelection[i].classList.remove("borderTopOn");
                 casesSelection[i].classList.remove("borderBottomOn");
-                tmp = 0;
             } else {
                 casesSelection[i].style.border = "solid";
                 casesSelection[i].classList.add("borderLeftOn");
                 casesSelection[i].classList.add("borderRightOn");
                 casesSelection[i].classList.add("borderTopOn");
                 casesSelection[i].classList.add("borderBottomOn");
-                tmp = 1;
             }
         } else {
             casesSelection[i].style.border = "solid";
@@ -190,15 +184,10 @@ borderAllButton.addEventListener('click', function() {
             casesSelection[i].classList.add("borderRightOn");
             casesSelection[i].classList.add("borderTopOn");
             casesSelection[i].classList.add("borderBottomOn");
-            tmp = 1;
         }
     }
-    if (tmp == 1) {
-        CheckBordureAll();
-    }
-    if (tmp == 0) {
-        CheckBordureOff();
-    }
+    CheckBordureAll();
+
     GenerateToLatex();
 });
 
@@ -225,8 +214,8 @@ borderLeftButton.addEventListener('click', function() {
             casesSelection[i].style.borderLeft = "solid";
             casesSelection[i].classList.add("borderLeftOn");
         }
+        CheckBordureLeft(casesSelection[i]);
     }
-    CheckBordureLeft();
     GenerateToLatex();
 });
 
@@ -255,8 +244,8 @@ borderRightButton.addEventListener('click', function() {
             casesSelection[i].style.borderRight = "solid";
             casesSelection[i].classList.add("borderRightOn");
         }
+        CheckBordureRight(casesSelection[i]);
     }
-    CheckBordureRight();
     GenerateToLatex();
 });
 
@@ -283,8 +272,8 @@ borderTopButton.addEventListener('click', function() {
             casesSelection[i].style.borderTop = "solid";
             casesSelection[i].classList.add("borderTopOn");
         }
+        CheckBordureTop(casesSelection[i]);
     }
-    CheckBordureTop();
     GenerateToLatex();
 });
 
@@ -311,8 +300,8 @@ borderBottomButton.addEventListener('click', function() {
             casesSelection[i].style.borderBottom = "solid";
             casesSelection[i].classList.add("borderBottomOn");
         }
+        CheckBordureBottom(casesSelection[i]);
     }
-    CheckBordureBottom();
     GenerateToLatex();
 });
 
