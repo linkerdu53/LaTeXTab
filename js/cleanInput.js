@@ -3,7 +3,6 @@ import { casesSelection } from './InputSelection.js';
 const tdInputText = document.getElementsByClassName('tdInputText');
 
 function CleanInput(cible) {
-    console.log(cible)
     cible.value = ""
     cible.style = ""
 }
