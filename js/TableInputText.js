@@ -2,6 +2,7 @@ import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll, CheckBordureOff, CheckBordureClass } from './CheckBordure.js';
+import { Fusion } from './TableFusion.js'
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -9,6 +10,7 @@ const underlineButton = document.getElementById("underline");
 const textLeftButton = document.getElementById("text-left");
 const textCenterButton = document.getElementById("text-center");
 const textRightButton = document.getElementById("text-right");
+const fusionButton = document.getElementById("fusion");
 const borderAllButton = document.getElementById("border-all");
 const borderLeftButton = document.getElementById("border-left");
 const borderRightButton = document.getElementById("border-right");
@@ -145,6 +147,10 @@ textRightButton.addEventListener('click', function() {
         casesSelection[i].classList.remove("alignLeftOn");
     }
     GenerateToLatex();
+});
+
+fusionButton.addEventListener('click', function() {
+    Fusion();
 });
 
 borderAllButton.addEventListener('click', function() {
