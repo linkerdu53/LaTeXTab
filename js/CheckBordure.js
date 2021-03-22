@@ -8,7 +8,7 @@ function CheckBordureRight(input) {
     let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
     if (parseInt(input.parentNode.dataset.col) !== nbCol) {
         let inputDroit = tdInputText[(parseInt(input.parentNode.dataset.row) - 1) * nbCol + (parseInt(input.parentNode.dataset.col) + 1) - 1];
-        if (!inputDroit.classList.contains("selected")) {
+        if (!inputDroit.classList.contains("selected") || ( inputDroit.classList.contains("selected") && input.classList.contains("selected") )) {
             if (!input.classList.contains("borderRightOn")) {
                 if (inputDroit.classList.contains("borderLeftOn")) {
                     inputDroit.style.borderLeft = "";
@@ -28,7 +28,7 @@ function CheckBordureLeft(input) {
     let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
     if (parseInt(input.parentNode.dataset.col) !== 1) {
         let inputGauche = tdInputText[(parseInt(input.parentNode.dataset.row) - 1) * nbCol + (parseInt(input.parentNode.dataset.col) -1) - 1];
-        if (!inputGauche.classList.contains("selected")) {
+        if (!inputGauche.classList.contains("selected") || ( inputGauche.classList.contains("selected") && input.classList.contains("selected") )) {
             if (!input.classList.contains("borderLeftOn")) {
                 if (inputGauche.classList.contains("borderRightOn")) {             
                     inputGauche.style.borderRight = "";
@@ -48,7 +48,7 @@ function CheckBordureTop(input) {
     let nbCol = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.col);
     if (parseInt(input.parentNode.dataset.row) !== 1) {
         let inputDessus = tdInputText[(parseInt(input.parentNode.dataset.row) - 2) * nbCol + parseInt(input.parentNode.dataset.col) - 1];
-        if (!inputDessus.classList.contains("selected")) {
+        if (!inputDessus.classList.contains("selected") || ( inputDessus.classList.contains("selected") && input.classList.contains("selected") )) {
             if (!input.classList.contains("borderTopOn")) {
                 if (inputDessus.classList.contains("borderBottomOn")) {
                     inputDessus.style.borderBottom = "";
@@ -69,7 +69,7 @@ function CheckBordureBottom(input) {
     let nbRow = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.row);
     if (parseInt(input.parentNode.dataset.row) !== nbRow) {
         let inputDessous = tdInputText[parseInt(input.parentNode.dataset.row) * nbCol + parseInt(input.parentNode.dataset.col) - 1];
-        if (!inputDessous.classList.contains("selected")) {
+        if (!inputDessous.classList.contains("selected") || ( inputDessous.classList.contains("selected") && input.classList.contains("selected") )) {
             if (!input.classList.contains("borderBottomOn")) {
                 if (inputDessous.classList.contains("borderTopOn")) {
                     inputDessous.style.borderTop = "";
