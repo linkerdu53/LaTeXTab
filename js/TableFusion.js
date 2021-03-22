@@ -31,8 +31,8 @@ function Fusion() {
     for (let i = 0; i < tdGroups.length; i++) {
         if (tdGroups[i].length > 1) { // Il faut + d'une case pour fusionner
             const newTd = document.createElement("td")
-            //newTd.dataset.row = index + 1
-            //newTd.dataset.col = columnSize + 1
+            newTd.dataset.row = tdGroups[i][0].dataset.row
+            newTd.dataset.col = tdGroups[i][0].dataset.col
             if (tdGroups[i][0].dataset.row == tdGroups[i][1].dataset.row) { //Si sur la même ligne
                 newTd.colSpan = tdGroups[i].length
             }
@@ -42,12 +42,31 @@ function Fusion() {
             newTd.classList.add("tdMainTable")
             const newInput = document.createElement("input")
             newInput.type = 'text'
-            newInput.classList.add("tdInputText")
+            newInput.classList.add("tdInputText");
+            if (tdGroups[i][0].dataset.row == tdGroups[i][1].dataset.row) { //Si sur la même ligne
+                let newWidth = 0
+                for (let j = 0; j < tdGroups[i].length; j++) {
+                    newWidth += parseInt(tdGroups[i][j].children[0].style.width)
+                }
+                newInput.style.minWidth = newWidth + 'px'
+            }
+            else {
+                let newHeight = 0
+                for (let j = 0; j < tdGroups[i].length; j++) {
+                    if (tdGroups[i][j].children[0].style.lineHeight) {
+                        newHeight += parseInt(tdGroups[i][j].children[0].style.lineHeight)
+                    }
+                    else {
+                        newHeight += 32
+                    }
+                }
+                newInput.style.lineHeight = newHeight + 'px'
+            }
             AddEventInput(newInput)
 
-            newTd.appendChild(newInput);
+            newTd.appendChild(newInput)
 
-            tdGroups[i][0].parentNode.insertBefore(newTd, tdGroups[i][0]);
+            tdGroups[i][0].parentNode.insertBefore(newTd, tdGroups[i][0])
 
             for (let j = 0; j < tdGroups[i].length; j++) {
                 tdGroups[i][j].remove()
