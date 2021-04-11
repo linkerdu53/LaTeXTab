@@ -70,7 +70,7 @@ function rgbToHex(r, g, b) {
 
 function GenerateToLatex() {
     let matrice = GetTableData();
-
+    console.log(matrice)
     let strMessage = "";
     let strPackage = "";
     let strLaTeX = ""
