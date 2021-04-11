@@ -192,4 +192,4 @@ function Fusion() {
     TableToMatrice()
 }
 
-export { Fusion }
+export { Fusion, IsStrsContains1Elt }
