@@ -1,5 +1,6 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
+import { TableMatrice } from './Table.js';
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
@@ -59,6 +60,16 @@ function CheckBordureBottom(input) {
     let nbRow = parseInt(tdInputText[tdInputText.length - 1].parentNode.dataset.row);
     if (parseInt(input.parentNode.dataset.row) !== nbRow) {
         let inputDessous = tdInputText[parseInt(input.parentNode.dataset.row) * nbCol + parseInt(input.parentNode.dataset.col) - 1];
+        let matrice = TableMatrice
+        /*console.log(matrice)
+        console.log("test")
+        console.log(nbCol)
+        console.log(nbRow)
+        console.log(input.parentNode.dataset.row)
+        console.log(input.parentNode.dataset.col)
+        console.log(parseInt(input.parentNode.dataset.row) * nbCol + parseInt(input.parentNode.dataset.col) - 1)
+        console.log(input.parentNode)
+        console.log(inputDessous)*/
         if (!input.classList.contains("borderBottomOn")) {
             if (inputDessous.classList.contains("borderTopOn") && !inputDessous.classList.contains("selected")) {
                 inputDessous.style.borderTop = "";

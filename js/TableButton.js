@@ -4,6 +4,7 @@ import { GenerateToLatex } from './GenerateToLatex.js';
 import { CheckBordureAll } from './CheckBordure.js';
 import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
+import { TableToMatrice } from './Table.js'
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -67,6 +68,9 @@ function AddColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
     lastTd[0].colSpan = thNb - 1;
+
+    TableToMatrice()
+
     CheckBordureAll();
 }
 
@@ -138,6 +142,9 @@ function AddRow() {
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
+
+    TableToMatrice()
+
     CheckBordureAll();
 }
 
@@ -160,6 +167,8 @@ function SupprColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = document.getElementById('lastTr').children[1];
     lastTd.colSpan = lastTd.colSpan - 1;
+
+    TableToMatrice()
 }
 
 function SupprRow() {
@@ -174,6 +183,8 @@ function SupprRow() {
     var trChilds = mainTable.querySelectorAll("tr")[1];
     var lastTd = trChilds.children[trChilds.children.length - 1];
     lastTd.rowSpan = lastTd.rowSpan - 1;
+
+    TableToMatrice()
 }
 
 var buttonAddColumn = document.getElementById('button-add-column');
