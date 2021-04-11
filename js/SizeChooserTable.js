@@ -1,4 +1,4 @@
-import { AddColumn, AddRow, SupprColumn, SupprRow, tableSize } from './TableButton.js';
+import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { CleanAllInputs } from './CleanInput.js'
 
@@ -43,25 +43,27 @@ function tdSizeChooserMouseEnter(cible) {
     let cibleRow = parseInt(cible.dataset.row);
     let cibleCol = parseInt(cible.dataset.col);
 
+    let rowSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.row);
+    let columnSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.col);
     tdSizeChooserResetBackground();
     tdSizeChooserSetBackground(cibleRow, cibleCol);
 
-    if(cibleRow == tableSize.row) {
-        tdSizeChooserAddRow(tableSize.row, tableSize.col);
+    if(cibleRow == rowSize) {
+        tdSizeChooserAddRow(rowSize, columnSize);
     }
-    if(cibleCol == tableSize.col) {
-        tdSizeChooserAddColumn(tableSize.col);
+    if(cibleCol == columnSize) {
+        tdSizeChooserAddColumn(columnSize);
     }
 
-    if(cibleRow <= tableSize.row - 2) {
-        let nbRowToDel = tableSize.row - cibleRow - 1;
+    if(cibleRow <= rowSize - 2) {
+        let nbRowToDel = rowSize - cibleRow - 1;
         if (cibleRow == 1) {
             nbRowToDel--;
         }
         tdSizeChooserSupprRow(nbRowToDel);
     }
-    if(cibleCol <= tableSize.col - 2) {
-        let nbColToDel = tableSize.col - cibleCol - 1;
+    if(cibleCol <= columnSize - 2) {
+        let nbColToDel = columnSize - cibleCol - 1;
         if (cibleCol == 1) {
             nbColToDel--;
         }
