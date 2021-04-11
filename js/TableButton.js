@@ -5,13 +5,13 @@ import { CheckBordureAll } from './CheckBordure.js';
 import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
 
+let tableSize = {row: 3, col: 3}
+
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
 const tdMainTable = mainTable.getElementsByClassName('tdMainTable');
 
 function AddColumn() {
-    let columnSize = parseInt(tdMainTable[tdMainTable.length - 1].dataset.col); 
-
     var th = mainTable.querySelectorAll("th[scope='col']");
     var thNb = th.length;
 
@@ -42,7 +42,7 @@ function AddColumn() {
     for (let index = 0; index < trTbodyChilds.length - 1; index++) {
         const newTd = document.createElement("td");
         newTd.dataset.row = index + 1;
-        newTd.dataset.col = columnSize + 1;
+        newTd.dataset.col = tableSize.col + 1;
         newTd.classList.add("tdMainTable");
         const newInput = document.createElement("input");
         newInput.type = 'text';
@@ -67,12 +67,13 @@ function AddColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
     lastTd[0].colSpan = thNb - 1;
+
+    tableSize.col++
+
     CheckBordureAll();
 }
 
 function AddRow() {
-    let rowSize = parseInt(tdMainTable[tdMainTable.length - 1].dataset.row);
-    
     var theadThNb = mainTable.querySelectorAll("th[scope='col']").length;
     var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
     //Ajout <th scope="row">
@@ -96,7 +97,7 @@ function AddRow() {
     //Ajout bon nombre de <td><input type="text"></td>
     for (let index = 0; index < theadThNb - 2; index++) {
         const newTd = document.createElement("td");
-        newTd.dataset.row = rowSize + 1;
+        newTd.dataset.row = tableSize.row + 1;
         newTd.dataset.col = index + 1;
         newTd.classList.add("tdMainTable");
 
@@ -138,6 +139,9 @@ function AddRow() {
     //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
+    
+    tableSize.row++
+
     CheckBordureAll();
 }
 
@@ -160,6 +164,8 @@ function SupprColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = document.getElementById('lastTr').children[1];
     lastTd.colSpan = lastTd.colSpan - 1;
+
+    tableSize.col--
 }
 
 function SupprRow() {
@@ -174,6 +180,8 @@ function SupprRow() {
     var trChilds = mainTable.querySelectorAll("tr")[1];
     var lastTd = trChilds.children[trChilds.children.length - 1];
     lastTd.rowSpan = lastTd.rowSpan - 1;
+
+    tableSize.row--
 }
 
 var buttonAddColumn = document.getElementById('button-add-column');
@@ -192,4 +200,4 @@ if (buttonAddRow) {
     }, false);
 }
 
-export { AddColumn, AddRow, SupprColumn, SupprRow };
+export { AddColumn, AddRow, SupprColumn, SupprRow, tableSize };
