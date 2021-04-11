@@ -151,6 +151,7 @@ textRightButton.addEventListener('click', function() {
 
 fusionButton.addEventListener('click', function() {
     Fusion();
+    GenerateToLatex();
 });
 
 borderAllButton.addEventListener('click', function() {
