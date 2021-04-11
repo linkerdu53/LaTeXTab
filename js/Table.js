@@ -1,7 +1,7 @@
-
-
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const tdInputText = document.getElementsByClassName("tdInputText");
+
+let tableSize = {row: 3, col: 3}
 
 let TableMatrice = []
 TableMatrice = TableToMatrice()
@@ -36,4 +36,3 @@ function TableToMatrice() {
     return TableMatrice
 }
 
-export { TableToMatrice, TableMatrice }

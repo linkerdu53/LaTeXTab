@@ -1,6 +1,7 @@
-import { AddColumn, AddRow, SupprColumn, SupprRow, tableSize } from './TableButton.js';
+import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { CleanAllInputs } from './CleanInput.js'
+import { tableSize } from './Table.js'
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 

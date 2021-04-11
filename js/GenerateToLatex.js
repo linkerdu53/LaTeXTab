@@ -1,4 +1,4 @@
-import { tableSize } from "./TableButton.js";
+import { tableSize } from "./Table.js";
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 

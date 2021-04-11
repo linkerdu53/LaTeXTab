@@ -1,7 +1,7 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 import { TableMatrice } from './Table.js';
-import { tableSize } from "./TableButton.js";
+import { tableSize } from "./Table.js";
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 

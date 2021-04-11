@@ -4,9 +4,7 @@ import { GenerateToLatex } from './GenerateToLatex.js';
 import { CheckBordureAll } from './CheckBordure.js';
 import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
-import { TableToMatrice } from './Table.js'
-
-let tableSize = {row: 3, col: 3}
+import { TableToMatrice, tableSize } from './Table.js'
 
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
@@ -209,4 +207,4 @@ if (buttonAddRow) {
     }, false);
 }
 
-export { AddColumn, AddRow, SupprColumn, SupprRow, tableSize };
+export { AddColumn, AddRow, SupprColumn, SupprRow };
