@@ -1,16 +1,21 @@
 import { tableSize } from "./Table.js";
+import { IsStrsContains1Elt } from "./TableFusion.js"
 
-const mainTable = document.getElementsByClassName('mainTable')[0];
+const tdInputText = document.getElementsByClassName("tdInputText");
 
 function GetTableData() {
     let matrice = [];
-    const tbody = mainTable.childNodes[3];
 
     for (let i = 0; i < tableSize.row; i++) {
         matrice.push([]);
-        let row = tbody.children[i];
+        let input = 0;
         for (let j = 0; j < tableSize.col; j++) {
-            let input = row.children[j + 1].children[0];
+            for (let k = 0; k < tdInputText.length; k++) {
+                if (IsStrsContains1Elt(tdInputText[k].parentNode.dataset.row, (i+1).toString()) && IsStrsContains1Elt(tdInputText[k].parentNode.dataset.col, (j+1).toString())) {
+                    input = tdInputText[k]
+                    break
+                }
+            }
 
             matrice[i][j] = {};
             matrice[i][j].value = input.value;
