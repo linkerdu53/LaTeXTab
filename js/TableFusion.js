@@ -101,10 +101,10 @@ function Fusion() {
 
     //Une fois les cases regroupée par zones
     for (let i = 0; i < tdGroups.length; i++) {
-        if (tdGroups[i].length > 1) { // Il faut + d'une case pour fusionner
+        if (tdGroups[i].length > 1) { // Il faut qu'il y ait + d'une case dans un groupe pour pouvoir fusionner
             const newTd = document.createElement("td")
 
-            //On stock le premier et le dernier
+            //On récupère les colonnes et les lignes de la nouvelle case en empechant les doublons
             let dataRow = []
             let dataCol = []
             for (let j = 0; j < tdGroups[i].length; j++) {
@@ -115,25 +115,26 @@ function Fusion() {
                     dataCol.push(tdGroups[i][j].dataset.col)
                 }
             }
+            //On tranforme la tableau en un string avec un espace entre chaque chiffre
             newTd.dataset.row = dataRow.join(" ")
             newTd.dataset.col = dataCol.join(" ")
 
+            //Si fusion entre plusieurs lignes
             if (IsStrsContains1Elt(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) {
                 let newColSpan = 0
-                let newRowSpan = 0
                 for (let j = 0; j < tdGroups[i].length; j++) {
                     newColSpan += tdGroups[i][j].dataset.col.split(" ").length
                 }
                 newTd.colSpan = newColSpan
-                for (let j = 0; j < tdGroups[i].length; j++) {
-                    newRowSpan += tdGroups[i][j].dataset.col.split(" ").length
-                }
-                newRowSpan = tdGroups[i][0].rowSpan
-                newTd.rowSpan = newRowSpan
+                newTd.rowSpan = tdGroups[i][0].rowSpan
             }
-            else {
+            else { //Fusion entre plusieurs colonnes
                 newTd.colSpan = tdGroups[i][0].colSpan
-                newTd.rowSpan = tdGroups[i].length
+                let newRowSpan = 0
+                for (let j = 0; j < tdGroups[i].length; j++) {
+                    newRowSpan += tdGroups[i][j].dataset.row.split(" ").length
+                }
+                newTd.rowSpan = newRowSpan
             }
             newTd.classList.add("tdMainTable")
             const newInput = document.createElement("input")
