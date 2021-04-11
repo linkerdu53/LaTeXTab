@@ -5,6 +5,8 @@ import { CheckBordureAll } from './CheckBordure.js';
 import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
 
+let tableSize = {row: 3, col: 3}
+
 const mainTable = document.getElementsByClassName('mainTable')[0];
 const mainTbody = mainTable.querySelectorAll("tbody")[0];
 const tdMainTable = mainTable.getElementsByClassName('tdMainTable');
@@ -68,6 +70,8 @@ function AddColumn() {
     var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
     lastTd[0].colSpan = thNb - 1;
     CheckBordureAll();
+
+    tableSize.col++
 }
 
 function AddRow() {
@@ -139,6 +143,8 @@ function AddRow() {
     var lastTrChild = eltLastTr.childNodes;
     lastTrChild[1].innerText = tbodyThNb + 1;
     CheckBordureAll();
+
+    tableSize.row++
 }
 
 function SupprColumn() {
@@ -160,6 +166,8 @@ function SupprColumn() {
     //Mise à jour de colspan pour le dernier tr
     var lastTd = document.getElementById('lastTr').children[1];
     lastTd.colSpan = lastTd.colSpan - 1;
+
+    tableSize.col--
 }
 
 function SupprRow() {
@@ -174,6 +182,8 @@ function SupprRow() {
     var trChilds = mainTable.querySelectorAll("tr")[1];
     var lastTd = trChilds.children[trChilds.children.length - 1];
     lastTd.rowSpan = lastTd.rowSpan - 1;
+
+    tableSize.row--
 }
 
 var buttonAddColumn = document.getElementById('button-add-column');
@@ -192,4 +202,4 @@ if (buttonAddRow) {
     }, false);
 }
 
-export { AddColumn, AddRow, SupprColumn, SupprRow };
+export { AddColumn, AddRow, SupprColumn, SupprRow, tableSize };
