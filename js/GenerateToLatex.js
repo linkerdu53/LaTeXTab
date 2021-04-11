@@ -55,21 +55,32 @@ function GetTableData() {
             matrice[i][j].borderRight = 0;
             matrice[i][j].borderTop = 0;
             matrice[i][j].borderBottom = 0;
-            if (input.classList.contains("borderLeftOn")) { 
-                matrice[i][j].borderLeft = 1;
+            if (input.classList.contains("borderLeftOn")) {
+                //Test pour cases fusionnées, bordure gauche seulement pour la case la + à gauche de la fusion
+                if (matrice[i][j].col[0] == j + 1) {
+                    matrice[i][j].borderLeft = 1;
+                }
             }
-            if (input.classList.contains("borderRightOn")) { 
-                matrice[i][j].borderRight = 1;
+            if (input.classList.contains("borderRightOn")) {
+                //Test pour cases fusionnées, bordure droite seulement pour la case la + à droite de la fusion
+                if (matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) {
+                    matrice[i][j].borderRight = 1;
+                }
             }
-            if (input.classList.contains("borderTopOn")) { 
-                matrice[i][j].borderTop = 1;
+            if (input.classList.contains("borderTopOn")) {
+                //Test pour cases fusionnées, bordure haute seulement pour la case la + haute de la fusion
+                if (matrice[i][j].row[0] == i + 1) {
+                    matrice[i][j].borderTop = 1;
+                }
             }
-            if (input.classList.contains("borderBottomOn")) { 
-                matrice[i][j].borderBottom = 1;
+            if (input.classList.contains("borderBottomOn")) {
+                //Test pour cases fusionnées, bordure basse seulement pour la case la + basse de la fusion
+                if (matrice[i][j].row[matrice[i][j].row.length - 1] == i + 1) {
+                    matrice[i][j].borderBottom = 1;
+                }
             }
         }
     }
-
     return matrice;
 }
 
@@ -95,7 +106,7 @@ function GenerateToLatex() {
     }
     if (matrice.some(row => row.some(col => col['row'].length > 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir fusionner de haut en bas :\n"
-        strMessage += "% \\usepackage{multirow}\n\n\n"
+        strPackage += "% \\usepackage{multirow}\n\n\n"
     }
 
     let modeMaths = document.getElementById('modeMaths').checked;
