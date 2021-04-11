@@ -45,7 +45,6 @@ function tdSizeChooserMouseEnter(cible) {
 
     let rowSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.row);
     let columnSize = parseInt(tdSizeChooser[tdSizeChooser.length - 1].dataset.col);
-
     tdSizeChooserResetBackground();
     tdSizeChooserSetBackground(cibleRow, cibleCol);
 
