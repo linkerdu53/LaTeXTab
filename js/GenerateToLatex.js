@@ -181,9 +181,9 @@ function GenerateToLatex() {
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
-            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
-                //SI fusion alors seulement la 1ère case
-                if (matrice[i][j].col.length > 1 && matrice[i][j].col[0] == j + 1) {
+            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length) || ( fullBorderColonne[j + 1] == matrice.length && matrice[i][j].col.length > 1)) {
+                //Si fusion alors seulement la dernière case de la fusion
+                if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1) {
                     strLaTeX += "\\multicolumn{"
                     if (matrice[i][j].col.length > 1) {
                         strLaTeX += matrice[i][j].col.length + "}{"
@@ -203,6 +203,9 @@ function GenerateToLatex() {
                     else if (matrice[i][j].alignRight == 1) {
                         strLaTeX += "r";
                     }
+                    if (matrice[i][j].col.length > 1) {
+                        console.log(matrice[i][j].borderRight)
+                    }
                     if (matrice[i][j].borderRight == 1) {
                         strLaTeX += " |}{";
                     }
@@ -212,8 +215,8 @@ function GenerateToLatex() {
                     nbCrochets++;
                 }
             }
-            // Avec cases fusionnées sur la ligne (gauche à droite) alors seulement pour la 1ère case de la ligne fusionnée
-            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[0] == j + 1) || matrice[i][j].col.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
+            // Avec cases fusionnées sur la ligne (gauche à droite) alors seulement pour la dernière case de la ligne fusionnée
+            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
                 // Avec la fusion de colonne (haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
                 if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || matrice[i][j].row.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
                     if (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) {
