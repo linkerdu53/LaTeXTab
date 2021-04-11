@@ -33,9 +33,9 @@ function Fusion() {
         //Comme sur Excel si le voisin en-dessous ou à droite est sélectionné alors on fusionnera en-dessous
         //Voisin en-dessous
         let casePrecedente = casesSort[i].parentNode;
-        let newRowNumber = casesSort[i].parentNode.dataset.row.split(" ")
+        let newRowNumber = casesSort[i].parentNode.dataset.row.split(" ").map(Number)
         newRowNumber = newRowNumber[newRowNumber.length - 1]
-        newRowNumber = (parseInt(newRowNumber) + 1).toString()
+        newRowNumber = (newRowNumber + 1).toString()
         for (let j = 0; j < tdInputText.length; j++) {
             if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, casesSort[i].parentNode.dataset.col)) {
                 if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.col == casesSort[i].parentNode.dataset.col) {
@@ -47,9 +47,9 @@ function Fusion() {
         //Si le voisin en-dessous n'est pas sélectionné alors on regarde celui de droite
         if (voisinCote == 0) {
             //Voisin à droite
-            let newColNumber = casesSort[i].parentNode.dataset.col.split(" ")
+            let newColNumber = casesSort[i].parentNode.dataset.col.split(" ").map(Number)
             newColNumber = newColNumber[newColNumber.length - 1]
-            newColNumber = (parseInt(newColNumber) + 1).toString()
+            newColNumber = (newColNumber + 1).toString()
             for (let j = 0; j < tdInputText.length; j++) {
                 if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, casesSort[i].parentNode.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
                     if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.row == casesSort[i].parentNode.dataset.row) {
@@ -64,9 +64,9 @@ function Fusion() {
             for (let j = 0; j < tdInputText.length; j++) {
                 if (voisinCote == 1) { //En dessous
                     //Si case sur même colonne et ligne juste en dessous
-                    let newRowNumber = casePrecedente.dataset.row.split(" ")
+                    let newRowNumber = casePrecedente.dataset.row.split(" ").map(Number)
                     newRowNumber = newRowNumber[newRowNumber.length - 1]
-                    newRowNumber = (parseInt(newRowNumber) + 1).toString()
+                    newRowNumber = (newRowNumber + 1).toString()
                     if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, casesSort[i].parentNode.dataset.col)) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
@@ -80,9 +80,9 @@ function Fusion() {
                 }
                 else { //A droite
                     //Si case sur même ligne et colonne juste à côté
-                    let newColNumber = casePrecedente.dataset.col.split(" ")
+                    let newColNumber = casePrecedente.dataset.col.split(" ").map(Number)
                     newColNumber = newColNumber[newColNumber.length - 1]
-                    newColNumber = (parseInt(newColNumber) + 1).toString()
+                    newColNumber = (newColNumber + 1).toString()
                     if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, casesSort[i].parentNode.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode

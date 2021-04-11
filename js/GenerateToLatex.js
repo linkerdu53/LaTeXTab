@@ -19,6 +19,10 @@ function GetTableData() {
 
             matrice[i][j] = {};
             matrice[i][j].value = input.value;
+
+            matrice[i][j].row = input.parentNode.dataset.row.split(" ").map(Number)
+            matrice[i][j].col = input.parentNode.dataset.col.split(" ").map(Number)
+
             if (input.classList.contains("boldOn")) { 
                 matrice[i][j].bold = 1;
             }
@@ -88,6 +92,10 @@ function GenerateToLatex() {
     if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
+    }
+    if (matrice.some(row => row.some(col => col['row'].length > 1))) {
+        strMessage += "% Vous devez ajouter le package suivant pour pouvoir fusionner de haut en bas :\n"
+        strMessage += "% \\usepackage{multirow}\n\n\n"
     }
 
     let modeMaths = document.getElementById('modeMaths').checked;
@@ -184,34 +192,39 @@ function GenerateToLatex() {
                 }
                 nbCrochets++;
             }
-            //Color
-            if (matrice[i][j].textColor == 1) {
-                strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
-            }
-            //Bold
-            if (matrice[i][j].bold == 1) {
-                strLaTeX += "\\textbf{";
+            // Avec la fusion de colonne(haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
+            if (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) {
+                strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
                 nbCrochets++;
-            }
-            //Italic
-            if (matrice[i][j].italic == 1) {
-                strLaTeX += "\\textit{";
-                nbCrochets++;
-            }
-            //Underline
-            if (matrice[i][j].underline == 1) {
-                strLaTeX += "{\\ul ";
-                nbCrochets++;
-            }
-            //Début écriture mathématiques
-            if (modeMaths === true && matrice[i][j].value != "") {
-                strLaTeX += "$";
-            }
-            strLaTeX += matrice[i][j].value;
+                //Color
+                if (matrice[i][j].textColor == 1) {
+                    strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
+                }
+                //Bold
+                if (matrice[i][j].bold == 1) {
+                    strLaTeX += "\\textbf{";
+                    nbCrochets++;
+                }
+                //Italic
+                if (matrice[i][j].italic == 1) {
+                    strLaTeX += "\\textit{";
+                    nbCrochets++;
+                }
+                //Underline
+                if (matrice[i][j].underline == 1) {
+                    strLaTeX += "{\\ul ";
+                    nbCrochets++;
+                }
+                //Début écriture mathématiques
+                if (modeMaths === true && matrice[i][j].value != "") {
+                    strLaTeX += "$";
+                }
+                strLaTeX += matrice[i][j].value;
 
-            //Fin écriture mathématiques
-            if (modeMaths === true && matrice[i][j].value != "") {
-                strLaTeX += "$";
+                //Fin écriture mathématiques
+                if (modeMaths === true && matrice[i][j].value != "") {
+                    strLaTeX += "$";
+                }
             }
             //Fermeture bold/italic
             for (let k = 0; k < nbCrochets; k++) {
