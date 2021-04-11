@@ -174,6 +174,23 @@ function Fusion() {
                     newInput.style.width = tdGroups[i][0].children[0].style.width
                 }
             }
+            let bordure = 0
+            for (let j = 0; j < tdGroups[i].length; j++) {
+                if (tdGroups[i][j].children[0].classList.contains("borderLeftOn") && tdGroups[i][j].children[0].classList.contains("borderRightOn") && tdGroups[i][j].children[0].classList.contains("borderTopOn") && tdGroups[i][j].children[0].classList.contains("borderBottomOn")) {
+                    bordure++
+                }
+            }
+            if (bordure == tdGroups[i].length) {
+                newInput.style.borderLeft = "solid";
+                newInput.classList.add("borderLeftOn");
+                newInput.style.borderRight = "solid";
+                newInput.classList.add("borderRightOn");
+                newInput.style.borderTop = "solid";
+                newInput.classList.add("borderTopOn");
+                newInput.style.borderBottom = "solid";
+                newInput.classList.add("borderBottomOn");
+            }
+
             AddEventInput(newInput)
 
             newTd.appendChild(newInput)
