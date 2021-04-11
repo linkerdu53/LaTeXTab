@@ -1,6 +1,6 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
-import { TableMatrice } from './Table.js';
+import { tableMatrice } from './Table.js';
 import { tableSize } from "./Table.js";
 
 const tdInputText = document.getElementsByClassName("tdInputText");
@@ -66,12 +66,12 @@ function CheckBordureTop(input) {
 function CheckBordureBottom(input) {
     if (parseInt(input.parentNode.dataset.row) !== tableSize.row) {
         let inputDessous = tdInputText[parseInt(input.parentNode.dataset.row) * tableSize.col + parseInt(input.parentNode.dataset.col) - 1];
-        let matrice = TableMatrice
-        /*console.log(matrice)
+        let matrice = tableMatrice
+        console.log(matrice)
         console.log("test")
         console.log(input.parentNode.dataset.row)
         console.log(input.parentNode.dataset.col)
-        console.log(parseInt(input.parentNode.dataset.row) * nbCol + parseInt(input.parentNode.dataset.col) - 1)
+        console.log(parseInt(input.parentNode.dataset.row) * tableSize.col + parseInt(input.parentNode.dataset.col) - 1)
         console.log(input.parentNode)
         console.log(inputDessous)*/
         if (!inputDessous.classList.contains("selected") || ( inputDessous.classList.contains("selected") && input.classList.contains("selected") )) {

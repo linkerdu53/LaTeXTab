@@ -4,8 +4,8 @@ const tdInputText = document.getElementsByClassName("tdInputText");
 
 let tableSize = {row: 3, col: 3}
 
-let TableMatrice = []
-TableMatrice = TableToMatrice()
+let tableMatrice = []
+tableMatrice = TableToMatrice()
 
 function TableToMatrice() {
     let matrice = [];
@@ -20,8 +20,8 @@ function TableToMatrice() {
             }
         }
     }
-    TableMatrice = matrice.slice()
-    return TableMatrice
+    tableMatrice = matrice.slice()
+    return tableMatrice
 }
 
-export { TableToMatrice, TableMatrice, tableSize }
+export { TableToMatrice, tableMatrice, tableSize }
