@@ -170,8 +170,8 @@ function Fusion() {
                     }
                 }
                 newInput.style.lineHeight = newHeight + 'px'
-                if (tdGroups[i][0].children[0].style.minWidth) {
-                    newInput.style.minWidth = tdGroups[i][0].children[0].style.minWidth
+                if (tdGroups[i][0].children[0].style.width) {
+                    newInput.style.width = tdGroups[i][0].children[0].style.width
                 }
             }
             AddEventInput(newInput)
