@@ -193,9 +193,11 @@ function GenerateToLatex() {
                 nbCrochets++;
             }
             // Avec la fusion de colonne(haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
-            if (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) {
-                strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
-                nbCrochets++;
+            if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || matrice[i][j].row.length == 1) {
+                if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1)) {
+                    strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
+                    nbCrochets++;
+                }
                 //Color
                 if (matrice[i][j].textColor == 1) {
                     strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
