@@ -24,20 +24,24 @@ function Fusion() {
     casesSort.sort((a, b) => { return a.parentNode.dataset.row.split(' ')[0] - b.parentNode.dataset.row.split(' ')[0] })
 
     let tdGroups = []
+    let casesDejaAttribuee = []
     //Parcours de gauche à droite et de haut en bas
-    for (let i = 0; i < casesSort.length; i++) {
+    let i = 0
+    while(casesSort.length > 1) {
         //Test si case est sélectionnée
         let voisinCote = 0 // 0 = pas de voisin sel, 1 = bas et 2 = droite
         //Si c'est le cas alors on créer un groupe puis on check les voisins pour fusionner
         tdGroups.push([casesSort[i].parentNode])
+        casesDejaAttribuee.push(casesSort[i])
         //Comme sur Excel si le voisin en-dessous ou à droite est sélectionné alors on fusionnera en-dessous
         //Voisin en-dessous
+        let caseNewTdGroupe = casesSort[i].parentNode
         let casePrecedente = casesSort[i].parentNode;
         let newRowNumber = casesSort[i].parentNode.dataset.row.split(" ").map(Number)
         newRowNumber = newRowNumber[newRowNumber.length - 1]
         newRowNumber = (newRowNumber + 1).toString()
         for (let j = 0; j < tdInputText.length; j++) {
-            if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, casesSort[i].parentNode.dataset.col)) {
+            if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col)) {
                 if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.col == casesSort[i].parentNode.dataset.col) {
                     voisinCote = 1
                 }
@@ -51,7 +55,7 @@ function Fusion() {
             newColNumber = newColNumber[newColNumber.length - 1]
             newColNumber = (newColNumber + 1).toString()
             for (let j = 0; j < tdInputText.length; j++) {
-                if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, casesSort[i].parentNode.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
+                if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
                     if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.row == casesSort[i].parentNode.dataset.row) {
                         voisinCote = 2
                     }
@@ -67,11 +71,12 @@ function Fusion() {
                     let newRowNumber = casePrecedente.dataset.row.split(" ").map(Number)
                     newRowNumber = newRowNumber[newRowNumber.length - 1]
                     newRowNumber = (newRowNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, casesSort[i].parentNode.dataset.col)) {
+                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
                             casesSort.splice(casesSort.indexOf(tdInputText[j]), 1)
+                            casesDejaAttribuee.push(tdInputText[j])
                         }
                         else {
                             break;
@@ -83,11 +88,12 @@ function Fusion() {
                     let newColNumber = casePrecedente.dataset.col.split(" ").map(Number)
                     newColNumber = newColNumber[newColNumber.length - 1]
                     newColNumber = (newColNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, casesSort[i].parentNode.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
+                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
                             casesSort.splice(casesSort.indexOf(tdInputText[j]), 1)
+                            casesDejaAttribuee.push(tdInputText[j])
                         }
                         else {
                             break;
@@ -95,7 +101,7 @@ function Fusion() {
                     }
                 }
             }
-
+            casesSort.splice(casesSort.indexOf(casesSort[i]), 1)
         }
         //Sinon on passe à la case sélectionnée suivante
     }
@@ -207,6 +213,7 @@ function Fusion() {
 
     //Mise à jour de la matrice du tableau
     TableToMatrice()
+
 }
 
 export { Fusion, IsStrsContains1Elt }
