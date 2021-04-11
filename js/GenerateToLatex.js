@@ -171,73 +171,87 @@ function GenerateToLatex() {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
             if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
-                strLaTeX += "\\multicolumn{1}{";
-                if (j == 0 && matrice[i][j].borderLeft == 1) {
-                    strLaTeX += "| "
+                //SI fusion alors seulement la 1ère case
+                if (matrice[i][j].col.length > 1 && matrice[i][j].col[0] == j + 1) {
+                    strLaTeX += "\\multicolumn{"
+                    if (matrice[i][j].col.length > 1) {
+                        strLaTeX += matrice[i][j].col.length + "}{"
+                    }
+                    else {
+                        strLaTeX += "1}{";
+                    }
+                    if (j == 0 && matrice[i][j].borderLeft == 1) {
+                        strLaTeX += "| "
+                    }
+                    if (matrice[i][j].alignLeft == 1) {
+                        strLaTeX += "l";
+                    }
+                    else if (matrice[i][j].alignCenter == 1) {
+                        strLaTeX += "c";
+                    }
+                    else if (matrice[i][j].alignRight == 1) {
+                        strLaTeX += "r";
+                    }
+                    if (matrice[i][j].borderRight == 1) {
+                        strLaTeX += " |}{";
+                    }
+                    else {
+                        strLaTeX += "}{";
+                    }
+                    nbCrochets++;
                 }
-                if (matrice[i][j].alignLeft == 1) {
-                    strLaTeX += "l";
-                }
-                else if (matrice[i][j].alignCenter == 1) {
-                    strLaTeX += "c";
-                }
-                else if (matrice[i][j].alignRight == 1) {
-                    strLaTeX += "r";
-                }
-                if (matrice[i][j].borderRight == 1) {
-                    strLaTeX += " |}{";
-                }
-                else {
-                    strLaTeX += "}{";
-                }
-                nbCrochets++;
             }
-            // Avec la fusion de colonne(haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
-            if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || matrice[i][j].row.length == 1) {
-                if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1)) {
-                    strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
-                    nbCrochets++;
-                }
-                //Color
-                if (matrice[i][j].textColor == 1) {
-                    strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
-                }
-                //Bold
-                if (matrice[i][j].bold == 1) {
-                    strLaTeX += "\\textbf{";
-                    nbCrochets++;
-                }
-                //Italic
-                if (matrice[i][j].italic == 1) {
-                    strLaTeX += "\\textit{";
-                    nbCrochets++;
-                }
-                //Underline
-                if (matrice[i][j].underline == 1) {
-                    strLaTeX += "{\\ul ";
-                    nbCrochets++;
-                }
-                //Début écriture mathématiques
-                if (modeMaths === true && matrice[i][j].value != "") {
-                    strLaTeX += "$";
-                }
-                strLaTeX += matrice[i][j].value;
+            // Avec cases fusionnées sur la ligne (gauche à droite) alors seulement pour la 1ère case de la ligne fusionnée
+            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[0] == j + 1) || matrice[i][j].col.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
+                // Avec la fusion de colonne (haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
+                if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || matrice[i][j].row.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
+                    if (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) {
+                        strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
+                        nbCrochets++;
+                    }
+                    //Color
+                    if (matrice[i][j].textColor == 1) {
+                        strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
+                    }
+                    //Bold
+                    if (matrice[i][j].bold == 1) {
+                        strLaTeX += "\\textbf{";
+                        nbCrochets++;
+                    }
+                    //Italic
+                    if (matrice[i][j].italic == 1) {
+                        strLaTeX += "\\textit{";
+                        nbCrochets++;
+                    }
+                    //Underline
+                    if (matrice[i][j].underline == 1) {
+                        strLaTeX += "{\\ul ";
+                        nbCrochets++;
+                    }
+                    //Début écriture mathématiques
+                    if (modeMaths === true && matrice[i][j].value != "") {
+                        strLaTeX += "$";
+                    }
+                    strLaTeX += matrice[i][j].value;
 
-                //Fin écriture mathématiques
-                if (modeMaths === true && matrice[i][j].value != "") {
-                    strLaTeX += "$";
+                    //Fin écriture mathématiques
+                    if (modeMaths === true && matrice[i][j].value != "") {
+                        strLaTeX += "$";
+                    }
                 }
             }
-            //Fermeture bold/italic
+            //Fermeture des crochets
             for (let k = 0; k < nbCrochets; k++) {
                 strLaTeX += "}";
             }
 
             //Suivant
-
-            if (j != matrice[i].length - 1) {
-                strLaTeX += " & ";
-            }           
+            //Si case sur une même ligne fusionnées alors pas de & sauf pour la dernière case de la fusion
+            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1) {
+                if (j != matrice[i].length - 1) {
+                    strLaTeX += " & ";
+                }
+            }
         }
         strLaTeX += " \\\\";
         strLaTeX += "\n";
