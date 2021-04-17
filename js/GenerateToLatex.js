@@ -23,6 +23,15 @@ function GetTableData() {
             matrice[i][j].row = input.parentNode.dataset.row.split(" ").map(Number)
             matrice[i][j].col = input.parentNode.dataset.col.split(" ").map(Number)
 
+            matrice[i][j].fusionRow = 0;
+            if(matrice[i][j].row.length != 1) {
+                matrice[i][j].fusionRow = 1;
+            }
+            matrice[i][j].fusionCol = 0;
+            if(matrice[i][j].col.length != 1) {
+                matrice[i][j].fusionCol = 1;
+            }
+
             if (input.classList.contains("boldOn")) { 
                 matrice[i][j].bold = 1;
             }
@@ -90,7 +99,6 @@ function rgbToHex(r, g, b) {
 
 function GenerateToLatex() {
     let matrice = GetTableData();
-    console.log(matrice)
     let strMessage = "";
     let strPackage = "";
     let strLaTeX = ""
@@ -118,10 +126,10 @@ function GenerateToLatex() {
     let fullBorderRow = Array(matrice.length + 1).fill(0);
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
-            if (j === 0 && matrice[i][0].borderLeft) {
+            if (j === 0 && matrice[i][0].borderLeft && matrice[i][0].fusionCol == 0) {
                 fullBorderColonne[0]++;
             }
-            if (matrice[i][j].borderRight) {
+            if (matrice[i][j].borderRight && matrice[i][j].fusionCol == 0) {
                 fullBorderColonne[j + 1]++;
             }
 
@@ -181,9 +189,17 @@ function GenerateToLatex() {
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
-            if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 || (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length) || ( fullBorderColonne[j + 1] == matrice.length && matrice[i][j].col.length > 1)) {
+            if (matrice[i][j].alignCenter == 1 ||
+                matrice[i][j].alignRight == 1 ||
+                (j == 0 && fullBorderColonne[0] != 0 && matrice[i][0].fusionCol == 1 && fullBorderColonne[0] != matrice.length) ||
+                (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length) ||
+                (fullBorderColonne[j + 1] == matrice.length && matrice[i][j].col.length > 1) ||
+                (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length && matrice[i][0].fusionCol == 0)
+                ) {
                 //Si fusion alors seulement la dernière case de la fusion
-                if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1) {
+                if (matrice[i][j].col.length == 1 ||
+                    (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)
+                    ) {
                     strLaTeX += "\\multicolumn{"
                     if (matrice[i][j].col.length > 1) {
                         strLaTeX += matrice[i][j].col.length + "}{"
@@ -191,7 +207,9 @@ function GenerateToLatex() {
                     else {
                         strLaTeX += "1}{";
                     }
-                    if (j == 0 && matrice[i][j].borderLeft == 1) {
+                    if ((matrice[i][j].col.length == 1 && matrice[i][j].borderLeft == 1) ||
+                         matrice[i][j].col.length > 1 && matrice[i][matrice[i][j].col[0] - 1].borderLeft == 1
+                        ) {
                         strLaTeX += "| "
                     }
                     if (matrice[i][j].alignLeft == 1) {
@@ -274,7 +292,7 @@ function GenerateToLatex() {
         if (fullBorderRow[i + 1] === matrice[0].length) {
             strLaTeX += "\\hline\n";
         }
-        else if(fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
+        else if (fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
             let nbBorder = 0;
             for (let j = 0; j < matrice[i].length; j++) {
                 if (matrice[i][j].borderBottom == 1) {
