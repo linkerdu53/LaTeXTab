@@ -1,7 +1,8 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
-import { casesSelection } from './InputSelection.js';
+import { casesSelection, DeselectAllInput } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
+import { CleanAllInputs, CleanSelectedInputs } from './CleanInput.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -17,6 +18,7 @@ const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
 const modeMaths = document.getElementById('modeMaths');
 const affichagePDF = document.getElementById('boutonPDF');
+const cleanCases = document.getElementById('clean-input');
 
 //Active les tooltips sur tous les boutons
 $(function () {
@@ -312,4 +314,9 @@ modeMaths.addEventListener('click', function() {
 
 affichagePDF.addEventListener('click', function() {
     OverviewLatex();
+});
+
+cleanCases.addEventListener('click', function() {
+    CleanSelectedInputs();
+    DeselectAllInput();
 });
