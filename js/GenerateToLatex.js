@@ -202,6 +202,7 @@ function GenerateToLatex() {
             if (modeMaths === true && matrice[i][j].value != "") {
                 strLaTeX += "$";
             }
+            // ecriture de l'input
             strLaTeX += matrice[i][j].value;
 
             //Fin écriture mathématiques
