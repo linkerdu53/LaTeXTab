@@ -204,21 +204,19 @@ function GenerateToLatex() {
             }
 
             // ecriture de l'input
-            var listCaracteres = ['&', 'é', '"', 'è', '_', 'ç', 'à', '^', '$', 'ù', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}'];
+            var listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}'];
             var newChaine = "";
             for (let k = 0; k < matrice[i][j].value.length; k++) {
-                    if (matrice[i][j].value[k] in listCaracteres) {
-                        console.log("oui");
+                    if (listCaracteres.includes(matrice[i][j].value[k])) {  
                         newChaine += "\\";
                         newChaine += matrice[i][j].value[k];
                     }
-                    newChaine += matrice[i][j].value[k];
+                    else
+                        newChaine += matrice[i][j].value[k];
             }
                     
-            strLaTeX += matrice[i][j].value;
-            console.log(matrice[i][j].value);
-            console.log(newChaine);
-
+            strLaTeX += newChaine;
+ 
             //Fin écriture mathématiques
             if (modeMaths === true && matrice[i][j].value != "") {
                 strLaTeX += "$";
