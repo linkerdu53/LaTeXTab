@@ -204,8 +204,20 @@ function GenerateToLatex() {
             }
 
             // ecriture de l'input
+            var listCaracteres = ['&', 'é', '"', 'è', '_', 'ç', 'à', '^', '$', 'ù', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}'];
+            var newChaine = "";
+            for (let k = 0; k < matrice[i][j].value.length; k++) {
+                    if (matrice[i][j].value[k] in listCaracteres) {
+                        console.log("oui");
+                        newChaine += "\\";
+                        newChaine += matrice[i][j].value[k];
+                    }
+                    newChaine += matrice[i][j].value[k];
+            }
+                    
             strLaTeX += matrice[i][j].value;
             console.log(matrice[i][j].value);
+            console.log(newChaine);
 
             //Fin écriture mathématiques
             if (modeMaths === true && matrice[i][j].value != "") {
