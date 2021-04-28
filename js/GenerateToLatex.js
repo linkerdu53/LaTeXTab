@@ -23,6 +23,9 @@ function GetTableData() {
             if (input.classList.contains("underlineOn")) { 
                 matrice[i][j].underline = 1;
             }
+            if (input.classList.contains("modeMathOn")) {
+                matrice[i][j].math = 1;
+            }
 
             if (input.classList.contains("colorOn") && input.style.color !== "") { 
                 matrice[i][j].textColor = 1;
@@ -85,10 +88,6 @@ function GenerateToLatex() {
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
-    let modeMaths = document.getElementById('modeMaths').checked;
-    if (modeMaths === true) {
-        strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
-    }
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
     let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
     let fullBorderRow = Array(matrice.length + 1).fill(0);
@@ -154,6 +153,7 @@ function GenerateToLatex() {
         }
         strLaTeX += "\n";
     }
+    let packageMath = 0;
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
@@ -199,13 +199,14 @@ function GenerateToLatex() {
                 nbCrochets++;
             }
             //Début écriture mathématiques
-            if (modeMaths === true && matrice[i][j].value != "") {
+            if (matrice[i][j].math == 1 && matrice[i][j].value != "") {
+                packageMath = 1;
                 strLaTeX += "$";
             }
             strLaTeX += matrice[i][j].value;
 
             //Fin écriture mathématiques
-            if (modeMaths === true && matrice[i][j].value != "") {
+            if (matrice[i][j].math == 1 && matrice[i][j].value != "") {
                 strLaTeX += "$";
             }
             //Fermeture bold/italic
@@ -260,6 +261,9 @@ function GenerateToLatex() {
     while (resDiv.hasChildNodes()) {
         resDiv.removeChild(resDiv.firstChild);
     }
+
+    if (packageMath == 1) 
+        strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n";
 
     str = strMessage + strPackage + strLaTeX;
     //Compte le nombre de saut de ligne pour connaitre hauteur TextArea
