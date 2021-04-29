@@ -161,6 +161,7 @@ function Fusion() {
                     }
                 }
                 newInput.style.minWidth = newWidth + 'px'
+                newInput.style.width = newWidth + 'px'
                 if (tdGroups[i][0].children[0].style.lineHeight) {
                     newInput.style.lineHeight = tdGroups[i][0].children[0].style.lineHeight
                 }
@@ -168,6 +169,7 @@ function Fusion() {
             else { //Si sur la même colonne
                 if (tdGroups[i][0].children[0].style.minWidth) {
                     newInput.style.minWidth = tdGroups[i][0].children[0].style.minWidth
+                    newInput.style.width = tdGroups[i][0].children[0].style.minWidth
                 }
 
                 let newHeight = 0
@@ -184,6 +186,7 @@ function Fusion() {
                     newInput.style.width = tdGroups[i][0].children[0].style.width
                 }
             }
+
             let bordure = 0
             for (let j = 0; j < tdGroups[i].length; j++) {
                 if (tdGroups[i][j].children[0].classList.contains("borderLeftOn") && tdGroups[i][j].children[0].classList.contains("borderRightOn") && tdGroups[i][j].children[0].classList.contains("borderTopOn") && tdGroups[i][j].children[0].classList.contains("borderBottomOn")) {
