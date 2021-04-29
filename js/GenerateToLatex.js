@@ -78,6 +78,11 @@ function GenerateToLatex() {
     let strPackage = "";
     let strLaTeX = ""
     let str = "" //Concaténation de strMessage + strPackage + strLaTeX
+
+    strMessage += "% Vous devez ajouter les 2 packages suivants pour avoir les lettres avec accents par exemple :\n"
+    strPackage += "% \\usepackage[utf8]{inputenc}\n"
+    strPackage += "% \\usepackage[T1]{fontenc}\n\n"
+
     if (matrice.some(row => row.some(col => col['underline'] === 1))) {
         strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
         strPackage += "% \\usepackage[normalem]{ulem}\n";
