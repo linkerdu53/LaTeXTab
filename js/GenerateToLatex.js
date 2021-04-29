@@ -205,7 +205,7 @@ function GenerateToLatex() {
             }
 
             // ecriture de l'input
-            var listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°'];
+            var listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°', '%'];
             var newChaine = "";
             for (let k = 0; k < matrice[i][j].value.length; k++) {
                     if (listCaracteres.includes(matrice[i][j].value[k])) {  
