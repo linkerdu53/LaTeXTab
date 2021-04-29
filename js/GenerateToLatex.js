@@ -78,6 +78,11 @@ function GenerateToLatex() {
     let strPackage = "";
     let strLaTeX = ""
     let str = "" //Concaténation de strMessage + strPackage + strLaTeX
+
+    strMessage += "% Vous devez ajouter les 2 packages suivants pour avoir les lettres avec accents par exemple :\n"
+    strPackage += "% \\usepackage[utf8]{inputenc}\n"
+    strPackage += "% \\usepackage[T1]{fontenc}\n\n"
+
     if (matrice.some(row => row.some(col => col['underline'] === 1))) {
         strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
         strPackage += "% \\usepackage[normalem]{ulem}\n";
@@ -203,8 +208,21 @@ function GenerateToLatex() {
                 packageMath = 1;
                 strLaTeX += "$";
             }
-            strLaTeX += matrice[i][j].value;
 
+            // ecriture de l'input
+            var listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°', '%'];
+            var newChaine = "";
+            for (let k = 0; k < matrice[i][j].value.length; k++) {
+                    if (listCaracteres.includes(matrice[i][j].value[k])) {  
+                        newChaine += "\\";
+                        newChaine += matrice[i][j].value[k];
+                    }
+                    else
+                        newChaine += matrice[i][j].value[k];
+            }
+                    
+            strLaTeX += newChaine;
+ 
             //Fin écriture mathématiques
             if (matrice[i][j].math == 1 && matrice[i][j].value != "") {
                 strLaTeX += "$";
