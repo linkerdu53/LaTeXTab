@@ -21,7 +21,7 @@ function AddColumn() {
     //Ajout <th scope="col"> dans <thead>
     var newth = document.createElement("th");
     newth.scope = 'col';
-    newth.className = 'user-select-none';
+    newth.className = 'user-select-none contextMenu';
     //Tooltips
     newth.setAttribute("role", "button");
     newth.setAttribute("data-toggle", "tooltip");
@@ -80,7 +80,7 @@ function AddRow() {
     var newtr = document.createElement("tr");
     var newth = document.createElement("th");
     newth.scope = 'row';
-    newth.className = 'align-middle user-select-none';
+    newth.className = 'align-middle user-select-none contextMenu';
     newth.setAttribute("role", "button");
     //Tooltips
     newth.setAttribute("role", "button");

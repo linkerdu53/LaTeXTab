@@ -1,4 +1,5 @@
 //FROM https://dgoguerra.github.io/bootstrap-menu/demos.html
+import { addColumnIn } from './TableSelectColumn.js'; 
 let demo5Rows = {
     '1': { first_name: 'John', last_name: 'Martin', is_editable: true },
     '2': { first_name: 'Peter', last_name: 'Roberts', is_editable: true },
@@ -16,7 +17,7 @@ let menu = new BootstrapMenu('.contextMenu', {
             name: function(row) {
                 // custom action name, with the name of the selected user
                 if (row.is_editable) {
-                    return 'Edit ' + row.first_name;
+                    return 'Ajouter une colonne';
                 }
                 // basic HTML can also be rendered in the action name
                 return '<i>Not editable</i>';
@@ -27,29 +28,19 @@ let menu = new BootstrapMenu('.contextMenu', {
                 return { 'action-success': row.is_editable };
             },
             onClick: function(row) {
-                //toastr.info("'Edit description' clicked on '" + row.first_name + "'");
+                addColumnIn();
             },
             isEnabled: function(row) {
                 return row.is_editable;
             }
         },
         {
-            // custom action name, with the name of the selected user
-            name: function(row) {
-                return 'Message ' + row.first_name;
-            },
-            iconClass: 'bi bi-envelope',
-            onClick: function(row) {
-                //toastr.info("'Message " + row.first_name + "' clicked on '" + row.first_name + "'");
-            }
-        },
-        {
-            name: 'Block account',
+            name: 'Supprimer une colonne',
             iconClass: 'bi bi-trash',
             // always add the class 'action-danger'
             classNames: 'action-danger',
             onClick: function(row) {
-                //toastr.info("'Delete row' clicked on '" + row.first_name + "'");
+                alert("test");
             }
         }
     ]

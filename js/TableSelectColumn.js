@@ -10,4 +10,9 @@ function AddEventSelectColumn(target, columnId) {
     target.addEventListener('click', function() { SelectColumn(columnId) });
 }
 
-export { AddEventSelectColumn }
+function addColumnIn() {
+ 
+
+}
+
+export { AddEventSelectColumn, addColumnIn }
