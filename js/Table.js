@@ -1,11 +1,14 @@
 import { IsStrsContains1Elt } from "./TableFusion.js"
-
+import { UpdateInputSize } from "./TableInput.js"
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 let tableSize = {row: 3, col: 3}
 
 let tableMatrice = []
 tableMatrice = TableToMatrice()
+
+//Met les inputs à la bonne taille s'ils ont déjà du contenu au chargement de la page
+UpdateInputSize(tdInputText);
 
 function TableToMatrice() {
     let matrice = [];

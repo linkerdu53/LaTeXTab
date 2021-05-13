@@ -1,18 +1,10 @@
 import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
-import { IsStrsContains1Elt } from "./TableFusion.js"
 import { tableMatrice, tableSize } from './Table.js';
 
 const tdInputText = document.getElementsByClassName('tdInputText');
 
-function RemoveDuplicates(a) {
-  return a.filter((element, index) => a.indexOf(element) === index);
-}
-
-//Met les inputs à la bonne taille s'ils ont du contenu au chargement de la page
-//UpdateInputSize(tdInputText);
-
-function InputAutoSize(cible) {
+function InputAutoSize() {
   for (let i = 0; i < tableSize.row; i++) {
     for (let j = 0; j < tableSize.col; j++) {
       let inputValueWidth = getInputValueWidth.call(tableMatrice[i][j])
@@ -24,15 +16,11 @@ function InputAutoSize(cible) {
   for (let i = 0; i < tableSize.row; i++) {
     let casesWidth = []
     for (let j = 0; j < tableSize.col; j++) {
-      console.log(tableMatrice[i][j].parentElement.getBoundingClientRect().width)
-      console.log(tableMatrice[i][j].parentElement.offsetWidth)
-      //casesWidth.push(tableMatrice[i][j].parentElement.getBoundingClientRect().width)
-      casesWidth.push(tableMatrice[i][j].parentElement.offsetWidth)
+      casesWidth.push(tableMatrice[i][j].parentElement.offsetWidth - 11.6)
     }
     lignesWidth.push(casesWidth)
   }
 
-  console.log(lignesWidth)
   for (let i = 0; i < tableSize.row; i++) {
     for (let j = 0; j < tableSize.col; j++) {
       tableMatrice[i][j].style.width = lignesWidth[i][j] + 'px'
@@ -71,7 +59,7 @@ function getInputValueWidth() {
 
 function UpdateInputSize(inputsList) {
   for (let i = 0; i < inputsList.length; i++) {
-    InputAutoSize(inputsList[i]);
+    InputAutoSize();
   }
 }
 
@@ -81,7 +69,7 @@ function AddEventInput(cible) {
   });
 
   cible.addEventListener('input', function() {
-    InputAutoSize(cible);
+    InputAutoSize();
     GenerateToLatex();
   });
 
