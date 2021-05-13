@@ -13,62 +13,29 @@ function RemoveDuplicates(a) {
 //UpdateInputSize(tdInputText);
 
 function InputAutoSize(cible) {
-  let lePlusLong = 0;
-
-  /*
-  let inputSize = getInputValueWidth.call(cible);
-  if (inputSize > parseInt(cible.style.minWidth))
-    cible.style.width = inputSize + 10 + 'px'
-  else {
-    cible.style.width = 30 + 'px'
-  }*/
-
-  //On récupère l'input avec le contenu le plus long de la colonne
-  let nbCasesParRow = [];
   for (let i = 0; i < tableSize.row; i++) {
-    nbCasesParRow.push([])
     for (let j = 0; j < tableSize.col; j++) {
-      if (IsStrsContains1Elt(tableMatrice[i][j].parentElement.dataset.col, cible.parentElement.dataset.col)) {
-        let inputSize = getInputValueWidth.call(tableMatrice[i][j]);
-        if (inputSize > lePlusLong) {
-          lePlusLong = inputSize;
-        }
-        nbCasesParRow[i].push(tableMatrice[i][j])
-      }
+      let inputValueWidth = getInputValueWidth.call(tableMatrice[i][j])
+      tableMatrice[i][j].style.width = inputValueWidth + 10 + 'px'
     }
-    nbCasesParRow[i] = RemoveDuplicates(nbCasesParRow[i])
   }
-  console.log("test")
-  console.log(lePlusLong)
-  console.log(cible.style.width)
-  console.log("for")
-  for (let i = 0; i < nbCasesParRow.length; i++) {
-    //On trouver l'objectif pour chaque ligne :
-    let objectifLigne = (lePlusLong + 10)
-    let objectifCase = objectifLigne / nbCasesParRow[i].length - (3 * nbCasesParRow[i].length)
-    let nbCasesAChanger = nbCasesParRow[i].length
-    console.log("ligne: "+ objectifLigne)
-    console.log("cases: "+ objectifCase)
-    //On cherche si cases déjà assez grande voir trop grande et donc qui ne seront pas changées
-    for (let j = 0; j < nbCasesParRow[i].length; j++) {
-      if (parseInt(nbCasesParRow[i][j].style.width) > objectifCase) {
-        console.log("testCHANGER")
-        objectifLigne -= objectifCase - 3
-        nbCasesAChanger--
-      }
+
+  let lignesWidth = []
+  for (let i = 0; i < tableSize.row; i++) {
+    let casesWidth = []
+    for (let j = 0; j < tableSize.col; j++) {
+      console.log(tableMatrice[i][j].parentElement.getBoundingClientRect().width)
+      console.log(tableMatrice[i][j].parentElement.offsetWidth)
+      //casesWidth.push(tableMatrice[i][j].parentElement.getBoundingClientRect().width)
+      casesWidth.push(tableMatrice[i][j].parentElement.offsetWidth)
     }
-    //On recalcul la tailles des cases trop petites
-    objectifCase = objectifLigne / nbCasesAChanger - (3 * nbCasesAChanger)
-    //On effectue les changement de width ligne par ligne
-    for (let j = 0; j < nbCasesParRow[i].length; j++) {
-      //On ne change que les cases trop petites
-      if (objectifCase > getInputValueWidth.call(nbCasesParRow[i][j])) {
-        nbCasesParRow[i][j].style.width = objectifCase + 'px'
-      }
-      else {
-        console.log("nepaschanger")
-        console.log(nbCasesParRow[i][j])
-      }
+    lignesWidth.push(casesWidth)
+  }
+
+  console.log(lignesWidth)
+  for (let i = 0; i < tableSize.row; i++) {
+    for (let j = 0; j < tableSize.col; j++) {
+      tableMatrice[i][j].style.width = lignesWidth[i][j] + 'px'
     }
   }
 }
