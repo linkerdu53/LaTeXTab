@@ -17,6 +17,12 @@ body {
     min-width: 20px;
 }
 
+/*
+.table .tdMainTable {
+    border: medium solid;
+}
+*/
+
 .tableSizeChooser {
     border-collapse: separate;
 }

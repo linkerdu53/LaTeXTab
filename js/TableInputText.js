@@ -152,7 +152,7 @@ textRightButton.addEventListener('click', function() {
 borderAllButton.addEventListener('click', function() {
     let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.border == "medium solid"){
+        if (casesSelection[i].parentElement.style.border == "medium solid"){
             cpt++;
         }
         if (cpt == casesSelection.length){
@@ -160,57 +160,60 @@ borderAllButton.addEventListener('click', function() {
         }
     }
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.border == "medium solid") {
+        if (casesSelection[i].parentElement.style.border == "medium solid") {
             if (cpt == 0) {
-                casesSelection[i].style.border = "";
-                casesSelection[i].classList.remove("borderLeftOn");
-                casesSelection[i].classList.remove("borderRightOn");
-                casesSelection[i].classList.remove("borderTopOn");
-                casesSelection[i].classList.remove("borderBottomOn");
+                casesSelection[i].parentElement.style.border = "";
+                casesSelection[i].parentElement.classList.remove("borderLeftOn");
+                casesSelection[i].parentElement.classList.remove("borderRightOn");
+                casesSelection[i].parentElement.classList.remove("borderTopOn");
+                casesSelection[i].parentElement.classList.remove("borderBottomOn");
             } else {
-                casesSelection[i].style.border = "solid";
-                casesSelection[i].classList.add("borderLeftOn");
-                casesSelection[i].classList.add("borderRightOn");
-                casesSelection[i].classList.add("borderTopOn");
-                casesSelection[i].classList.add("borderBottomOn");
+                casesSelection[i].parentElement.style.border = "solid";
+                casesSelection[i].parentElement.classList.add("borderLeftOn");
+                casesSelection[i].parentElement.classList.add("borderRightOn");
+                casesSelection[i].parentElement.classList.add("borderTopOn");
+                casesSelection[i].parentElement.classList.add("borderBottomOn");
             }
         } else {
-            casesSelection[i].style.border = "solid";
-            casesSelection[i].classList.add("borderLeftOn");
-            casesSelection[i].classList.add("borderRightOn");
-            casesSelection[i].classList.add("borderTopOn");
-            casesSelection[i].classList.add("borderBottomOn");
+            casesSelection[i].parentElement.style.border = "solid";
+            casesSelection[i].parentElement.classList.add("borderLeftOn");
+            casesSelection[i].parentElement.classList.add("borderRightOn");
+            casesSelection[i].parentElement.classList.add("borderTopOn");
+            casesSelection[i].parentElement.classList.add("borderBottomOn");
         }
     }
-    CheckBordureAll();
+    //CheckBordureAll();
 
     GenerateToLatex();
 });
 
 borderLeftButton.addEventListener('click', function() {
     let cpt = 0;
+    console.log(casesSelection[0].parentElement)
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderLeft == "medium solid"){
+        if (casesSelection[i].parentElement.style.borderLeft == "medium solid"){
             cpt++;
         }
         if (cpt == casesSelection.length){
             cpt = 0;
         }
     }
+    console.log(cpt)
+
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderLeft == "medium solid") {
+        if (casesSelection[i].parentElement.style.borderLeft == "medium solid") {
             if (cpt == 0) {
-                casesSelection[i].style.borderLeft = "";
-                casesSelection[i].classList.remove("borderLeftOn");
+                casesSelection[i].parentElement.style.borderLeft = "";
+                casesSelection[i].parentElement.classList.remove("borderLeftOn");
             } else {
-                casesSelection[i].style.borderLeft = "solid";
-                casesSelection[i].classList.add("borderLeftOn");
+                casesSelection[i].parentElement.style.borderLeft = "solid";
+                casesSelection[i].parentElement.classList.add("borderLeftOn");
             }
         } else {
-            casesSelection[i].style.borderLeft = "solid";
-            casesSelection[i].classList.add("borderLeftOn");
+            casesSelection[i].parentElement.style.borderLeft = "solid";
+            casesSelection[i].parentElement.classList.add("borderLeftOn");
         }
-        CheckBordureLeft(casesSelection[i]);
+        //CheckBordureLeft(casesSelection[i]);
     }
     GenerateToLatex();
 });
@@ -218,7 +221,7 @@ borderLeftButton.addEventListener('click', function() {
 borderRightButton.addEventListener('click', function() {
     let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderRight == "medium solid"){
+        if (casesSelection[i].parentElement.style.borderRight == "medium solid"){
             cpt++;
         }
         if (cpt == casesSelection.length){
@@ -226,21 +229,21 @@ borderRightButton.addEventListener('click', function() {
         }
     }
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderRight == "medium solid") {
+        if (casesSelection[i].parentElement.style.borderRight == "medium solid") {
             if (cpt == 0) {
-                casesSelection[i].style.borderRight = "";
-                casesSelection[i].classList.remove("borderRightOn");
+                casesSelection[i].parentElement.style.borderRight = "";
+                casesSelection[i].parentElement.classList.remove("borderRightOn");
                
             } else {
-                casesSelection[i].style.borderRight = "solid";
-                casesSelection[i].classList.add("borderRightOn");
+                casesSelection[i].parentElement.style.borderRight = "solid";
+                casesSelection[i].parentElement.classList.add("borderRightOn");
             }
             
         } else {
-            casesSelection[i].style.borderRight = "solid";
-            casesSelection[i].classList.add("borderRightOn");
+            casesSelection[i].parentElement.style.borderRight = "solid";
+            casesSelection[i].parentElement.classList.add("borderRightOn");
         }
-        CheckBordureRight(casesSelection[i]);
+        //CheckBordureRight(casesSelection[i]);
     }
     GenerateToLatex();
 });
@@ -248,7 +251,7 @@ borderRightButton.addEventListener('click', function() {
 borderTopButton.addEventListener('click', function() {
     let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderTop == "medium solid"){
+        if (casesSelection[i].parentElement.style.borderTop == "medium solid"){
             cpt++;
         }
         if (cpt == casesSelection.length){
@@ -256,19 +259,19 @@ borderTopButton.addEventListener('click', function() {
         }
     }
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderTop == "medium solid") {
+        if (casesSelection[i].parentElement.style.borderTop == "medium solid") {
             if (cpt == 0) {
-                casesSelection[i].style.borderTop = "";
-                casesSelection[i].classList.remove("borderTopOn");
+                casesSelection[i].parentElement.style.borderTop = "";
+                casesSelection[i].parentElement.classList.remove("borderTopOn");
             } else {
-                casesSelection[i].style.borderTop = "solid";
-                casesSelection[i].classList.add("borderTopOn");
+                casesSelection[i].parentElement.style.borderTop = "solid";
+                casesSelection[i].parentElement.classList.add("borderTopOn");
             }
         } else {
-            casesSelection[i].style.borderTop = "solid";
-            casesSelection[i].classList.add("borderTopOn");
+            casesSelection[i].parentElement.style.borderTop = "solid";
+            casesSelection[i].parentElement.classList.add("borderTopOn");
         }
-        CheckBordureTop(casesSelection[i]);
+        //CheckBordureTop(casesSelection[i]);
     }
     GenerateToLatex();
 });
@@ -276,7 +279,7 @@ borderTopButton.addEventListener('click', function() {
 borderBottomButton.addEventListener('click', function() {
     let cpt = 0;
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderBottom == "medium solid"){
+        if (casesSelection[i].parentElement.style.borderBottom == "medium solid"){
             cpt++;
         }
         if (cpt == casesSelection.length){
@@ -284,19 +287,19 @@ borderBottomButton.addEventListener('click', function() {
         }
     }
     for (let i = 0; i < casesSelection.length; i++) {
-        if (casesSelection[i].style.borderBottom == "medium solid") {
+        if (casesSelection[i].parentElement.style.borderBottom == "medium solid") {
             if (cpt == 0) {
-                casesSelection[i].style.borderBottom = "";
-                casesSelection[i].classList.remove("borderBottomOn");
+                casesSelection[i].parentElement.style.borderBottom = "";
+                casesSelection[i].parentElement.classList.remove("borderBottomOn");
             } else {
-                casesSelection[i].style.borderBottom = "solid";
-                casesSelection[i].classList.add("borderBottomOn");
+                casesSelection[i].parentElement.style.borderBottom = "solid";
+                casesSelection[i].parentElement.classList.add("borderBottomOn");
             }
         } else {
-            casesSelection[i].style.borderBottom = "solid";
-            casesSelection[i].classList.add("borderBottomOn");
+            casesSelection[i].parentElement.style.borderBottom = "solid";
+            casesSelection[i].parentElement.classList.add("borderBottomOn");
         }
-        CheckBordureBottom(casesSelection[i]);
+        //CheckBordureBottom(casesSelection[i]);
     }
     GenerateToLatex();
 });
