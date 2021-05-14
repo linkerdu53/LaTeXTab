@@ -1,8 +1,9 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
-import { casesSelection } from './InputSelection.js';
+import { casesSelection, DeselectAllInput } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { Fusion } from './TableFusion.js'
+import { CleanAllInputs, CleanSelectedInputs } from './CleanInput.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -17,8 +18,9 @@ const borderRightButton = document.getElementById("border-right");
 const borderBottomButton = document.getElementById("border-bottom");
 const borderTopButton = document.getElementById("border-top");
 const copyButton = document.getElementById("copyButton");
-const modeMaths = document.getElementById('modeMaths');
 const affichagePDF = document.getElementById('boutonPDF');
+const cleanCases = document.getElementById('clean-input');
+const modeMath = document.getElementById('mode-math');
 
 //Active les tooltips sur tous les boutons
 $(function () {
@@ -306,17 +308,42 @@ borderBottomButton.addEventListener('click', function() {
     GenerateToLatex();
 });
 
+modeMath.addEventListener('click', function() {
+    let cpt = 0;
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].classList.contains("modeMathOn")) {
+            cpt++;
+        }
+        if (cpt == casesSelection.length){
+            cpt = 0;
+        }
+    }
+    for (let i = 0; i < casesSelection.length; i++) {
+        if (casesSelection[i].classList.contains("modeMathOn")) {
+            if (cpt == 0) {
+                casesSelection[i].classList.remove("modeMathOn");
+            } else {
+                casesSelection[i].classList.add("modeMathOn");
+            }
+        } else {
+            casesSelection[i].classList.add("modeMathOn");
+        }
+    }
+    GenerateToLatex();
+});
+
 copyButton.addEventListener('click', function() {
     const textToCopy = document.getElementById("to-copy");
     textToCopy.select();
-	document.execCommand( 'copy' );
+	document.execCommand('copy');
 	return false;
-});
-
-modeMaths.addEventListener('click', function() {
-    GenerateToLatex();
 });
 
 affichagePDF.addEventListener('click', function() {
     OverviewLatex();
+});
+
+cleanCases.addEventListener('click', function() {
+    CleanSelectedInputs();
+    DeselectAllInput();
 });
