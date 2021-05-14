@@ -5,6 +5,7 @@ import { tableMatrice, tableSize } from './Table.js';
 const tdInputText = document.getElementsByClassName('tdInputText');
 
 function InputAutoSize() {
+  //On ajuste la taille des inputs selon le contenu et on rajoute 10px pour laisser un espace vide
   for (let i = 0; i < tableSize.row; i++) {
     for (let j = 0; j < tableSize.col; j++) {
       let inputValueWidth = getInputValueWidth.call(tableMatrice[i][j])
@@ -12,6 +13,8 @@ function InputAutoSize() {
     }
   }
 
+  //On récupère la taille de la colonne pour chaque case et on remplis une matrice
+  //On enlève 11.6 car c'est la différence entrela colonne et l'input à l'intérieur
   let lignesWidth = []
   for (let i = 0; i < tableSize.row; i++) {
     let casesWidth = []
@@ -21,6 +24,7 @@ function InputAutoSize() {
     lignesWidth.push(casesWidth)
   }
 
+  //On modifie la taille de tous les inputs pour qu'ils s'ajustent à leur colonne
   for (let i = 0; i < tableSize.row; i++) {
     for (let j = 0; j < tableSize.col; j++) {
       tableMatrice[i][j].style.width = lignesWidth[i][j] + 'px'
