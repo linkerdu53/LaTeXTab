@@ -146,9 +146,9 @@ function GenerateToLatex() {
         }
     }
 
-
     //On génère 2 matrices qui permettent de savoir s'il faut mettre des bordures ou non
     let matriceBorduresLignes = Array(matrice.length + 1).fill().map(() => Array(matrice[0].length).fill(false))
+    let matriceBorduresColonnes = Array(matrice.length).fill().map(() => Array(matrice[0].length + 1).fill(false))
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             if (matrice[i][j].borderTop == 1) {
@@ -157,14 +157,6 @@ function GenerateToLatex() {
             if (matrice[i][j].borderBottom == 1) {
                 matriceBorduresLignes[i + 1][j] = true
             }
-        }
-    }
-    console.log("lignes")
-    console.log(matriceBorduresLignes)
-
-    let matriceBorduresColonnes = Array(matrice.length).fill().map(() => Array(matrice[0].length + 1).fill(false))
-    for (let i = 0; i < matrice.length; i++) {
-        for (let j = 0; j < matrice[i].length; j++) {
             if (matrice[i][j].borderLeft == 1) {
                 matriceBorduresColonnes[i][j] = true
             }
@@ -172,9 +164,7 @@ function GenerateToLatex() {
                 matriceBorduresColonnes[i][j + 1] = true
             }
         }
-    }  
-    console.log("colonnes")
-    console.log(matriceBorduresColonnes)
+    }
 
     strLaTeX += "\\begin{tabular}{ ";
 
@@ -190,95 +180,43 @@ function GenerateToLatex() {
     }   
     strLaTeX+= "}\n";
 
-    //Si la ligne du haut est entièrement avec une bordure
-    if (fullBorderRow[0] === matrice[0].length) {
-        strLaTeX += "\\hline\n";
-    }
-    else if(fullBorderRow[0] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
-        let nbBorder = 0;
-        for (let j = 0; j < matrice[0].length; j++) {
-            if (matrice[0][j].borderTop == 1) {
-                if (nbBorder == 0) {
-                    strLaTeX += "\\cline{";
-                    strLaTeX += j + 1;
-                    strLaTeX += "-"
-                    nbBorder = j + 1;
-                }
-                else {
-                    nbBorder++;
-                }
-            }
-            else if (matrice[0][j].borderTop == 0 && nbBorder != 0) {
-                strLaTeX += nbBorder;
-                strLaTeX += "}";
-                nbBorder = 0;
-            }
-        }
-        if (nbBorder != 0) {
-            strLaTeX += nbBorder;
-            strLaTeX += "}";
-        }
-        strLaTeX += "\n";
-    }
+    //Ligne de la bordure du haut
+    strLaTeX += ligneBordure(0, matrice[0], fullBorderRow, matriceBorduresLignes[0])
+ 
     let packageMath = 0;
-    console.log(matrice)
+
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
-            if (matrice[i][j].alignCenter == 1 ||
-                matrice[i][j].alignRight == 1 ||
-                (j == 0 && fullBorderColonne[0] != 0 && matrice[i][0].fusionCol == 1 && fullBorderColonne[0] != matrice.length) ||
-                (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length) ||
-                (fullBorderColonne[j + 1] == matrice.length && matrice[i][j].col.length > 1) ||
-                (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length && matrice[i][0].fusionCol == 0) ||
-                matriceBorduresColonnes[i][j + 1] == true
-            ) {
-                console.log(matrice[i][j])
-                console.log(matrice[i][j].col[matrice[i][j].col.length - 1])
-                console.log(matrice[i][j].col.length - 1)
-                console.log(j + 1)
-                //Si fusion alors seulement la dernière case de la fusion
-                if (matrice[i][j].col.length == 1 ||
-                    (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)
-                ) {
-                    console.log(matrice[i][j])
-                    strLaTeX += "\\multicolumn{"
-                    if (matrice[i][j].col.length > 1) {
-                        strLaTeX += matrice[i][j].col.length + "}{"
-                    }
-                    else {
-                        strLaTeX += "1}{";
-                    }
-                    if ((matrice[i][j].col.length == 1 && matrice[i][j].borderLeft == 1) ||
-                         matrice[i][j].col.length > 1 && matrice[i][matrice[i][j].col[0] - 1].borderLeft == 1
-                        ) {
-                        strLaTeX += "| "
-                    }
-                    if (matrice[i][j].alignLeft == 1) {
-                        strLaTeX += "l";
-                    }
-                    else if (matrice[i][j].alignCenter == 1) {
-                        strLaTeX += "c";
-                    }
-                    else if (matrice[i][j].alignRight == 1) {
-                        strLaTeX += "r";
-                    }
-                    if (matrice[i][j].col.length > 1) {
-                        console.log(matrice[i][j].borderRight)
-                    }
-                    if (matrice[i][j].borderRight == 1) {
-                        strLaTeX += " |}{";
-                    }
-                    else {
-                        strLaTeX += "}{";
-                    }
-                    nbCrochets++;
+ 
+            //GESTION de \\multicolumn{}{ contenu dans colonneBordure()
+            //Si colonne non fusionnée
+            if (matrice[i][j].col.length == 1) {
+                // Quand alignement au centre ou à droite
+                if ((matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 )) {
+                    strLaTeX += colonneBordure(matrice, i, j)
+                    nbCrochets++
+                }
+                //Quand bordures mais pas sur toute la colonne
+                if ((j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
+                    strLaTeX += colonneBordure(matrice, i, j)
+                    nbCrochets++
                 }
             }
+            //Sinon si cases sur une ligne qui sont fusionnées
+            else if (matriceBorduresColonnes[i][j + 1] == true && matrice[i][j].col.length > 1) {
+                //On ne regade que la dernière case de la fusion
+                if (matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) {
+                    strLaTeX += colonneBordure(matrice, i, j)
+                    nbCrochets++
+                }
+            }
+
+
             // Avec cases fusionnées sur la ligne (gauche à droite) alors seulement pour la dernière case de la ligne fusionnée
-            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
+            if (matrice[i][j].col.length == 1 || (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
                 // Avec la fusion de colonne (haut en bas), on empeche de remplir les cases en-dessous de la 1ère de la fusion
-                if ((matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || matrice[i][j].row.length == 1 || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
+                if (matrice[i][j].row.length == 1 || (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
                     if (matrice[i][j].row.length > 1 && matrice[i][j].row[0] == i + 1) {
                         strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
                         nbCrochets++;
@@ -308,9 +246,10 @@ function GenerateToLatex() {
                         strLaTeX += "$";
                     }
 
-                    // ecriture de l'input
-                    var listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°', '%'];
-                    var newChaine = "";
+                    //Ecriture de l'input
+                    //On gère les caractères spéciaux
+                    let listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°', '%'];
+                    let newChaine = "";
                     for (let k = 0; k < matrice[i][j].value.length; k++) {
                             if (listCaracteres.includes(matrice[i][j].value[k])) {  
                                 newChaine += "\\";
@@ -344,36 +283,7 @@ function GenerateToLatex() {
         strLaTeX += " \\\\";
         strLaTeX += "\n";
 
-        //Si la ligne basse de i est entièrement avec une bordure
-        if (fullBorderRow[i + 1] === matrice[0].length) {
-            strLaTeX += "\\hline\n";
-        }
-        else if (fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
-            let nbBorder = 0;
-            for (let j = 0; j < matrice[i].length; j++) {
-                if (matriceBorduresLignes[i + 1][j] == true) {
-                    if (nbBorder == 0) {
-                        strLaTeX += "\\cline{";
-                        strLaTeX += j + 1;
-                        strLaTeX += "-"
-                        nbBorder = j + 1;
-                    }
-                    else {
-                        nbBorder++;
-                    }
-                }
-                else if (matrice[i][j].borderBottom == 0 && nbBorder != 0) {
-                    strLaTeX += nbBorder;
-                    strLaTeX += "}";
-                    nbBorder = 0;
-                }
-            }
-            if (nbBorder != 0) {
-                strLaTeX += nbBorder;
-                strLaTeX += "}";
-            }
-            strLaTeX += "\n";
-        }
+        strLaTeX += ligneBordure(i + 1, matrice[i], fullBorderRow, matriceBorduresLignes[i + 1])
     }
 
     strLaTeX += "\\end{tabular}\n";
@@ -400,6 +310,66 @@ function GenerateToLatex() {
     resDiv.appendChild(newTextArea);
     
     return [ strPackage, strLaTeX ];
+}
+
+function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes) {
+    let strLaTeX = ""
+   //Si la ligne est entièrement avec une bordure
+    if (fullBorderRow[ligne] === ligneMatrice.length) {
+        strLaTeX += "\\hline\n";
+    }
+    else if(fullBorderRow[ligne] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
+        let nbBorder = 0;
+        for (let j = 0; j < ligneMatrice.length; j++) {
+            if ((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) {
+                if (nbBorder == 0) {
+                    strLaTeX += "\\cline{";
+                    strLaTeX += j + 1;
+                    strLaTeX += "-"
+                    nbBorder = j + 1;
+                }
+                else {
+                    nbBorder++;
+                }
+            }
+            else if (((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) && nbBorder != 0) {
+                strLaTeX += nbBorder;
+                strLaTeX += "}";
+                nbBorder = 0;
+            }
+        }
+        if (nbBorder != 0) {
+            strLaTeX += nbBorder;
+            strLaTeX += "}";
+        }
+        strLaTeX += "\n";
+    }
+    return strLaTeX
+}
+
+function colonneBordure (matrice, ligne, col) {
+    let strLaTeX = ""
+    strLaTeX += "\\multicolumn{"
+    strLaTeX += matrice[ligne][col].col.length + "}{"
+    //Si case fusionnée alors on regarde la case la plus à gauche de la fusion
+    if (matrice[ligne][col].borderLeft == 1 || matrice[ligne][matrice[ligne][col].col[0] - 1].borderLeft == 1) {
+        strLaTeX += "| "
+    }
+    if (matrice[ligne][col].alignLeft == 1) {
+        strLaTeX += "l";
+    }
+    else if (matrice[ligne][col].alignCenter == 1) {
+        strLaTeX += "c";
+    }
+    else if (matrice[ligne][col].alignRight == 1) {
+        strLaTeX += "r";
+    }
+    if (matrice[ligne][col].borderRight == 1) {
+        strLaTeX += " |";
+    }
+    strLaTeX += "}{";
+
+    return strLaTeX
 }
 
 function OverviewLatex() {
