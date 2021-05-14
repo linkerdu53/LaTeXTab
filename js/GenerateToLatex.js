@@ -130,10 +130,10 @@ function GenerateToLatex() {
     let fullBorderRow = Array(matrice.length + 1).fill(0);
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
-            if (j === 0 && matrice[i][0].borderLeft && matrice[i][0].fusionCol == 0) {
+            if (j === 0 && matrice[i][0].borderLeft) {
                 fullBorderColonne[0]++;
             }
-            if (matrice[i][j].borderRight && matrice[i][j].fusionCol == 0) {
+            if (matrice[i][j].borderRight) {
                 fullBorderColonne[j + 1]++;
             }
 
@@ -168,13 +168,15 @@ function GenerateToLatex() {
 
     strLaTeX += "\\begin{tabular}{ ";
 
-    //Si bordure sur toute la colonne à gauche
+    //Si bordure sur toute la colonne
+    //La 1ère
     if (fullBorderColonne[0] === matrice.length) {
         strLaTeX += "|";
     }
-    for (let i = 0; i < matrice[0].length; i++) {
+    //Les suivantes
+    for (let i = 1; i < matrice[0].length + 1; i++) {
         strLaTeX += " l ";
-        if (fullBorderColonne[i + 1] === matrice.length) {
+        if (fullBorderColonne[i] === matrice.length) {
             strLaTeX += "|";
         }
     }   
@@ -190,28 +192,19 @@ function GenerateToLatex() {
             let nbCrochets = 0;
  
             //GESTION de \\multicolumn{}{ contenu dans colonneBordure()
-            //Si colonne non fusionnée
-            if (matrice[i][j].col.length == 1) {
-                // Quand alignement au centre ou à droite
-                if ((matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 )) {
-                    strLaTeX += colonneBordure(matrice, i, j)
-                    nbCrochets++
-                }
-                //Quand bordures mais pas sur toute la colonne
+            //Si colonne non fusionnée OU fusionnée et donc on ne regarde que la dernière
+            if (matrice[i][j].col.length == 1 || (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)) {
+                //Si bordures mais pas sur toute la colonne
                 if ((j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length)) {
                     strLaTeX += colonneBordure(matrice, i, j)
                     nbCrochets++
-                }
-            }
-            //Sinon si cases sur une ligne qui sont fusionnées
-            else if (matriceBorduresColonnes[i][j + 1] == true && matrice[i][j].col.length > 1) {
-                //On ne regade que la dernière case de la fusion
-                if (matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) {
+                }                
+                // Sinon quand alignement au centre ou à droite
+                else if ((matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 )) {
                     strLaTeX += colonneBordure(matrice, i, j)
                     nbCrochets++
                 }
             }
-
 
             // Avec cases fusionnées sur la ligne (gauche à droite) alors seulement pour la dernière case de la ligne fusionnée
             if (matrice[i][j].col.length == 1 || (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || (matrice[i][j].row.length == 1 && matrice[i][j].col.length == 1)) {
