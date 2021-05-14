@@ -146,6 +146,36 @@ function GenerateToLatex() {
         }
     }
 
+
+    //On génère 2 matrices qui permettent de savoir s'il faut mettre des bordures ou non
+    let matriceBorduresLignes = Array(matrice.length + 1).fill().map(() => Array(matrice[0].length).fill(false))
+    for (let i = 0; i < matrice.length; i++) {
+        for (let j = 0; j < matrice[i].length; j++) {
+            if (matrice[i][j].borderTop == 1) {
+                matriceBorduresLignes[i][j] = true
+            }
+            if (matrice[i][j].borderBottom == 1) {
+                matriceBorduresLignes[i + 1][j] = true
+            }
+        }
+    }
+    console.log("lignes")
+    console.log(matriceBorduresLignes)
+
+    let matriceBorduresColonnes = Array(matrice.length).fill().map(() => Array(matrice[0].length + 1).fill(false))
+    for (let i = 0; i < matrice.length; i++) {
+        for (let j = 0; j < matrice[i].length; j++) {
+            if (matrice[i][j].borderLeft == 1) {
+                matriceBorduresColonnes[i][j] = true
+            }
+            if (matrice[i][j].borderRight == 1) {
+                matriceBorduresColonnes[i][j + 1] = true
+            }
+        }
+    }  
+    console.log("colonnes")
+    console.log(matriceBorduresColonnes)
+
     strLaTeX += "\\begin{tabular}{ ";
 
     //Si bordure sur toute la colonne à gauche
@@ -191,6 +221,7 @@ function GenerateToLatex() {
         strLaTeX += "\n";
     }
     let packageMath = 0;
+    console.log(matrice)
     for (let i = 0; i < matrice.length; i++) {
         for (let j = 0; j < matrice[i].length; j++) {
             let nbCrochets = 0;
@@ -199,12 +230,18 @@ function GenerateToLatex() {
                 (j == 0 && fullBorderColonne[0] != 0 && matrice[i][0].fusionCol == 1 && fullBorderColonne[0] != matrice.length) ||
                 (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != matrice.length) ||
                 (fullBorderColonne[j + 1] == matrice.length && matrice[i][j].col.length > 1) ||
-                (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length && matrice[i][0].fusionCol == 0)
-                ) {
+                (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != matrice.length && matrice[i][0].fusionCol == 0) ||
+                matriceBorduresColonnes[i][j + 1] == true
+            ) {
+                console.log(matrice[i][j])
+                console.log(matrice[i][j].col[matrice[i][j].col.length - 1])
+                console.log(matrice[i][j].col.length - 1)
+                console.log(j + 1)
                 //Si fusion alors seulement la dernière case de la fusion
                 if (matrice[i][j].col.length == 1 ||
                     (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)
-                    ) {
+                ) {
+                    console.log(matrice[i][j])
                     strLaTeX += "\\multicolumn{"
                     if (matrice[i][j].col.length > 1) {
                         strLaTeX += matrice[i][j].col.length + "}{"
@@ -314,7 +351,7 @@ function GenerateToLatex() {
         else if (fullBorderRow[i + 1] > 0) { //Si seulement une ou plusieurs partie de la ligne basse de i est avec une bordure
             let nbBorder = 0;
             for (let j = 0; j < matrice[i].length; j++) {
-                if (matrice[i][j].borderBottom == 1) {
+                if (matriceBorduresLignes[i + 1][j] == true) {
                     if (nbBorder == 0) {
                         strLaTeX += "\\cline{";
                         strLaTeX += j + 1;
