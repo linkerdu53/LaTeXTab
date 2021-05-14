@@ -243,14 +243,14 @@ function GenerateToLatex() {
                     let listCaracteres = ['&', '"', '_','^', '$', '~', '#', '{', '[', '|', '`', '^', '@', ']', '}', '§', '<', '>', '²', '°', '%'];
                     let newChaine = "";
                     for (let k = 0; k < matrice[i][j].value.length; k++) {
-                            if (listCaracteres.includes(matrice[i][j].value[k])) {  
-                                newChaine += "\\";
-                                newChaine += matrice[i][j].value[k];
-                            }
-                            else
-                                newChaine += matrice[i][j].value[k];
+                        if (listCaracteres.includes(matrice[i][j].value[k])) {  
+                            newChaine += "\\";
+                            newChaine += matrice[i][j].value[k];
+                        }
+                        else {
+                            newChaine += matrice[i][j].value[k];
+                        }
                     }
-                            
                     strLaTeX += newChaine;
                     
                     //Fin écriture mathématiques
@@ -266,7 +266,8 @@ function GenerateToLatex() {
 
             //Suivant
             //Si case sur une même ligne fusionnées alors pas de & sauf pour la dernière case de la fusion
-            if ((matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1) || matrice[i][j].col.length == 1) {
+            if (matrice[i][j].col.length == 1 || (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)) {
+                //Pas de & si dernière case de la ligne
                 if (j != tableSize.col - 1) {
                     strLaTeX += " & ";
                 }
@@ -275,6 +276,7 @@ function GenerateToLatex() {
         strLaTeX += " \\\\";
         strLaTeX += "\n";
 
+        //Ajout de \hline OU \cline{?-?} si nécessaire
         strLaTeX += ligneBordure(i + 1, matrice[i], fullBorderRow, matriceBorduresLignes[i + 1])
     }
 
