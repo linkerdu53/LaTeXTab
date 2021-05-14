@@ -189,18 +189,17 @@ function GenerateToLatex() {
     //Ligne de la bordure du haut
     strLaTeX += ligneBordure(0, matrice[0], fullBorderRow, matriceBorduresLignes[0])
  
-    let packageMath = 0;
-
     for (let i = 0; i < tableSize.row; i++) {
         for (let j = 0; j < tableSize.col; j++) {
             let nbCrochets = 0;
  
             //GESTION de \\multicolumn{}{ contenu dans bordureColonneEtAlignement()
-            //Si colonne non fusionnée OU fusionnée et donc on ne regarde que la dernière
+            //Si cases sur une ligne non fusionnées OU si cases sur une ligne fusionnées alors on ne regarde que la dernière case
             if (matrice[i][j].col.length == 1 || (matrice[i][j].col.length > 1 && matrice[i][j].col[matrice[i][j].col.length - 1] == j + 1)) {
-                //Si alignement OU si bordures mais pas sur toute la colonne
+                //Si alignement OU si bordures mais pas sur toute la colonne OU si case sur une ligne fusionnées
                 if (matrice[i][j].alignCenter == 1 || matrice[i][j].alignRight == 1 ||
-                    (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != tableSize.row) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != tableSize.row)
+                    (j == 0 && fullBorderColonne[0] != 0 && fullBorderColonne[0] != tableSize.row) || (fullBorderColonne[j + 1] != 0 && fullBorderColonne[j + 1] != tableSize.row) ||
+                    matrice[i][j].col.length > 1
                 ) {
                     strLaTeX += bordureColonneEtAlignement(matrice, i, j)
                     nbCrochets++
@@ -305,7 +304,7 @@ function GenerateToLatex() {
 
 function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes) {
     let strLaTeX = ""
-   //Si la ligne est entièrement avec une bordure
+    //Si la ligne est entièrement avec une bordure
     if (fullBorderRow[ligne] === ligneMatrice.length) {
         strLaTeX += "\\hline\n";
     }
