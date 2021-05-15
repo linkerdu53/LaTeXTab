@@ -6,38 +6,38 @@ function Split() {
     for (let i = 0; i < casesSelection.length; i++) {
         let dataRow = casesSelection[i].parentElement.dataset.row.split(" ").map(Number)
         let dataCol = casesSelection[i].parentElement.dataset.col.split(" ").map(Number)
-        casesSelection[i].parentElement.removeAttribute("colSpan")
-        casesSelection[i].parentElement.removeAttribute("rowSpan")
-        casesSelection[i].parentElement.dataset.row = dataRow[0]
-        casesSelection[i].parentElement.dataset.col = dataCol[0]
-        for (let j = 0; j < dataRow.length; j++) {
-            for (let k = 0; k < dataCol.length; k++) {
-                const newInput = document.createElement("input")
-                newInput.type = 'text'
-                newInput.classList.add("tdInputText")
-                newInput.style.minWidth = "20px"
-                newInput.style.width = "30px"
-                AddEventInput(newInput)
+        //La case sélectionnée n'est pas fusionnée
+        if (dataRow.length > 1 || dataCol.length > 1) {
+            casesSelection[i].parentElement.removeAttribute("colSpan")
+            casesSelection[i].parentElement.removeAttribute("rowSpan")
+            casesSelection[i].parentElement.dataset.row = dataRow[0]
+            casesSelection[i].parentElement.dataset.col = dataCol[0]
+            for (let j = 0; j < dataRow.length; j++) {
+                let eltBeforeInsert = tableMatrice[dataRow[dataRow.length - 1] - 1][dataCol[dataRow.length - 1] - 1].parentElement.nextElementSibling
+                for (let k = 0; k < dataCol.length; k++) {
+                    const newInput = document.createElement("input")
+                    newInput.type = 'text'
+                    newInput.classList.add("tdInputText")
+                    newInput.style.minWidth = "20px"
+                    newInput.style.width = "30px"
+                    AddEventInput(newInput)
 
-                if (k == 0) {
-                    tableMatrice[dataRow[j] - 1][dataCol[k] - 1].parentElement.appendChild(newInput)
-                }
-                else {
-                    const newTd = document.createElement("td")
-                    newTd.classList.add("tdMainTable")
-                    newTd.dataset.row = dataRow[j]
-                    newTd.dataset.col = dataCol[k]
-                    if (dataRow[j] == 1) {
-                        tableMatrice[dataRow[j] - 1][dataCol[k] - 1].parentElement.parentElement.insertBefore(newTd, tableMatrice[dataRow[j] - 1][dataCol[k] - 1].parentElement.parentElement.lastElementChild)
+                    //Pour le 1er input on garde le td donc on insère juste
+                    if (k == 0) {
+                        tableMatrice[dataRow[j] - 1][dataCol[0] - 1].parentElement.appendChild(newInput)
                     }
                     else {
-                        tableMatrice[dataRow[j] - 1][dataCol[k] - 1].parentElement.parentElement.appendChild(newTd)
+                        const newTd = document.createElement("td")
+                        newTd.classList.add("tdMainTable")
+                        newTd.dataset.row = dataRow[j]
+                        newTd.dataset.col = dataCol[k]
+                        newTd.appendChild(newInput)
+                        tableMatrice[dataRow[j] - 1][dataCol[k] - 1].parentElement.parentElement.insertBefore(newTd, eltBeforeInsert)
                     }
-                    newTd.appendChild(newInput)
                 }
             }
+            casesSelection[i].remove()
         }
-        casesSelection[i].remove()
     }
 
 
