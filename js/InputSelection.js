@@ -42,15 +42,16 @@ function SelectAllInput() {
 
 function SelectColumn(columnId) {
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
-    if (ctrl == 0)
-        DeselectAllInput();
-
     let nbCasesColSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.col == columnId){
             nbCasesColSelect++;
         }
     }
+
+    if (ctrl == 0) 
+        DeselectAllInput();
+
     let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.col == columnId) {
@@ -65,16 +66,17 @@ function SelectColumn(columnId) {
 }
 
 function SelectRow(rowId) {
-    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
-    if (ctrl == 0)
-        DeselectAllInput();
-        
+    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.    
     let nbCasesRowSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.row == rowId){
             nbCasesRowSelect++;
         }
     }
+
+    if (ctrl == 0)
+        DeselectAllInput();
+
     let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
