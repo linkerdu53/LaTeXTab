@@ -1,11 +1,11 @@
-import { casesSelection, SelectAllInput, DeselectAllInput } from './InputSelection.js';
-
-
-const tdInputText = document.getElementsByClassName('tdInputText');
+import { casesSelection, SelectAllInput, DeselectAllInput } from './InputSelection.js'
+import { tableMatrice, tableSize } from './Table.js'
 
 function CleanInput(cible) {
     cible.value = ""
     cible.style = ""
+    cible.classList = ""
+    cible.classList.add("tdInputText")
 }
 
 function CleanSelectedInputs() {
@@ -15,16 +15,18 @@ function CleanSelectedInputs() {
 }
 
 function CleanAllInputs() {
-    for (let i = 0; i < tdInputText.length; i++) {
-        CleanInput(tdInputText[i]);
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            CleanInput(tableMatrice[i][j]);
+        }
     }
 }
 
 $(window).bind('beforeunload',function(){
-    SelectAllInput();
-    CleanSelectedInputs();
-    DeselectAllInput();
-    document.getElementById("customSwitch1").checked = false;
+    SelectAllInput()
+    CleanSelectedInputs()
+    DeselectAllInput()
+    document.getElementById("customSwitch1").checked = false
 });
 
 export { CleanSelectedInputs, CleanAllInputs }
