@@ -1,5 +1,5 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
-import { casesSelection, DeselectAllInput } from './InputSelection.js';
+import { casesSelection, DeselectAllInput, SelectAllInput } from './InputSelection.js';
 import { UpdateInputSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { CleanAllInputs, CleanSelectedInputs } from './CleanInput.js';
@@ -337,6 +337,12 @@ affichagePDF.addEventListener('click', function() {
 });
 
 cleanCases.addEventListener('click', function() {
+    CleanSelectedInputs();
+    DeselectAllInput();
+});
+
+$(window).bind('beforeunload',function(){
+    SelectAllInput();
     CleanSelectedInputs();
     DeselectAllInput();
 });
