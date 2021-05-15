@@ -340,3 +340,4 @@ cleanCases.addEventListener('click', function() {
     CleanSelectedInputs();
     DeselectAllInput();
 });
+
