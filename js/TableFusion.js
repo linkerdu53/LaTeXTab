@@ -29,14 +29,14 @@ function Fusion() {
     let i = 0
     while(casesSort.length > 1) {
         //Test si case est sélectionnée
-        let voisinCote = 0 // 0 = pas de voisin sel, 1 = bas et 2 = droite
+        let voisinCote = 0 // 0 = pas de voisin seul, 1 = voisin en dessous, 2 = voisin à droite
         //Si c'est le cas alors on créer un groupe puis on check les voisins pour fusionner
         tdGroups.push([casesSort[i].parentNode])
         casesDejaAttribuee.push(casesSort[i])
-        //Comme sur Excel si le voisin en-dessous ou à droite est sélectionné alors on fusionnera en-dessous
+        //Comme sur Excel si la case en-dessous est sélectionnée ou à droite est  aussi sélectionné alors on fusionnera avec celle en-dessous
         //Voisin en-dessous
         let caseNewTdGroupe = casesSort[i].parentNode
-        let casePrecedente = casesSort[i].parentNode;
+        let casePrecedente = casesSort[i].parentNode
         let newRowNumber = casesSort[i].parentNode.dataset.row.split(" ").map(Number)
         newRowNumber = newRowNumber[newRowNumber.length - 1]
         newRowNumber = (newRowNumber + 1).toString()
@@ -48,7 +48,7 @@ function Fusion() {
                 break;
             }
         }
-        //Si le voisin en-dessous n'est pas sélectionné alors on regarde celui de droite
+        //Si la case en-dessous n'est pas sélectionnée alors on regarde la case de droite
         if (voisinCote == 0) {
             //Voisin à droite
             let newColNumber = casesSort[i].parentNode.dataset.col.split(" ").map(Number)
@@ -103,9 +103,11 @@ function Fusion() {
             }
             casesSort.splice(casesSort.indexOf(casesSort[i]), 1)
         }
-        //Sinon on passe à la case sélectionnée suivante
+        //Sinon case sélectionnée n'est pas fusionnable et donc on la sort de la liste
+        else {
+            casesSort.shift()
+        }
     }
-
     //Une fois les cases regroupée par zones
     for (let i = 0; i < tdGroups.length; i++) {
         if (tdGroups[i].length > 1) { // Il faut qu'il y ait + d'une case dans un groupe pour pouvoir fusionner
