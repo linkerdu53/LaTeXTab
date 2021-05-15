@@ -42,6 +42,9 @@ function SelectAllInput() {
 
 function SelectColumn(columnId) {
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
+    if (ctrl == 0)
+        DeselectAllInput();
+
     let nbCasesColSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.col == columnId){
@@ -63,6 +66,9 @@ function SelectColumn(columnId) {
 
 function SelectRow(rowId) {
     //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
+    if (ctrl == 0)
+        DeselectAllInput();
+        
     let nbCasesRowSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.row == rowId){
@@ -153,4 +159,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
+export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection, DeselectAllInput };

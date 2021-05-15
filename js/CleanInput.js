@@ -1,4 +1,5 @@
-import { casesSelection } from './InputSelection.js';
+import { casesSelection, SelectAllInput, DeselectAllInput } from './InputSelection.js';
+
 
 const tdInputText = document.getElementsByClassName('tdInputText');
 
@@ -18,5 +19,12 @@ function CleanAllInputs() {
         CleanInput(tdInputText[i]);
     }
 }
+
+$(window).bind('beforeunload',function(){
+    SelectAllInput();
+    CleanSelectedInputs();
+    DeselectAllInput();
+    document.getElementById("customSwitch1").checked = false;
+});
 
 export { CleanSelectedInputs, CleanAllInputs }
