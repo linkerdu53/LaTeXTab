@@ -99,8 +99,8 @@ function GenerateToLatex() {
     strPackage += "% \\usepackage[T1]{fontenc}\n";
 
     if (largeurCheck == 1) {
-        strMessage += "% Vous devez ajouter le package suivant pour faire prendre la largeur au tableau:\n";
-        strPackage += "% \\usepackage{graphicx}\n\n";
+        strMessage += "% Vous devez ajouter les packages suivants pour faire prendre la largeur au tableau:\n";
+        strPackage += "% \\usepackage{graphicx}\n% \\usepackage{array}\n\n";
     }
 
     if (matrice.some(row => row.some(col => col['underline'] === 1))) {
@@ -145,7 +145,12 @@ function GenerateToLatex() {
         strLaTeX += "|";
     }
     for (let i = 0; i < matrice[0].length; i++) {
-        strLaTeX += " l ";
+        if (largeurCheck == 1) {
+            strLaTeX += ">{\\hspace{0pt}}m{0.2\\linewidth}";
+        }
+        if (largeurCheck == 0) {
+            strLaTeX += " l ";
+        }
         if (fullBorderColonne[i + 1] === matrice.length) {
             strLaTeX += "|";
         }
