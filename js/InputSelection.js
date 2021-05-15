@@ -48,11 +48,12 @@ function SelectColumn(columnId) {
             nbCasesColSelect++;
         }
     }
-
-    if (ctrl == 0) 
-        DeselectAllInput();
-
+  
     let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
+    if(nbCasesColSelect != colLength && ctrl == 0) {
+        DeselectAllInput();
+    }
+
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.col == columnId) {
             if(nbCasesColSelect != colLength) {
@@ -74,10 +75,10 @@ function SelectRow(rowId) {
         }
     }
 
-    if (ctrl == 0)
-        DeselectAllInput();
-
     let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
+    if(nbCasesRowSelect != rowLength && ctrl == 0) {
+        DeselectAllInput();
+    }
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
             if(nbCasesRowSelect != rowLength) {
