@@ -1,26 +1,33 @@
 import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
+import { tableMatrice, tableSize } from './Table.js';
 
 const tdInputText = document.getElementsByClassName('tdInputText');
 
-//Met les inputs à la bonne taille s'ils ont du contenu au chargement de la page
-UpdateInputSize(tdInputText);
-
-function InputAutoSize(cible) {
-  let lePlusLong = 0;
-  for (let i = 0; i < tdInputText.length; i++) {
-    if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
-      //On récupère l'input avec le contenu le plus long de la colonne;
-      let inputSize = getInputValueWidth.call(tdInputText[i]);
-      if (inputSize > lePlusLong) {
-        lePlusLong = inputSize;
-      }
+function InputAutoSize() {
+  //On ajuste la taille des inputs selon le contenu et on rajoute 10px pour laisser un espace vide
+  for (let i = 0; i < tableSize.row; i++) {
+    for (let j = 0; j < tableSize.col; j++) {
+      let inputValueWidth = getInputValueWidth.call(tableMatrice[i][j])
+      tableMatrice[i][j].style.width = inputValueWidth + 10 + 'px'
     }
   }
-  let NewSize = lePlusLong + 10 + 'px';
-  for (let i = 0; i < tdInputText.length; i++) {
-    if (tdInputText[i].parentElement.dataset.col === cible.parentElement.dataset.col) {
-      tdInputText[i].style.width = NewSize;
+
+  //On récupère la taille de la colonne pour chaque case et on remplis une matrice
+  //On enlève 11.6 car c'est la différence entrela colonne et l'input à l'intérieur
+  let lignesWidth = []
+  for (let i = 0; i < tableSize.row; i++) {
+    let casesWidth = []
+    for (let j = 0; j < tableSize.col; j++) {
+      casesWidth.push(tableMatrice[i][j].parentElement.offsetWidth - 11.6)
+    }
+    lignesWidth.push(casesWidth)
+  }
+
+  //On modifie la taille de tous les inputs pour qu'ils s'ajustent à leur colonne
+  for (let i = 0; i < tableSize.row; i++) {
+    for (let j = 0; j < tableSize.col; j++) {
+      tableMatrice[i][j].style.width = lignesWidth[i][j] + 'px'
     }
   }
 }
@@ -56,7 +63,7 @@ function getInputValueWidth() {
 
 function UpdateInputSize(inputsList) {
   for (let i = 0; i < inputsList.length; i++) {
-    InputAutoSize(inputsList[i]);
+    InputAutoSize();
   }
 }
 
@@ -66,7 +73,7 @@ function AddEventInput(cible) {
   });
 
   cible.addEventListener('input', function() {
-    InputAutoSize(cible);
+    InputAutoSize();
     GenerateToLatex();
   });
 
