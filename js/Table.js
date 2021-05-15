@@ -1,5 +1,6 @@
 import { IsStrsContains1Elt } from "./TableFusion.js"
 import { UpdateInputSize } from "./TableInput.js"
+
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 let tableSize = {row: 3, col: 3}
