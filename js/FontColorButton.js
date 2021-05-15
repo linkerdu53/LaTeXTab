@@ -1,15 +1,16 @@
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { casesSelection } from './InputSelection.js';
 
-const fontColorButton = document.getElementById("fontColor");
-
-let colorWell;
-let defaultColor = "#000000";
-
 window.addEventListener("load", startup, false);
 
+const fontColorButton = document.getElementById("fontColor");
+fontColorButton.addEventListener('click', function() {
+    textColor()
+})
+
 function startup() {
-    colorWell = document.getElementById("colorWell");
+    let defaultColor = "#000000";
+    let colorWell = document.getElementById("colorWell");
     colorWell.value = defaultColor;
     colorWell.addEventListener("input", update, false);
     colorWell.select();
@@ -17,11 +18,12 @@ function startup() {
 
 function update(event) {
     if (fontColorButton) {
-      fontColorButton.style.color = event.target.value;
+        fontColorButton.style.color = event.target.value;
+        textColor()
     }
 }
 
-fontColorButton.addEventListener('click', function() {
+function textColor() {
     for (let i = 0; i < casesSelection.length; i++) {
         casesSelection[i].style.color = fontColorButton.style.color;
         casesSelection[i].style.borderColor = 'rgb(0, 0, 0)'
@@ -33,4 +35,4 @@ fontColorButton.addEventListener('click', function() {
         }
     }
     GenerateToLatex();
-});
+}
