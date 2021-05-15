@@ -105,7 +105,6 @@ function DeselectOneInput(cible) {
 }
 
 let ctrl = 0;
-let clic = 0;
 
 document.addEventListener('keydown', function (event) {
     if (event.key == 'Control') {

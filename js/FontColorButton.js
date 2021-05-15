@@ -3,8 +3,8 @@ import { casesSelection } from './InputSelection.js';
 
 const fontColorButton = document.getElementById("fontColor");
 
-var colorWell;
-var defaultColor = "#000000";
+let colorWell;
+let defaultColor = "#000000";
 
 window.addEventListener("load", startup, false);
 
