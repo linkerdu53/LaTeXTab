@@ -71,7 +71,22 @@ function rgbToHex(r, g, b) {
     return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
+// On gere le toogle pour que le tableau prenne la largeur de la page
+var largeurCheck = 0;
+$(document).ready(function(){
+    $('input[type="checkbox"]').click(function(){
+      GenerateToLatex();
+    });
+});
+
 function GenerateToLatex() {
+    if(document.getElementById("customSwitch1").checked === true) {
+        largeurCheck = 1;
+    }
+    else {
+        largeurCheck = 0;
+    }
+
     let matrice = GetTableData();
 
     let strMessage = "";
@@ -79,17 +94,22 @@ function GenerateToLatex() {
     let strLaTeX = ""
     let str = "" //Concaténation de strMessage + strPackage + strLaTeX
 
-    strMessage += "% Vous devez ajouter les 2 packages suivants pour avoir les lettres avec accents par exemple :\n"
-    strPackage += "% \\usepackage[utf8]{inputenc}\n"
-    strPackage += "% \\usepackage[T1]{fontenc}\n\n"
+    strMessage += "% Vous devez ajouter les 2 packages suivants pour avoir les lettres avec accents par exemple :\n";
+    strPackage += "% \\usepackage[utf8]{inputenc}\n";
+    strPackage += "% \\usepackage[T1]{fontenc}\n";
+
+    if (largeurCheck == 1) {
+        strMessage += "% Vous devez ajouter les packages suivants pour faire prendre la largeur au tableau:\n";
+        strPackage += "% \\usepackage{graphicx}\n% \\usepackage{array}\n\n";
+    }
 
     if (matrice.some(row => row.some(col => col['underline'] === 1))) {
-        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n"
+        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir souligner :\n";
         strPackage += "% \\usepackage[normalem]{ulem}\n";
-        strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n\n"
+        strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n\n";
     }
     if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
+        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n";
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n\n";
     }
 
@@ -114,6 +134,10 @@ function GenerateToLatex() {
         }
     }
 
+    if (largeurCheck == 1) {
+        strLaTeX += "\\centering\n\\resizebox{\\linewidth}{!}{%\n";
+    }
+ 
     strLaTeX += "\\begin{tabular}{ ";
 
     //Si bordure sur toute la colonne à gauche
@@ -121,7 +145,12 @@ function GenerateToLatex() {
         strLaTeX += "|";
     }
     for (let i = 0; i < matrice[0].length; i++) {
-        strLaTeX += " l ";
+        if (largeurCheck == 1) {
+            strLaTeX += ">{\\hspace{0pt}}m{0.2\\linewidth}";
+        }
+        if (largeurCheck == 0) {
+            strLaTeX += " l ";
+        }
         if (fullBorderColonne[i + 1] === matrice.length) {
             strLaTeX += "|";
         }
@@ -274,6 +303,9 @@ function GenerateToLatex() {
     }
 
     strLaTeX += "\\end{tabular}\n";
+    if (largeurCheck == 1) {
+        strLaTeX += "}\n";
+    }
 
     const resDiv = document.getElementById('generateLatex')
     while (resDiv.hasChildNodes()) {
