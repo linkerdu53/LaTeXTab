@@ -59,12 +59,6 @@ function getInputValueWidth() {
   return createInputMeassureElm(this).offsetWidth;
 };
 
-function UpdateInputSize(inputsList) {
-  for (let i = 0; i < inputsList.length; i++) {
-    InputAutoSize();
-  }
-}
-
 function AddEventInput(cible) {
   cible.addEventListener('focus', function() {
     GenerateToLatex();
@@ -82,4 +76,4 @@ function AddEventInput(cible) {
   });
 }
 
-export { AddEventInput, UpdateInputSize };
+export { AddEventInput, InputAutoSize };

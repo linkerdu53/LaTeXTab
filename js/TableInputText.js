@@ -1,6 +1,6 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection, DeselectAllInput } from './InputSelection.js';
-import { UpdateInputSize } from './TableInput.js';
+import { InputAutoSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { Fusion } from './TableFusion.js'
 import { CleanSelectedInputs } from './CleanInput.js';
@@ -53,7 +53,7 @@ boldButton.addEventListener('click', function() {
             casesSelection[i].classList.add("boldOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
@@ -84,7 +84,7 @@ italicButton.addEventListener('click', function() {
             casesSelection[i].classList.add("italicOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
@@ -115,7 +115,7 @@ underlineButton.addEventListener('click', function() {
             casesSelection[i].classList.add("underlineOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
