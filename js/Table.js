@@ -1,5 +1,5 @@
 import { IsStrsContains1Elt } from "./TableFusion.js"
-import { UpdateInputSize } from "./TableInput.js"
+import { UpdateInputSize, AddEventInput } from "./TableInput.js"
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
@@ -10,6 +10,13 @@ tableMatrice = TableToMatrice()
 
 //Met les inputs à la bonne taille s'ils ont déjà du contenu au chargement de la page
 UpdateInputSize(tdInputText);
+
+//Init les events focus, input, blur et quand ctrl sur les 9 inputs de base
+for (let i = 0; i < tableSize.row; i++) {
+    for (let j = 0; j < tableSize.col; j++) {
+        AddEventInput(tableMatrice[i][j])
+    }  
+}
 
 function TableToMatrice() {
     let matrice = [];

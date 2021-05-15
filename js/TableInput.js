@@ -82,10 +82,4 @@ function AddEventInput(cible) {
   });
 }
 
-for (let i = 0; i < tableSize.row; i++) {
-  for (let j = 0; j < tableSize.col; j++) {
-    AddEventInput(tableMatrice[i][j])
-  }  
-}
-
 export { AddEventInput, UpdateInputSize };
