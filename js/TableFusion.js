@@ -126,6 +126,7 @@ function Fusion() {
             newTd.dataset.row = dataRow.join(" ")
             newTd.dataset.col = dataCol.join(" ")
 
+            //GESTION colSpan OU RowSpan
             //Si fusion entre plusieurs lignes
             if (IsStrsContains1Elt(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) {
                 let newColSpan = 0
@@ -143,10 +144,14 @@ function Fusion() {
                 }
                 newTd.rowSpan = newRowSpan
             }
+            
+            //Ajout des class etc
             newTd.classList.add("tdMainTable")
             const newInput = document.createElement("input")
             newInput.type = 'text'
             newInput.classList.add("tdInputText");
+
+            //GESTION Taille de l'input
             if (IsStrsContains1Elt(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) { //Si sur la même ligne
                 let newWidth = 0
                 for (let j = 0; j < tdGroups[i].length; j++) {
@@ -187,23 +192,59 @@ function Fusion() {
                 }
             }
 
-            let bordure = 0
-            for (let j = 0; j < tdGroups[i].length; j++) {
-                if (tdGroups[i][j].children[0].classList.contains("borderLeftOn") && tdGroups[i][j].children[0].classList.contains("borderRightOn") && tdGroups[i][j].children[0].classList.contains("borderTopOn") && tdGroups[i][j].children[0].classList.contains("borderBottomOn")) {
-                    bordure++
-                }
+            //On remet le contenu la l'input de gauche
+            newInput.value = tdGroups[i][0].children[0].value
+
+            //On remet les attributs si la case la plus à gauche les avait
+            if (tdGroups[i][0].children[0].classList.contains("borderLeftOn")) {
+                newInput.style.borderLeft = "solid"
+                newInput.classList.add("borderLeftOn")
             }
-            if (bordure == tdGroups[i].length) {
-                newInput.style.borderLeft = "solid";
-                newInput.classList.add("borderLeftOn");
-                newInput.style.borderRight = "solid";
-                newInput.classList.add("borderRightOn");
+            if (tdGroups[i][0].children[0].classList.contains("borderRightOn")) {
+                newInput.style.borderRight = "solid"
+                newInput.classList.add("borderRightOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("borderTopOn")){
                 newInput.style.borderTop = "solid";
-                newInput.classList.add("borderTopOn");
-                newInput.style.borderBottom = "solid";
-                newInput.classList.add("borderBottomOn");
+                newInput.classList.add("borderTopOn")
+            } 
+            if (tdGroups[i][0].children[0].classList.contains("borderBottomOn")) {
+                newInput.style.borderBottom = "solid"
+                newInput.classList.add("borderBottomOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("boldOn")) {
+                newInput.style.fontWeight = "bold"
+                newInput.classList.add("boldOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("italicOn")) {
+                newInput.style.fontStyle = "italic"
+                newInput.classList.add("italicOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("underlineOn")) {
+                newInput.style.textDecoration = "underline"
+                newInput.classList.add("underlineOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("alignLeftOn")) {
+                newInput.style.textAlign = "left"
+                newInput.classList.add("alignLeftOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("alignCenterOn")) {
+                newInput.style.textAlign = "center"
+                newInput.classList.add("alignCenterOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("alignRightOn")) {
+                newInput.style.textAlign = "right"
+                newInput.classList.add("alignRightOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("colorOn")) {
+                newInput.style.color = tdGroups[i][0].children[0].style.color
+                newInput.classList.add("colorOn")
+            }
+            if (tdGroups[i][0].children[0].classList.contains("modeMathOn")) {
+                newInput.classList.add("modeMathOn")
             }
 
+            //Insertion dans la page
             AddEventInput(newInput)
 
             newTd.appendChild(newInput)
