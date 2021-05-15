@@ -346,5 +346,6 @@ affichagePDF.addEventListener('click', function() {
 cleanCases.addEventListener('click', function() {
     CleanSelectedInputs();
     DeselectAllInput();
+    GenerateToLatex();
 });
 
