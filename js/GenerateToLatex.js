@@ -348,8 +348,10 @@ function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes)
     }
     else if(fullBorderRow[ligne] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
         let nbBorder = 0;
-        for (let j = 0; j < ligneMatrice.length; j++) {
-            if ((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) {
+        for (let j = 0; j < matriceBorduresLignes.length; j++) {
+            //Si bordure
+            if (matriceBorduresLignes[j] == true) {
+                //Si première case avec une bordure sur la ligne
                 if (nbBorder == 0) {
                     strLaTeX += "\\cline{";
                     strLaTeX += j + 1;
@@ -360,12 +362,14 @@ function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes)
                     nbBorder++;
                 }
             }
-            else if (((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) && nbBorder != 0) {
+            //Sinon s'il y avait un bordure sur la ligne de la case précédente
+            else if (matriceBorduresLignes[j] == false && nbBorder != 0) {
                 strLaTeX += nbBorder;
                 strLaTeX += "}";
                 nbBorder = 0;
             }
         }
+        //Si dernière case avait une bordure, on ferme
         if (nbBorder != 0) {
             strLaTeX += nbBorder;
             strLaTeX += "}";
