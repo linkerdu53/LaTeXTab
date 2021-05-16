@@ -3,6 +3,7 @@ import { casesSelection, DeselectAllInput } from './InputSelection.js';
 import { InputAutoSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { Fusion } from './TableFusion.js'
+import { Split } from './TableSplit.js'
 import { CleanSelectedInputs } from './CleanInput.js';
 
 const boldButton = document.getElementById("bold");
@@ -12,6 +13,7 @@ const textLeftButton = document.getElementById("text-left");
 const textCenterButton = document.getElementById("text-center");
 const textRightButton = document.getElementById("text-right");
 const fusionButton = document.getElementById("fusion");
+const splitButton = document.getElementById("split");
 const borderAllButton = document.getElementById("border-all");
 const borderLeftButton = document.getElementById("border-left");
 const borderRightButton = document.getElementById("border-right");
@@ -153,6 +155,11 @@ textRightButton.addEventListener('click', function() {
 
 fusionButton.addEventListener('click', function() {
     Fusion();
+    GenerateToLatex();
+});
+
+splitButton.addEventListener('click', function() {
+    Split();
     GenerateToLatex();
 });
 
