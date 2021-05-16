@@ -27,57 +27,55 @@
 				<img src="img/logo.png" alt="Logo ESIEA"/>
 			</div>
 		</nav>
-
-		<!-- Tableau central -->
+		<!-- FIN Barre de navigation -->
 		<div class="container jumbotron mt-5">
-			<div class="row align-items-center">
-				<div class="col-auto mr-auto">
-					<div class="dropdown">
-						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Nouveau tableau
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<span class="dropdown-item-text">Sélectionner la taille</span>
-							<div class="row mx-2">
-								<div class="col-auto">
-									<table class="tableSizeChooser">
-										<tbody>
-											<tr>
-												<td class="tdSizeChooser" data-row="1" data-col="1"></td>
-												<td class="tdSizeChooser" data-row="1" data-col="2"></td>
-												<td class="tdSizeChooser" data-row="1" data-col="3"></td>
-											</tr>
-											<tr>
-												<td class="tdSizeChooser" data-row="2" data-col="1"></td>
-												<td class="tdSizeChooser" data-row="2" data-col="2"></td>
-												<td class="tdSizeChooser" data-row="2" data-col="3"></td>
-											</tr>
-											<tr>
-												<td class="tdSizeChooser" data-row="3" data-col="1"></td>
-												<td class="tdSizeChooser" data-row="3" data-col="2"></td>
-												<td class="tdSizeChooser" data-row="3" data-col="3"></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="row mx-2">
-								<div class="col">
-									<p>Taille actuelle(HxL): <span id="rowOldDimSizeChooser">3</span> X <span id="colOldDimSizeChooser">3</span>
-									<br>Nouvelle taille(HxL): <span id="rowDimSizeChooser">0</span> X <span id="colDimSizeChooser">0</span></p>
-								</div>
-							</div>
+			<!-- Taille tableau & Info -->
+			<div class="float-right">
+				<button type="button" class="btn" data-toggle="modal" data-target="#infoModal" id="info">
+					<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="tooltip" data-placement="bottom" title="Aides & Informations">
+						<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+					</svg>
+				</button>
+			</div>
+			<div class="dropdown align-middle">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Nouveau tableau
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<span class="dropdown-item-text">Sélectionner la taille</span>
+					<div class="row mx-2">
+						<div class="col-auto">
+							<table class="tableSizeChooser">
+								<tbody>
+									<tr>
+										<td class="tdSizeChooser" data-row="1" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="1" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="1" data-col="3"></td>
+									</tr>
+									<tr>
+										<td class="tdSizeChooser" data-row="2" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="2" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="2" data-col="3"></td>
+									</tr>
+									<tr>
+										<td class="tdSizeChooser" data-row="3" data-col="1"></td>
+										<td class="tdSizeChooser" data-row="3" data-col="2"></td>
+										<td class="tdSizeChooser" data-row="3" data-col="3"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row mx-2">
+						<div class="col">
+							<p>Taille actuelle(HxL): <span id="rowOldDimSizeChooser">3</span> X <span id="colOldDimSizeChooser">3</span>
+							<br>Nouvelle taille(HxL): <span id="rowDimSizeChooser">0</span> X <span id="colDimSizeChooser">0</span></p>
 						</div>
 					</div>
 				</div>
-				<div class="col-auto">
-					<button type="button" class="btn" data-toggle="modal" data-target="#infoModal" id="info">
-						<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="tooltip" data-placement="bottom" title="Aides & Informations">
-							<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-						</svg>
-					</button>
-				</div>
 			</div>
+			<!-- FIN Taille tableau & Info -->
+			<!-- Bouton édition tableau central -->
 			<div class="row align-items-center">
 				<div class="col-auto mr-auto">
 					<button type="button" class="btn" id="text-left">
@@ -170,6 +168,8 @@
 					</button>
 				</div>
 			</div>
+			<!-- FIN Bouton édition tableau central -->
+			<!-- Switch -->
 			<div class="row mt-3">
 				<div class="col-auto">
 					<div class="custom-control custom-switch">
@@ -178,6 +178,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- FIN switch -->
+			<!-- Tableau central -->
 			<div class="row mt-3">
 				<div class="col-auto">
 					<table class="table table-sm table-bordered mainTable">
@@ -230,6 +232,8 @@
 					</table>
 				</div>
 			</div>
+			<!-- FIN Tableau central -->
+			<!-- Copie code -->
 			<div class="row">
 				<div class="col-auto">
 					<p>Code LaTeX
@@ -242,6 +246,8 @@
 					</p>
 				</div>
 			</div>
+			<!-- FIN Copie code -->
+			<!-- Code LaTeX -->
 			<div class="row justify-content-center">
 				<div class="col-10 p-4 bg-white border border-secondary" id="generateLatex">
 					<div class="text-center">
@@ -251,6 +257,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- FIN Code LaTeX -->
+			<!-- PDF -->
 			<div class="row mt-2 justify-content-center">
 				<button type="button" class="btn btn-primary mb-2" id="boutonPDF">Afficher le PDF</button>
 				<div class="embed-responsive embed-responsive-16by9 d-none">
@@ -258,6 +266,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- FIN PDF -->
 		<!-- Modal INFO -->
 		<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollabl">
