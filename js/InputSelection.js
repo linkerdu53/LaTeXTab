@@ -1,3 +1,5 @@
+import { tableSize } from "./Table.js";
+
 let casesSelection = [];
 
 const tdInputText = document.getElementsByClassName("tdInputText");
@@ -49,14 +51,13 @@ function SelectColumn(columnId) {
         }
     }
   
-    let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
-    if(nbCasesColSelect != colLength && ctrl == 0) {
+    if(nbCasesColSelect != tableSize.row && ctrl == 0) {
         DeselectAllInput();
     }
 
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.col == columnId) {
-            if(nbCasesColSelect != colLength) {
+            if(nbCasesColSelect != tableSize.row) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
@@ -75,13 +76,12 @@ function SelectRow(rowId) {
         }
     }
 
-    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
-    if(nbCasesRowSelect != rowLength && ctrl == 0) {
+    if(nbCasesRowSelect != tableSize.col && ctrl == 0) {
         DeselectAllInput();
     }
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
-            if(nbCasesRowSelect != rowLength) {
+            if(nbCasesRowSelect != tableSize.col) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
