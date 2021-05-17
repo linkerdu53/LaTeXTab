@@ -16,22 +16,17 @@ function Split() {
                 //On récupère les lignes du tableau, à chaque itération on passe à la suivante
                 let ligneInsert = document.getElementsByClassName('mainTable')[0].querySelectorAll("tr")[dataRow[j]]
                 //Pour chaque ligne, on récupère la case adjacent droite pour insérer la/les case(s) avant
-                let eltBeforeInsert
+                let eltBeforeInsert = null
                 //Pour la première case on remplace juste l'input de la case fusionnée, donc on prend juste l'élément suivant
                 if (j == 0) {
                     eltBeforeInsert = ligneInsert.children[dataCol[0]].nextElementSibling
                 }
                 else {
-                    //On parcours les cases à la recherche de celle qui est sur la même ligne et qui contient la colonne suivante de la case fusionnée
+                    //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
                     for (let jcol = 0; jcol < tableSize.col; jcol++) {
                         let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
                         if (inputCol.includes(dataCol[dataCol.length - 1] + 1)) {
-                            if (tableMatrice[dataRow[j] - 1][jcol]) {
-                                eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
-                            }
-                            else {
-                                eltBeforeInsert = null
-                            }
+                            eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
                             break
                         }
                     }
