@@ -17,21 +17,15 @@ function Split() {
                 let ligneInsert = document.getElementsByClassName('mainTable')[0].querySelectorAll("tr")[dataRow[j]]
                 //Pour chaque ligne, on récupère la case adjacent droite pour insérer la/les case(s) avant
                 let eltBeforeInsert = null
-                //Pour la première case on remplace juste l'input de la case fusionnée, donc on prend juste l'élément suivant
-                if (j == 0) {
-                    eltBeforeInsert = ligneInsert.children[dataCol[0]].nextElementSibling
-                }
-                else {
-                    //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
-                    for (let jcol = 0; jcol < tableSize.col; jcol++) {
-                        let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
-                        if (inputCol.includes(dataCol[dataCol.length - 1] + 1)) {
-                            eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
-                            break
-                        }
+                //On cherche le td que l'on va utiliser pour insérer avant celui-ci
+                //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
+                for (let jcol = 0; jcol < tableSize.col; jcol++) {
+                    let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
+                    if (inputCol.includes(dataCol[dataCol.length - 1] + 1)) {
+                        eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
+                        break
                     }
                 }
-                console.log(eltBeforeInsert)
                 for (let k = 0; k < dataCol.length; k++) {
                     const newInput = document.createElement("input")
                     newInput.type = 'text'
