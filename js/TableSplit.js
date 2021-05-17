@@ -16,18 +16,31 @@ function Split() {
                 //On récupère les lignes du tableau, à chaque itération on passe à la suivante
                 let ligneInsert = document.getElementsByClassName('mainTable')[0].querySelectorAll("tr")[dataRow[j]]
                 //Pour chaque ligne, on récupère la case adjacent droite pour insérer la/les case(s) avant
-                console.log(ligneInsert)
                 let eltBeforeInsert
+                //Pour la première case on remplace juste l'input de la case fusionnée, donc on prend juste l'élément suivant
                 if (j == 0) {
                     eltBeforeInsert = ligneInsert.children[dataCol[0]].nextElementSibling
                 }
                 else {
-                    eltBeforeInsert = ligneInsert.children[dataCol[0]]
+                    //On parcours les cases à la recherche de celle qui est sur la même ligne et qui contient la colonne suivante de la case fusionnée
+                    for (let irow = 0; irow < tableSize.row; irow++) {
+                        for (let jcol = 0; jcol < tableSize.col; jcol++) {
+                            let inputCol = tableMatrice[irow][jcol].parentElement.dataset.col.split(" ").map(Number)
+                            if ( (irow + 1) == dataRow[j] && inputCol.includes(dataCol[dataCol.length - 1] + 1) ) {
+                                if (tableMatrice[irow][jcol]) {
+                                    eltBeforeInsert = tableMatrice[irow][jcol].parentElement
+                                }
+                                else {
+                                    eltBeforeInsert = null
+                                }
+                                break
+                            }
+                        }
+                        if (eltBeforeInsert != undefined) {
+                            break
+                        }                    
+                    }
                 }
-                console.log(dataCol[0])
-                console.log(ligneInsert.children)
-                console.log(ligneInsert.children[dataCol[0]])
-                console.log(eltBeforeInsert)
                 for (let k = 0; k < dataCol.length; k++) {
                     const newInput = document.createElement("input")
                     newInput.type = 'text'
