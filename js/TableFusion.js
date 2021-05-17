@@ -71,7 +71,7 @@ function Fusion() {
                     let newRowNumber = casePrecedente.dataset.row.split(" ").map(Number)
                     newRowNumber = newRowNumber[newRowNumber.length - 1]
                     newRowNumber = (newRowNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
+                    if (tdInputText[j].parentNode.dataset.row == newRowNumber && tdInputText[j].parentNode.dataset.col == caseNewTdGroupe.dataset.col && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
@@ -83,12 +83,12 @@ function Fusion() {
                         }
                     }
                 }
-                else { //A droite
+                else { //A droite (voisinCote == 2)
                     //Si case sur même ligne et colonne juste à côté
                     let newColNumber = casePrecedente.dataset.col.split(" ").map(Number)
                     newColNumber = newColNumber[newColNumber.length - 1]
                     newColNumber = (newColNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
+                    if (tdInputText[j].parentNode.dataset.row == caseNewTdGroupe.dataset.row && tdInputText[j].parentNode.dataset.col == newColNumber && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
