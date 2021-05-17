@@ -1,3 +1,5 @@
+import { tableSize } from "./Table.js";
+
 let casesSelection = [];
 
 const tdInputText = document.getElementsByClassName("tdInputText");
@@ -42,19 +44,20 @@ function SelectAllInput() {
 
 function SelectColumn(columnId) {
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
-    if (ctrl == 0)
-        DeselectAllInput();
-
     let nbCasesColSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.col == columnId){
             nbCasesColSelect++;
         }
     }
-    let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
+  
+    if(nbCasesColSelect != tableSize.row && ctrl == 0) {
+        DeselectAllInput();
+    }
+
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.col == columnId) {
-            if(nbCasesColSelect != colLength) {
+            if(nbCasesColSelect != tableSize.row) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
@@ -65,20 +68,20 @@ function SelectColumn(columnId) {
 }
 
 function SelectRow(rowId) {
-    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
-    if (ctrl == 0)
-        DeselectAllInput();
-        
+    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.    
     let nbCasesRowSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.row == rowId){
             nbCasesRowSelect++;
         }
     }
-    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
+
+    if(nbCasesRowSelect != tableSize.col && ctrl == 0) {
+        DeselectAllInput();
+    }
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
-            if(nbCasesRowSelect != rowLength) {
+            if(nbCasesRowSelect != tableSize.col) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
