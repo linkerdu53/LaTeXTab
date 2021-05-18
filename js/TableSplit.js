@@ -1,6 +1,7 @@
 import { casesSelection, DeselectAllInput } from './InputSelection.js';
 import { AddEventInput } from './TableInput.js';
 import { TableToMatrice, tableMatrice, tableSize } from './Table.js'
+import { InputAutoSize } from './TableInput.js';
 
 function Split() {
     for (let i = 0; i < casesSelection.length; i++) {
@@ -65,6 +66,9 @@ function Split() {
 
     //Mise à jour de la matrice du tableau
     TableToMatrice()
+
+    //On remet tous les inputs à la bonne taille
+    InputAutoSize()
 }
 
 export { Split }
