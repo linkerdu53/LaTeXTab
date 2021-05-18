@@ -160,10 +160,6 @@ function GenerateToLatex() {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir utiliser l'écriture mathématique :\n"
         strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n"
     }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
-        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
-    }
 
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
     let fullBorderColonne = Array(matrice[0].length + 1).fill(0);
