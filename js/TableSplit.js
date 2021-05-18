@@ -21,7 +21,8 @@ function Split() {
                 //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
                 for (let jcol = 0; jcol < tableSize.col; jcol++) {
                     let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
-                    if (inputCol.includes(dataCol[dataCol.length - 1] + 1)) {
+                    //On vérifie aussi que la case trouvée n'est pas une case fusionnée et car si c'est le cas elle n'appartient peut etre pas à ligne
+                    if (inputCol.includes(dataCol[dataCol.length - 1] + 1) && tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.row.length == 1) {
                         eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
                         break
                     }
