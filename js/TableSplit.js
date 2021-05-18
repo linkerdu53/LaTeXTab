@@ -1,6 +1,7 @@
 import { casesSelection, DeselectAllInput } from './InputSelection.js';
 import { AddEventInput } from './TableInput.js';
 import { TableToMatrice, tableMatrice, tableSize } from './Table.js'
+import { InputAutoSize } from './TableInput.js';
 
 function Split() {
     for (let i = 0; i < casesSelection.length; i++) {
@@ -18,13 +19,21 @@ function Split() {
                 //Pour chaque ligne, on récupère la case adjacent droite pour insérer la/les case(s) avant
                 let eltBeforeInsert = null
                 //On cherche le td que l'on va utiliser pour insérer avant celui-ci
-                //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
+                //On parcours les cases de la même ligne à la recherche de la case qui contient la colonne suivante de la case fusionnée dès qu'elle est trouvée on arrêt
                 for (let jcol = 0; jcol < tableSize.col; jcol++) {
-                    let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
-                    if (inputCol.includes(dataCol[dataCol.length - 1] + 1)) {
-                        eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
+                    let tdCol = tableMatrice[dataRow[j] - 1][jcol].parentElement
+                    let tdDataCol = tdCol.dataset.col.split(" ").map(Number)
+                    //On vérifie aussi que la case trouvée n'est pas une case fusionnée et car si c'est le cas elle n'appartient peut etre pas à ligne
+                    if (tdDataCol[0] > dataCol[dataCol.length - 1] && tdCol.dataset.row.length == 1) {
+                        eltBeforeInsert = tdCol
                         break
                     }
+                }
+                //Cas de la première ligne (<tr>) du tableau qui contient le <td> "+" pour ajouter une colonne
+                //Et que la case fusionnée prend le dernier input de la ligne
+                if (dataRow[j] == 1 && eltBeforeInsert == null) {
+                    //On récupère la case "+"
+                    eltBeforeInsert = tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling
                 }
                 for (let k = 0; k < dataCol.length; k++) {
                     const newInput = document.createElement("input")
@@ -49,6 +58,7 @@ function Split() {
                 }
             }
             casesSelection[i].remove()
+            TableToMatrice()
         }
     }
     //Toutes les cases sélectionnées sont retirées
@@ -56,6 +66,9 @@ function Split() {
 
     //Mise à jour de la matrice du tableau
     TableToMatrice()
+
+    //On remet tous les inputs à la bonne taille
+    InputAutoSize()
 }
 
 export { Split }
