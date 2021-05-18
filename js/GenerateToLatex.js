@@ -144,13 +144,14 @@ function GenerateToLatex() {
         strPackage += "% \\usepackage[normalem]{ulem}\n"
         strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n"
     }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
+    if (matrice.some(row => row.some(col => col['casesColor'] === 1))) {
+        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir colorer les cases du tableau :\n"
+        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n"
+        strPackage += "% \\usepackage{colortbl}\n\n"
+    }
+    else if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
-    }
-    if (matrice.some(row => row.some(col => col['casesColor'] === 1))) {
-        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer les cases du tableau :\n"
-        strPackage += "% \\usepackage{colortbl}\n\n"
     }
     if (matrice.some(row => row.some(col => col['row'].length > 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir fusionner de haut en bas :\n"
