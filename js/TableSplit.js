@@ -28,7 +28,7 @@ function Split() {
                 }
                 //Cas de la première ligne (<tr>) du tableau qui contient le <td> "+" pour ajouter une colonne
                 //Et que la case fusionnée prend le dernier input de la ligne
-                if (dataRow[0] == 1 && eltBeforeInsert == null) {
+                if (dataRow[j] == 1 && eltBeforeInsert == null) {
                     //On récupère la case "+"
                     eltBeforeInsert = tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling
                 }
