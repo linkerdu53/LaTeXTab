@@ -18,11 +18,11 @@ function Split() {
                 //Pour chaque ligne, on récupère la case adjacent droite pour insérer la/les case(s) avant
                 let eltBeforeInsert = null
                 //On cherche le td que l'on va utiliser pour insérer avant celui-ci
-                //On parcours les cases de la même ligne à la recherche de celle qui contient la colonne suivante de la case fusionnée
+                //On parcours les cases de la même ligne à la recherche de la case qui contient la colonne suivante de la case fusionnée dès qu'elle est trouvée on arrêt
                 for (let jcol = 0; jcol < tableSize.col; jcol++) {
                     let inputCol = tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.col.split(" ").map(Number)
                     //On vérifie aussi que la case trouvée n'est pas une case fusionnée et car si c'est le cas elle n'appartient peut etre pas à ligne
-                    if (inputCol.includes(dataCol[dataCol.length - 1] + 1) && tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.row.length == 1) {
+                    if (inputCol[0] > dataCol[dataCol.length - 1] && tableMatrice[dataRow[j] - 1][jcol].parentElement.dataset.row.length == 1) {
                         eltBeforeInsert = tableMatrice[dataRow[j] - 1][jcol].parentElement
                         break
                     }
