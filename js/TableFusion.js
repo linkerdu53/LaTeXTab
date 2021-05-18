@@ -242,6 +242,10 @@ function Fusion() {
                 newInput.style.color = tdGroups[i][0].children[0].style.color
                 newInput.classList.add("colorOn")
             }
+            if (tdGroups[i][0].children[0].classList.contains("casesColorOn")) {
+                newInput.style.backgroundColor = tdGroups[i][0].children[0].style.backgroundColor
+                newInput.classList.add("casesColorOn")
+            }
             if (tdGroups[i][0].children[0].classList.contains("modeMathOn")) {
                 newInput.classList.add("modeMathOn")
             }

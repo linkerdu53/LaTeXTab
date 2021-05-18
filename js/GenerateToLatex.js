@@ -51,6 +51,14 @@ function GetTableData() {
                 let match = matchColors.exec(input.style.color);
                 matrice[i][j].textColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
             }
+
+            if (input.classList.contains("casesColorOn") && input.style.backroundColor !== "") { 
+                matrice[i][j].casesColor = 1;
+                let matchColors = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+                let match = matchColors.exec(input.style.backgroundColor);
+                matrice[i][j].casesColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
+            }
+
             matrice[i][j].alignLeft = 0;
             matrice[i][j].alignCenter = 0;
             matrice[i][j].alignRight = 0;
@@ -136,7 +144,12 @@ function GenerateToLatex() {
         strPackage += "% \\usepackage[normalem]{ulem}\n"
         strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n"
     }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
+    if (matrice.some(row => row.some(col => col['casesColor'] === 1))) {
+        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir colorer les cases du tableau :\n"
+        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n"
+        strPackage += "% \\usepackage{colortbl}\n\n"
+    }
+    else if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
     }
@@ -147,10 +160,6 @@ function GenerateToLatex() {
     if (matrice.some(row => row.some(col => col['math'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir utiliser l'écriture mathématique :\n"
         strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n"
-    }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
-        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
     }
 
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
@@ -247,7 +256,11 @@ function GenerateToLatex() {
                         strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
                         nbCrochets++;
                     }
-                    //Color
+                    //Color des cases
+                    if (matrice[i][j].casesColor == 1) {
+                        strLaTeX += "\\cellcolor[HTML]{" + matrice[i][j].casesColorCode + "}";
+                    }
+                    //Color du texte
                     if (matrice[i][j].textColor == 1) {
                         strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
                     }
