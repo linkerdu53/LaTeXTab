@@ -5,11 +5,13 @@ let casesSelection = [];
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 function InputSelectBg(cible) {
-    cible.style.backgroundColor = "#82C0F9";
+    if (!cible.classList.contains("casesColorOn"))
+        cible.style.backgroundColor = "#82C0F9";
 }
 
 function InputDeselectBg(cible) {
-    cible.style.backgroundColor = "";
+    if (!cible.classList.contains("casesColorOn"))
+        cible.style.backgroundColor = "";
 }
 
 function SelectOneInput(cible) {
