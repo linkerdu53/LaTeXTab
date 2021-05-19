@@ -57,18 +57,14 @@ function SelectColumn(columnId) {
         DeselectAllInput();
     }
 
-   for (let i = 0; i < tableSize.row; i++) {
-        for (let j = 0; j < tableSize.col; j++) {
-            if (tableMatrice[i][j].parentElement.dataset.col == columnId) {
-                if(nbCasesColSelect != tableSize.col) {
-                    SelectOneInput(tableMatrice[i][j]);
-                }
-                else {  
-                    DeselectOneInput(tableMatrice[i][j]);
-                } 
-            }
+    for (let j = 0; j < tableSize.row; j++) {
+        if(nbCasesColSelect != tableSize.col) {
+            SelectOneInput(tableMatrice[j][columnId - 1]);
         }
-   }
+        else {  
+            DeselectOneInput(tableMatrice[j][columnId - 1]);
+        }    
+    } 
 }
 
 function SelectRow(rowId) {
@@ -84,18 +80,14 @@ function SelectRow(rowId) {
         DeselectAllInput();
     }
 
-    for (let i = 0; i < tableSize.row; i++) {
-        for (let j = 0; j < tableSize.col; j++) {
-            if (tableMatrice[i][j].parentElement.dataset.row == rowId) {
-                if(nbCasesRowSelect != tableSize.row) {
-                    SelectOneInput(tableMatrice[i][j]);
-                }
-                else {  
-                    DeselectOneInput(tableMatrice[i][j]);
-                } 
-            }
+    for (let j = 0; j < tableSize.col; j++) {
+        if(nbCasesRowSelect != tableSize.row) {
+            SelectOneInput(tableMatrice[rowId - 1][j]);
         }
-   }
+        else {  
+            DeselectOneInput(tableMatrice[rowId - 1][j]);
+        }    
+    }  
 }
 
 function DeselectAllInput() {
