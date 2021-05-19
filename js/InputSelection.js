@@ -1,4 +1,4 @@
-import { tableSize } from "./Table.js";
+import { tableMatrice, tableSize } from "./Table.js";
 
 let casesSelection = [];
 
@@ -47,6 +47,7 @@ function SelectAllInput() {
 function SelectColumn(columnId) {
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
     let nbCasesColSelect = 0
+    console.log(tableMatrice);
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.col == columnId){
             nbCasesColSelect++;
