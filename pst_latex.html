@@ -22,13 +22,6 @@
 		<!-- FIN Barre de navigation -->
 		<div class="container jumbotron mt-5">
 			<!-- Taille tableau & Info -->
-			<div class="float-right">
-				<button type="button" class="btn" data-toggle="modal" data-target="#infoModal" id="info">
-					<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="tooltip" data-placement="bottom" title="Aides & Informations">
-						<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-					</svg>
-				</button>
-			</div>
 			<div class="dropdown align-middle">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Nouveau tableau
@@ -69,7 +62,7 @@
 			<!-- FIN Taille tableau & Info -->
 			<!-- Bouton édition tableau central -->
 			<div class="row align-items-center mt-3">
-				<div class="col-auto mr-auto">
+				<div class="col-11">
 					<button type="button" class="btn" id="text-left">
 						<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="tooltip" data-placement="bottom" title="Alignement à gauche">
 							<path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
@@ -170,6 +163,13 @@
 							<input class="form-control" type="color" value="#000000" id="colorWell2">
 						</ul>
 					</div>
+				</div>
+				<div class="col-1">
+					<button type="button" class="btn" data-toggle="modal" data-target="#infoModal" id="info">
+						<svg width="40px" height="40px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="tooltip" data-placement="bottom" title="Aides & Informations">
+							<path fill-rule="evenodd" d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+						</svg>
+					</button>
 				</div>
 			</div>
 			<!-- FIN Bouton édition tableau central -->
