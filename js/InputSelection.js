@@ -52,7 +52,7 @@ function SelectColumn(columnId) {
             nbCasesColSelect++;
         }
     }
-  
+     
     if(nbCasesColSelect != tableSize.row && ctrl == 0) {
         DeselectAllInput();
     }
