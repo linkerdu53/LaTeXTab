@@ -56,7 +56,10 @@ function getInputValueWidth() {
     
     return meassureElm;
   }
-  return createInputMeassureElm(this).offsetWidth;
+  let elt = createInputMeassureElm(this);
+  let size = elt.offsetWidth
+  elt.remove()
+  return size
 };
 
 function AddEventInput(cible) {
