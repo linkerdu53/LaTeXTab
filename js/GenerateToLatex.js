@@ -1,5 +1,4 @@
-import { tableSize } from "./Table.js";
-import { IsStrsContains1Elt } from "./TableFusion.js"
+import { tableSize, IsStringContain1Number } from "./Table.js";
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
@@ -11,7 +10,7 @@ function GetTableData() {
         let input = 0;
         for (let j = 0; j < tableSize.col; j++) {
             for (let k = 0; k < tdInputText.length; k++) {
-                if (IsStrsContains1Elt(tdInputText[k].parentNode.dataset.row, (i+1).toString()) && IsStrsContains1Elt(tdInputText[k].parentNode.dataset.col, (j+1).toString())) {
+                if (IsStringContain1Number(tdInputText[k].parentNode.dataset.row, i + 1) && IsStringContain1Number(tdInputText[k].parentNode.dataset.col, j + 1)) {
                     input = tdInputText[k]
                     break
                 }

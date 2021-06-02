@@ -39,4 +39,4 @@ function IsStringContain1Number(str, nb) {
     }
 }
 
-export { TableToMatrice, tableMatrice, tableSize }
+export { TableToMatrice, tableMatrice, tableSize, IsStringContain1Number }
