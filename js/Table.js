@@ -1,4 +1,3 @@
-import { IsStrsContains1Elt } from "./TableFusion.js"
 import { AddEventInput } from "./TableInput.js"
 
 const tdInputText = document.getElementsByClassName("tdInputText");
@@ -21,7 +20,7 @@ function TableToMatrice() {
         matrice.push([]);
         for (let j = 0; j < tableSize.col; j++) {
             for (let k = 0; k < tdInputText.length; k++) {
-                if (IsStrsContains1Elt(tdInputText[k].parentNode.dataset.row, (i+1).toString()) && IsStrsContains1Elt(tdInputText[k].parentNode.dataset.col, (j+1).toString())) {
+                if (IsStringContain1Number(tdInputText[k].parentNode.dataset.row, i + 1) && IsStringContain1Number(tdInputText[k].parentNode.dataset.col, j + 1)) {
                     matrice[i][j] = tdInputText[k]
                     break
                 }
@@ -32,4 +31,12 @@ function TableToMatrice() {
     return tableMatrice
 }
 
-export { TableToMatrice, tableMatrice, tableSize }
+function IsStringContain1Number(str, nb) {
+    if (str.split(' ').map( Number ).some(strnb => strnb == nb)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export { TableToMatrice, tableMatrice, tableSize, IsStringContain1Number }

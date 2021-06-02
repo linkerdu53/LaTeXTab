@@ -1,11 +1,14 @@
 import { casesSelection, SelectAllInput, DeselectAllInput } from './InputSelection.js'
-import { tableMatrice, tableSize } from './Table.js'
+import { tableMatrice, tableSize, TableToMatrice } from './Table.js'
 
 function CleanInput(cible) {
     cible.value = ""
     cible.style = ""
     cible.classList = ""
     cible.classList.add("tdInputText")
+    
+    //Mise à jour de la matrice
+    TableToMatrice();
 }
 
 function CleanSelectedInputs() {
