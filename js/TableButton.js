@@ -77,14 +77,14 @@ function AddRow(rowInsertNumber) {
     $(newth).tooltip()
     newth.innerText = rowInsertNumber + 1
 
-    AddEventSelectRow(newth, tableSize.row + 1)
+    AddEventSelectRow(newth, rowInsertNumber + 1)
     
     newtr.appendChild(newth)
 
     //Ajout bon nombre de <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.col; i++) {
         const newTd = document.createElement("td")
-        newTd.dataset.row = tableSize.row + 1
+        newTd.dataset.row = rowInsertNumber + 1
         newTd.dataset.col = i + 1
         newTd.classList.add("tdMainTable")
 
