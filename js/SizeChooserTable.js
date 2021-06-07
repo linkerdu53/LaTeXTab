@@ -155,7 +155,7 @@ function createTable(cible) {
 
     if (colDiff < 0) {
         for (let i = 0; i < colDiff * -1; i++) {
-            SupprColumn();
+            SupprColumn(tableSize.col - 1);
         }
     }
 
