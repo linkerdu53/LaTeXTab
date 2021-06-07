@@ -67,7 +67,7 @@ let menu = new BootstrapMenu('.contextMenu', {
             classNames: 'action-danger',
             onClick: function(data) {
                 if (data[0] == 'row') {
-                    //SupprRow(data[1])
+                    SupprRow(data[1])
                 }
                 else {
                     //SupprColumn(data[1])

@@ -98,8 +98,7 @@ function AddRow(rowInsertNumber) {
         newtr.appendChild(newTd)
     }
     let trList = document.getElementById("bodyMainTable").children
-    let lastTr = trList[trList.length - 1]
-    lastTr.parentElement.insertBefore(newtr, trList[rowInsertNumber])
+    trList[0].parentElement.insertBefore(newtr, trList[rowInsertNumber])
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1
 
@@ -133,13 +132,15 @@ function SupprColumn() {
     TableToMatrice()
 }
 
-function SupprRow() {
-    let lastTr = document.getElementById("lastTr")
+function SupprRow(rowRemoveNumber) {
+    let trList = document.getElementById("bodyMainTable").children
     //Suppression <tr> avant lastTr
-    lastTr.previousElementSibling.remove()
+    trList[rowRemoveNumber].remove()
 
-    //Mise à jour du nombre pour le dernier th du dernier tr
-    lastTr.childNodes[1].innerText = tableSize.row
+    //Mise à jour des nombres des th des tr
+    for (let i = 0; i < trList.length; i++) {
+        trList[i].children[0].innerText = i + 1
+    }
 
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row - 1

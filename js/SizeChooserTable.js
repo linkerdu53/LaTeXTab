@@ -1,6 +1,7 @@
 import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { CleanAllInputs } from './CleanInput.js'
+import { tableSize } from './Table.js'
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
@@ -160,7 +161,7 @@ function createTable(cible) {
 
     if (rowDiff < 0) {
         for (let i = 0; i < rowDiff * -1; i++) {
-            SupprRow();
+            SupprRow(tableSize.row - 1);
         }
     }
 
