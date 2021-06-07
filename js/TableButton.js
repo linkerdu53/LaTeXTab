@@ -62,7 +62,7 @@ function AddColumn() {
     CheckBordureAll()
 }
 
-function AddRow() {
+function AddRow(rowInsertNumber) {
     let newtr = document.createElement("tr")
     //Création <th scope="row">
     let newth = document.createElement("th")
@@ -97,8 +97,9 @@ function AddRow() {
         newTd.appendChild(newInput)
         newtr.appendChild(newTd)
     }
-    let lastTr = document.getElementById("lastTr")
-    lastTr.parentElement.insertBefore(newtr, lastTr)
+    let trList = document.getElementById("bodyMainTable").children
+    let lastTr = trList[trList.length - 1]
+    lastTr.parentElement.insertBefore(newtr, trList[rowInsertNumber])
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1
 
@@ -154,7 +155,7 @@ buttonAddColumn.addEventListener('click', function() {
     GenerateToLatex()
 })
 buttonAddRow.addEventListener('click', function() {
-    AddRow()
+    AddRow(tableSize.row)
     GenerateToLatex()
 })
 
