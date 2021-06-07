@@ -33,6 +33,9 @@ function AddColumn(colInsertNumber) {
         thHeadList[i].innerText = nextChar(thHeadList[i - 1].innerText)
     }
 
+    //+1 pour les valeurs des dataset.col >= à colInsertNumber
+    updateData('col', colInsertNumber + 1)
+
     //Ajout <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.row; i++) {
         const newTd = document.createElement("td")
@@ -50,7 +53,6 @@ function AddColumn(colInsertNumber) {
         let tr = tableMatrice[i][0].parentElement.parentElement; //récupère tr[i]
         tr.insertBefore(newTd, tableMatrice[i][colInsertNumber - 1].parentElement.nextElementSibling)
     }
-    updateData('col', colInsertNumber)
 
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col + 1
@@ -136,9 +138,16 @@ function updateData(insertionType, insertNumber) {
                 }
             }
             else {
+                //Pour chaque colonne, on test si dataset.col contient un nombre > insertNumber dans se cas +1 sinon rien
                 let col = tableMatrice[i][j].parentNode.dataset.col.split(" ").map(Number)
-                if (row.some(e => e > insertNumber)) {
-
+                //Si case fusionnée alors +1 seulement quand rendu à la dernière colonne de la case fusionnée
+                if (col[col.length - 1] == j + 1) {
+                    for (let k = 0; k < col.length; k++) {
+                        if (col[k] >= insertNumber) {
+                            col[k]++
+                        }
+                    }
+                    tableMatrice[i][j].parentNode.dataset.col = col.join(" ")
                 }
             }
         }
