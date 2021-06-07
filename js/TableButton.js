@@ -116,19 +116,14 @@ function AddRow() {
 }
 
 function SupprColumn() {
-    let eltTrHead = document.getElementById("trHead");
-    let eltThLast = eltTrHead.children[eltTrHead.children.length - 1];
-    eltTrHead.children[eltTrHead.children.length - 2].remove();
-    eltThLast.childNodes[0].nodeValue = nextChar(eltTrHead.children[eltTrHead.children.length - 2].childNodes[0].nodeValue);
+    let trHead = document.getElementById("trHead")
+    //Suppression avant dernier <th>
+    trHead.children[tableSize.col].remove();
+    //Mise à jour lettre du dernier <th>
+    trHead.children[tableSize.col].innerText = nextChar(trHead.children[tableSize.col - 1].innerText);
 
-    let listTr = mainTbody.children;
-    for (let j = 0; j < listTr.length - 1; j++) {
-        if (j == 0) {
-            listTr[j].children[listTr[j].children.length - 2].remove();
-        }
-        else {
-            listTr[j].children[listTr[j].children.length - 1].remove();
-        }
+    for (let i = 0; i < tableSize.row; i++) {
+        tableMatrice[i][tableSize.col - 1].parentElement.remove()
     }
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col - 1;
