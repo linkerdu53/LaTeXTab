@@ -71,7 +71,7 @@ let menu = new BootstrapMenu('.contextMenu', {
                     SupprRow(data[1])
                 }
                 else {
-                    //SupprColumn(data[1])
+                    SupprColumn(data[1])
                 }
             }
         }
