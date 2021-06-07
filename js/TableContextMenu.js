@@ -8,12 +8,13 @@ let menu = new BootstrapMenu('.contextMenu', {
         //Test si clic sur ligne
         if ($rowElem[0].parentElement.parentElement.nodeName == "TBODY") {
             type = 'row'
-            let trList = document.getElementById("bodyMainTable").children
-            id = Array.from(trList).indexOf($rowElem[0].parentElement)
+            let trBodyList = document.getElementById("bodyMainTable").children
+            id = Array.from(trBodyList).indexOf($rowElem[0].parentElement)
         }
         else {
             type = 'col'
-            id = 0
+            let thHeadList = document.getElementById("trHead").children
+            id = Array.from(thHeadList).indexOf($rowElem[0]) - 1
         }
         return [type, id];
     },
