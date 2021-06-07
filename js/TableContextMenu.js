@@ -1,5 +1,5 @@
 //FROM https://dgoguerra.github.io/bootstrap-menu/demos.html
-import { addColumnIn } from './TableSelectColumn.js'; 
+import { AddColumn } from './TableButton.js'; 
 let demo5Rows = {
     '1': { first_name: 'John', last_name: 'Martin', is_editable: true },
     '2': { first_name: 'Peter', last_name: 'Roberts', is_editable: true },
@@ -28,7 +28,7 @@ let menu = new BootstrapMenu('.contextMenu', {
                 return { 'action-success': row.is_editable };
             },
             onClick: function(row) {
-                addColumnIn();
+                AddColumn();
             },
             isEnabled: function(row) {
                 return row.is_editable;
