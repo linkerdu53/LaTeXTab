@@ -75,7 +75,7 @@ function AddRow(rowInsertNumber) {
     newth.setAttribute("data-placement", "left")
     newth.setAttribute("title", "Sélectioner la rangée")
     $(newth).tooltip()
-    newth.innerText = tableSize.row + 1
+    newth.innerText = rowInsertNumber + 1
 
     AddEventSelectRow(newth, tableSize.row + 1)
     
@@ -103,8 +103,10 @@ function AddRow(rowInsertNumber) {
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1
 
-    //Mise à jour du nombre pour le dernier th du dernier tr
-    lastTr.childNodes[1].innerText = tableSize.row + 2
+    //Mise à jour des nombres des th des tr
+    for (let i = 0; i < trList.length; i++) {
+        trList[i].children[0].innerText = i + 1
+    }
     
     tableSize.row++
 
