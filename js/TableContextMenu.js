@@ -19,7 +19,13 @@ let menu = new BootstrapMenu('.contextMenu', {
     },
     actions: [
         {
-            name: 'Ajouter une colonne/ligne avant',
+            name: function(data) {
+                let type = 'colonne'
+                if (data[0] == 'row') {
+                    type = 'ligne'
+                }
+                return 'Ajouter une ' + type + ' avant'
+            },
             iconClass: 'bi bi-pencil-fill',
             classNames: 'action-success',
             onClick: function(data) {
@@ -32,8 +38,13 @@ let menu = new BootstrapMenu('.contextMenu', {
             }
         },
         {
-            name: 'Ajouter une colonne/ligne après',
-            iconClass: 'bi bi-pencil-fill',
+            name: function(data) {
+                let type = 'colonne'
+                if (data[0] == 'row') {
+                    type = 'ligne'
+                }
+                return 'Ajouter une ' + type + ' après'
+            },            iconClass: 'bi bi-pencil-fill',
             classNames: 'action-success',
             onClick: function(data) {
                 if (data[0] == 'row') {
