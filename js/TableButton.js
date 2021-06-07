@@ -114,15 +114,18 @@ function AddRow(rowInsertNumber) {
     CheckBordureAll()
 }
 
-function SupprColumn() {
-    let trHead = document.getElementById("trHead")
+function SupprColumn(colRemoveNumber) {
+    let trHead = document.getElementById("trHead").children
     //Suppression avant dernier <th>
-    trHead.children[tableSize.col].remove()
-    //Mise à jour lettre du dernier <th>
-    trHead.children[tableSize.col].innerText = nextChar(trHead.children[tableSize.col - 1].innerText)
-
+    trHead[colRemoveNumber + 1].remove()
+    //Mise à jour lettre des <th>
+    trHead[1].innerText = 'A'
+    for (let i = 2; i < trHead.length; i++) {
+        trHead[i].innerText = nextChar(trHead[i - 1].innerText)
+    }
+    //Suppression des <td> de la colonne
     for (let i = 0; i < tableSize.row; i++) {
-        tableMatrice[i][tableSize.col - 1].parentElement.remove()
+        tableMatrice[i][colRemoveNumber].parentElement.remove()
     }
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col - 1
