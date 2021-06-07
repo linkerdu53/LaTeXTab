@@ -6,9 +6,9 @@ import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
 import { TableToMatrice, tableSize, tableMatrice } from './Table.js'
 
-function AddColumn() {
+function AddColumn(colInsertNumber) {
     let eltTrHead = document.getElementById("trHead")
-    let eltThLast = eltTrHead.children[eltTrHead.children.length - 1]
+    let thHeadList = eltTrHead.children
 
     //Ajout <th scope="col"> dans <thead>
     let newth = document.createElement("th")
@@ -21,20 +21,23 @@ function AddColumn() {
     newth.setAttribute("title", "Sélectioner la colonne")
     $(newth).tooltip()
     //Ajout Lettre
-    newth.innerText = eltThLast.childNodes[0].nodeValue
+    newth.innerText = thHeadList[colInsertNumber + 1].innerText
     //Ajout event pour select la colonne
-    AddEventSelectColumn(newth, tableSize.col + 1)
+    AddEventSelectColumn(newth, colInsertNumber + 1)
 
-    eltTrHead.insertBefore(newth, eltThLast)
+    eltTrHead.insertBefore(newth, thHeadList[colInsertNumber + 1])
 
     //Mise à jour du dernier th scope="col" dans le thead
-    eltThLast.childNodes[0].nodeValue = nextChar(eltThLast.childNodes[0].nodeValue)
+    thHeadList[1].innerText = 'A'
+    for (let i = 2; i < thHeadList.length; i++) {
+        thHeadList[i].innerText = nextChar(thHeadList[i - 1].innerText)
+    }
 
     //Ajout <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.row; i++) {
         const newTd = document.createElement("td")
         newTd.dataset.row = i + 1
-        newTd.dataset.col = tableSize.col + 1
+        newTd.dataset.col = colInsertNumber + 1
         newTd.classList.add("tdMainTable")
 
         const newInput = document.createElement("input")
@@ -45,12 +48,7 @@ function AddColumn() {
         newTd.appendChild(newInput)
 
         let tr = tableMatrice[i][0].parentElement.parentElement; //récupère tr[i]
-        if (i == 0) { //if car td de plus dans le premier tr car contient bouton pour ajouter
-            tr.insertBefore(newTd, tableMatrice[i][tableSize.col - 1].parentElement.nextElementSibling)
-        }
-        else {
-            tr.appendChild(newTd)
-        }
+        tr.insertBefore(newTd, tableMatrice[i][colInsertNumber - 1].parentElement.nextElementSibling)
     }
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col + 1
@@ -115,13 +113,13 @@ function AddRow(rowInsertNumber) {
 }
 
 function SupprColumn(colRemoveNumber) {
-    let trHead = document.getElementById("trHead").children
+    let thHeadList = document.getElementById("trHead").children
     //Suppression avant dernier <th>
-    trHead[colRemoveNumber + 1].remove()
+    thHeadList[colRemoveNumber + 1].remove()
     //Mise à jour lettre des <th>
-    trHead[1].innerText = 'A'
-    for (let i = 2; i < trHead.length; i++) {
-        trHead[i].innerText = nextChar(trHead[i - 1].innerText)
+    thHeadList[1].innerText = 'A'
+    for (let i = 2; i < thHeadList.length; i++) {
+        thHeadList[i].innerText = nextChar(thHeadList[i - 1].innerText)
     }
     //Suppression des <td> de la colonne
     for (let i = 0; i < tableSize.row; i++) {
@@ -157,7 +155,7 @@ let buttonAddColumn = document.getElementById('button-add-column')
 let buttonAddRow = document.getElementById('button-add-row')
   
 buttonAddColumn.addEventListener('click', function() {
-    AddColumn()
+    AddColumn(tableSize.col)
     GenerateToLatex()
 })
 buttonAddRow.addEventListener('click', function() {
