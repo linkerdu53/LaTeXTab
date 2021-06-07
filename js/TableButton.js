@@ -130,10 +130,8 @@ function SupprColumn() {
             listTr[j].children[listTr[j].children.length - 1].remove();
         }
     }
-
     //Mise à jour de colspan pour le dernier tr
-    var lastTd = document.getElementById('lastTr').children[1];
-    lastTd.colSpan = lastTd.colSpan - 1;
+    document.getElementById("lastTr").children[1].colSpan = tableSize.col - 1;
 
     tableSize.col--
 
