@@ -6,9 +6,6 @@ import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
 import { TableToMatrice, tableSize, tableMatrice } from './Table.js'
 
-const mainTable = document.getElementsByClassName('mainTable')[0];
-const mainTbody = mainTable.querySelectorAll("tbody")[0];
-
 function AddColumn() {
     let eltTrHead = document.getElementById("trHead");
     let eltThLast = eltTrHead.children[eltTrHead.children.length - 1];
@@ -149,20 +146,16 @@ function SupprRow() {
     TableToMatrice()
 }
 
-var buttonAddColumn = document.getElementById('button-add-column');
-var buttonAddRow = document.getElementById('button-add-row');
+let buttonAddColumn = document.getElementById('button-add-column')
+let buttonAddRow = document.getElementById('button-add-row')
   
-if (buttonAddColumn) {
-    buttonAddColumn.addEventListener('click', function() {
-        AddColumn();
-        GenerateToLatex();
-    }, false);
-}
-if (buttonAddRow) {
-    buttonAddRow.addEventListener('click', function() {
-        AddRow();
-        GenerateToLatex();
-    }, false);
-}
+export { AddColumn, AddRow, SupprColumn, SupprRow };buttonAddColumn.addEventListener('click', function() {
+    AddColumn()
+    GenerateToLatex()
+})
+buttonAddRow.addEventListener('click', function() {
+    AddRow()
+    GenerateToLatex()
+})
 
-export { AddColumn, AddRow, SupprColumn, SupprRow };
+export { AddColumn, AddRow, SupprColumn, SupprRow }
