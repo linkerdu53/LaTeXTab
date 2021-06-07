@@ -1,4 +1,4 @@
-import { tableSize } from "./Table.js";
+import { tableMatrice, tableSize } from "./Table.js";
 
 let casesSelection = [];
 
@@ -46,27 +46,25 @@ function SelectAllInput() {
 
 function SelectColumn(columnId) {
     //On compte combien de cases de la colonne sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
-    let nbCasesColSelect = 0
+    let nbCasesColSelect = 0;
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.col == columnId){
             nbCasesColSelect++;
         }
     }
-  
+     
     if(nbCasesColSelect != tableSize.row && ctrl == 0) {
         DeselectAllInput();
     }
 
-    for (let j = 0; j < tdInputText.length; j++) {
-        if(tdInputText[j].parentNode.dataset.col == columnId) {
-            if(nbCasesColSelect != tableSize.row) {
-                SelectOneInput(tdInputText[j]);
-            }
-            else {
-                DeselectOneInput(tdInputText[j]);
-            }
+    for (let j = 0; j < tableSize.row; j++) {
+        if(nbCasesColSelect != tableSize.col) {
+            SelectOneInput(tableMatrice[j][columnId - 1]);
         }
-    }
+        else {  
+            DeselectOneInput(tableMatrice[j][columnId - 1]);
+        }    
+    } 
 }
 
 function SelectRow(rowId) {
@@ -81,16 +79,15 @@ function SelectRow(rowId) {
     if(nbCasesRowSelect != tableSize.col && ctrl == 0) {
         DeselectAllInput();
     }
-    for (let j = 0; j < tdInputText.length; j++) {
-        if(tdInputText[j].parentNode.dataset.row == rowId) {
-            if(nbCasesRowSelect != tableSize.col) {
-                SelectOneInput(tdInputText[j]);
-            }
-            else {
-                DeselectOneInput(tdInputText[j]);
-            }
+
+    for (let j = 0; j < tableSize.col; j++) {
+        if(nbCasesRowSelect != tableSize.row) {
+            SelectOneInput(tableMatrice[rowId - 1][j]);
         }
-    }
+        else {  
+            DeselectOneInput(tableMatrice[rowId - 1][j]);
+        }    
+    }  
 }
 
 function DeselectAllInput() {
