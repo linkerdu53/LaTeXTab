@@ -140,8 +140,8 @@ function AddRow() {
 }
 
 function SupprColumn() {
-    var eltTrHead = document.getElementById("trHead");
-    var eltThLast = document.getElementById("thLast");
+    let eltTrHead = document.getElementById("trHead");
+    let eltThLast = eltTrHead.children[eltTrHead.children.length - 1];
     eltTrHead.children[eltTrHead.children.length - 2].remove();
     eltThLast.childNodes[0].nodeValue = nextChar(eltTrHead.children[eltTrHead.children.length - 2].childNodes[0].nodeValue);
 
