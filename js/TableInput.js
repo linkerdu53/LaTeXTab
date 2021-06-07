@@ -2,8 +2,6 @@ import { AddEventCtrlClic } from './InputSelection.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { tableMatrice, tableSize } from './Table.js';
 
-const tdInputText = document.getElementsByClassName('tdInputText');
-
 function InputAutoSize() {
   //On ajuste la taille des inputs selon le contenu et on rajoute 10px pour laisser un espace vide
   for (let i = 0; i < tableSize.row; i++) {
@@ -58,14 +56,11 @@ function getInputValueWidth() {
     
     return meassureElm;
   }
-  return createInputMeassureElm(this).offsetWidth;
+  let elt = createInputMeassureElm(this);
+  let size = elt.offsetWidth
+  elt.remove()
+  return size
 };
-
-function UpdateInputSize(inputsList) {
-  for (let i = 0; i < inputsList.length; i++) {
-    InputAutoSize();
-  }
-}
 
 function AddEventInput(cible) {
   cible.addEventListener('focus', function() {
@@ -84,8 +79,4 @@ function AddEventInput(cible) {
   });
 }
 
-for (let i = 0; i < tdInputText.length; i++) {
-  AddEventInput(tdInputText[i])
-}
-
-export { AddEventInput, UpdateInputSize };
+export { AddEventInput, InputAutoSize };

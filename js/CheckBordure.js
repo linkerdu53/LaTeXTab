@@ -1,5 +1,4 @@
-import { tableMatrice } from './Table.js';
-import { tableSize } from "./Table.js";
+import { tableMatrice, tableSize } from './Table.js';
 
 //Check la bordure gauche de la case à droite de input
 function CheckBordureRight(input) {

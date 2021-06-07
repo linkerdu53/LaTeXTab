@@ -1,5 +1,4 @@
-import { tableSize } from "./Table.js";
-import { IsStrsContains1Elt } from "./TableFusion.js"
+import { tableSize, IsStringContain1Number } from "./Table.js";
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
@@ -11,7 +10,7 @@ function GetTableData() {
         let input = 0;
         for (let j = 0; j < tableSize.col; j++) {
             for (let k = 0; k < tdInputText.length; k++) {
-                if (IsStrsContains1Elt(tdInputText[k].parentNode.dataset.row, (i+1).toString()) && IsStrsContains1Elt(tdInputText[k].parentNode.dataset.col, (j+1).toString())) {
+                if (IsStringContain1Number(tdInputText[k].parentNode.dataset.row, i + 1) && IsStringContain1Number(tdInputText[k].parentNode.dataset.col, j + 1)) {
                     input = tdInputText[k]
                     break
                 }
@@ -51,6 +50,14 @@ function GetTableData() {
                 let match = matchColors.exec(input.style.color);
                 matrice[i][j].textColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
             }
+
+            if (input.classList.contains("casesColorOn") && input.style.backroundColor !== "") { 
+                matrice[i][j].casesColor = 1;
+                let matchColors = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
+                let match = matchColors.exec(input.style.backgroundColor);
+                matrice[i][j].casesColorCode = rgbToHex(parseInt(match[1]), parseInt(match[2]), parseInt(match[3]));
+            }
+
             matrice[i][j].alignLeft = 0;
             matrice[i][j].alignCenter = 0;
             matrice[i][j].alignRight = 0;
@@ -136,7 +143,12 @@ function GenerateToLatex() {
         strPackage += "% \\usepackage[normalem]{ulem}\n"
         strPackage += "% \\useunder{\\uline}{\\ul}{}\n\n"
     }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
+    if (matrice.some(row => row.some(col => col['casesColor'] === 1))) {
+        strMessage += "% Vous devez ajouter les 2 packages suivants pour pouvoir colorer les cases du tableau :\n"
+        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n"
+        strPackage += "% \\usepackage{colortbl}\n\n"
+    }
+    else if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
         strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
     }
@@ -147,10 +159,6 @@ function GenerateToLatex() {
     if (matrice.some(row => row.some(col => col['math'] === 1))) {
         strMessage += "% Vous devez ajouter le package suivant pour pouvoir utiliser l'écriture mathématique :\n"
         strPackage += "% \\usepackage{amsmath,amsfonts,amssymb}\n\n"
-    }
-    if (matrice.some(row => row.some(col => col['textColor'] === 1))) {
-        strMessage += "% Vous devez ajouter le package suivant pour pouvoir colorer le texte :\n"
-        strPackage += "% \\usepackage[table,xcdraw]{xcolor}\n\n"
     }
 
     //On remplie 2 tableaux de bordure pour les colonnes et rangées
@@ -247,7 +255,11 @@ function GenerateToLatex() {
                         strLaTeX += "\\multirow{" + matrice[i][j].row.length + "}{*}{";
                         nbCrochets++;
                     }
-                    //Color
+                    //Color des cases
+                    if (matrice[i][j].casesColor == 1) {
+                        strLaTeX += "\\cellcolor[HTML]{" + matrice[i][j].casesColorCode + "}";
+                    }
+                    //Color du texte
                     if (matrice[i][j].textColor == 1) {
                         strLaTeX += "\\color[HTML]{" + matrice[i][j].textColorCode + "}";
                     }
@@ -348,8 +360,10 @@ function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes)
     }
     else if(fullBorderRow[ligne] > 0) { //Si seulement une ou plusieurs partie de la ligne du haut est avec une bordure
         let nbBorder = 0;
-        for (let j = 0; j < ligneMatrice.length; j++) {
-            if ((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) {
+        for (let j = 0; j < matriceBorduresLignes.length; j++) {
+            //Si bordure
+            if (matriceBorduresLignes[j] == true) {
+                //Si première case avec une bordure sur la ligne
                 if (nbBorder == 0) {
                     strLaTeX += "\\cline{";
                     strLaTeX += j + 1;
@@ -360,12 +374,14 @@ function ligneBordure(ligne, ligneMatrice, fullBorderRow, matriceBorduresLignes)
                     nbBorder++;
                 }
             }
-            else if (((ligne == 0 && matriceBorduresLignes[j] == true) || (ligne =! 0 && matriceBorduresLignes[j] == true)) && nbBorder != 0) {
+            //Sinon s'il y avait un bordure sur la ligne de la case précédente
+            else if (matriceBorduresLignes[j] == false && nbBorder != 0) {
                 strLaTeX += nbBorder;
                 strLaTeX += "}";
                 nbBorder = 0;
             }
         }
+        //Si dernière case avait une bordure, on ferme
         if (nbBorder != 0) {
             strLaTeX += nbBorder;
             strLaTeX += "}";

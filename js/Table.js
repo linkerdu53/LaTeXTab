@@ -1,5 +1,5 @@
-import { IsStrsContains1Elt } from "./TableFusion.js"
-import { UpdateInputSize } from "./TableInput.js"
+import { AddEventInput } from "./TableInput.js"
+
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 let tableSize = {row: 3, col: 3}
@@ -7,8 +7,12 @@ let tableSize = {row: 3, col: 3}
 let tableMatrice = []
 tableMatrice = TableToMatrice()
 
-//Met les inputs à la bonne taille s'ils ont déjà du contenu au chargement de la page
-UpdateInputSize(tdInputText);
+//Init les events focus, input, blur et quand ctrl sur les 9 inputs de base
+for (let i = 0; i < tableSize.row; i++) {
+    for (let j = 0; j < tableSize.col; j++) {
+        AddEventInput(tableMatrice[i][j])
+    }  
+}
 
 function TableToMatrice() {
     let matrice = [];
@@ -16,7 +20,7 @@ function TableToMatrice() {
         matrice.push([]);
         for (let j = 0; j < tableSize.col; j++) {
             for (let k = 0; k < tdInputText.length; k++) {
-                if (IsStrsContains1Elt(tdInputText[k].parentNode.dataset.row, (i+1).toString()) && IsStrsContains1Elt(tdInputText[k].parentNode.dataset.col, (j+1).toString())) {
+                if (IsStringContain1Number(tdInputText[k].parentNode.dataset.row, i + 1) && IsStringContain1Number(tdInputText[k].parentNode.dataset.col, j + 1)) {
                     matrice[i][j] = tdInputText[k]
                     break
                 }
@@ -27,4 +31,12 @@ function TableToMatrice() {
     return tableMatrice
 }
 
-export { TableToMatrice, tableMatrice, tableSize }
+function IsStringContain1Number(str, nb) {
+    if (str.split(' ').map( Number ).some(strnb => strnb == nb)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+export { TableToMatrice, tableMatrice, tableSize, IsStringContain1Number }

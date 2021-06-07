@@ -1,9 +1,10 @@
 import { GenerateToLatex, OverviewLatex } from './GenerateToLatex.js';
 import { casesSelection, DeselectAllInput } from './InputSelection.js';
-import { UpdateInputSize } from './TableInput.js';
+import { InputAutoSize } from './TableInput.js';
 import { CheckBordureRight, CheckBordureLeft, CheckBordureTop, CheckBordureBottom, CheckBordureAll } from './CheckBordure.js';
 import { Fusion } from './TableFusion.js'
-import { CleanAllInputs, CleanSelectedInputs } from './CleanInput.js';
+import { Split } from './TableSplit.js'
+import { CleanSelectedInputs } from './CleanInput.js';
 
 const boldButton = document.getElementById("bold");
 const italicButton = document.getElementById("italic");
@@ -12,6 +13,7 @@ const textLeftButton = document.getElementById("text-left");
 const textCenterButton = document.getElementById("text-center");
 const textRightButton = document.getElementById("text-right");
 const fusionButton = document.getElementById("fusion");
+const splitButton = document.getElementById("split");
 const borderAllButton = document.getElementById("border-all");
 const borderLeftButton = document.getElementById("border-left");
 const borderRightButton = document.getElementById("border-right");
@@ -53,7 +55,7 @@ boldButton.addEventListener('click', function() {
             casesSelection[i].classList.add("boldOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
@@ -84,7 +86,7 @@ italicButton.addEventListener('click', function() {
             casesSelection[i].classList.add("italicOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
@@ -115,7 +117,7 @@ underlineButton.addEventListener('click', function() {
             casesSelection[i].classList.add("underlineOn");
         }
     }
-    UpdateInputSize(casesSelection);
+    InputAutoSize();
 
     GenerateToLatex();
 });
@@ -153,6 +155,11 @@ textRightButton.addEventListener('click', function() {
 
 fusionButton.addEventListener('click', function() {
     Fusion();
+    GenerateToLatex();
+});
+
+splitButton.addEventListener('click', function() {
+    Split();
     GenerateToLatex();
 });
 
@@ -346,5 +353,6 @@ affichagePDF.addEventListener('click', function() {
 cleanCases.addEventListener('click', function() {
     CleanSelectedInputs();
     DeselectAllInput();
+    GenerateToLatex();
 });
 

@@ -5,8 +5,8 @@ import { TableToMatrice } from './Table.js'
 const tdInputText = document.getElementsByClassName('tdInputText');
 
 //Test si les 2 strings contiennent au moins 1 nombre en commun
-function IsStrsContains1Elt(str1, str2) {
-    if (str1.split(' ').some(v => str2.includes(v))) {
+function IsStrsContains1EltInString(str1, str2) {
+    if (str1.split(' ').map( Number ).some(v => str2.split(' ').map( Number ).includes(v))) {
         return true
     } else {
         return false
@@ -41,7 +41,7 @@ function Fusion() {
         newRowNumber = newRowNumber[newRowNumber.length - 1]
         newRowNumber = (newRowNumber + 1).toString()
         for (let j = 0; j < tdInputText.length; j++) {
-            if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col)) {
+            if (IsStrsContains1EltInString(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1EltInString(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col)) {
                 if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.col == casesSort[i].parentNode.dataset.col) {
                     voisinCote = 1
                 }
@@ -55,7 +55,7 @@ function Fusion() {
             newColNumber = newColNumber[newColNumber.length - 1]
             newColNumber = (newColNumber + 1).toString()
             for (let j = 0; j < tdInputText.length; j++) {
-                if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber)) {
+                if (IsStrsContains1EltInString(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1EltInString(tdInputText[j].parentNode.dataset.col, newColNumber)) {
                     if (casesSelection.includes(tdInputText[j]) && tdInputText[j].parentNode.dataset.row == casesSort[i].parentNode.dataset.row) {
                         voisinCote = 2
                     }
@@ -71,7 +71,7 @@ function Fusion() {
                     let newRowNumber = casePrecedente.dataset.row.split(" ").map(Number)
                     newRowNumber = newRowNumber[newRowNumber.length - 1]
                     newRowNumber = (newRowNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, newRowNumber) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, caseNewTdGroupe.dataset.col) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
+                    if (tdInputText[j].parentNode.dataset.row == newRowNumber && tdInputText[j].parentNode.dataset.col == caseNewTdGroupe.dataset.col && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
@@ -83,12 +83,12 @@ function Fusion() {
                         }
                     }
                 }
-                else { //A droite
+                else { //A droite (voisinCote == 2)
                     //Si case sur même ligne et colonne juste à côté
                     let newColNumber = casePrecedente.dataset.col.split(" ").map(Number)
                     newColNumber = newColNumber[newColNumber.length - 1]
                     newColNumber = (newColNumber + 1).toString()
-                    if (IsStrsContains1Elt(tdInputText[j].parentNode.dataset.row, caseNewTdGroupe.dataset.row) && IsStrsContains1Elt(tdInputText[j].parentNode.dataset.col, newColNumber) && casesDejaAttribuee.includes(tdInputText[j]) == false) {
+                    if (tdInputText[j].parentNode.dataset.row == caseNewTdGroupe.dataset.row && tdInputText[j].parentNode.dataset.col == newColNumber && casesDejaAttribuee.includes(tdInputText[j]) == false) {
                         if (casesSelection.includes(tdInputText[j]) && tdGroups[tdGroups.length - 1].includes(tdInputText[j].parentNode) == false) { //Si selectionnee
                             casePrecedente = tdInputText[j].parentNode
                             tdGroups[tdGroups.length - 1].push(tdInputText[j].parentNode)
@@ -130,7 +130,7 @@ function Fusion() {
 
             //GESTION colSpan OU RowSpan
             //Si fusion entre plusieurs lignes
-            if (IsStrsContains1Elt(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) {
+            if (IsStrsContains1EltInString(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) {
                 let newColSpan = 0
                 for (let j = 0; j < tdGroups[i].length; j++) {
                     newColSpan += tdGroups[i][j].dataset.col.split(" ").length
@@ -154,7 +154,7 @@ function Fusion() {
             newInput.classList.add("tdInputText");
 
             //GESTION Taille de l'input
-            if (IsStrsContains1Elt(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) { //Si sur la même ligne
+            if (IsStrsContains1EltInString(tdGroups[i][0].dataset.row, tdGroups[i][1].dataset.row)) { //Si sur la même ligne
                 let newWidth = 0
                 for (let j = 0; j < tdGroups[i].length; j++) {
                     if (tdGroups[i][j].children[0].style.width) {
@@ -242,6 +242,10 @@ function Fusion() {
                 newInput.style.color = tdGroups[i][0].children[0].style.color
                 newInput.classList.add("colorOn")
             }
+            if (tdGroups[i][0].children[0].classList.contains("casesColorOn")) {
+                newInput.style.backgroundColor = tdGroups[i][0].children[0].style.backgroundColor
+                newInput.classList.add("casesColorOn")
+            }
             if (tdGroups[i][0].children[0].classList.contains("modeMathOn")) {
                 newInput.classList.add("modeMathOn")
             }
@@ -266,4 +270,4 @@ function Fusion() {
 
 }
 
-export { Fusion, IsStrsContains1Elt }
+export { Fusion }
