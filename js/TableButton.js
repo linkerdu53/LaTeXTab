@@ -139,17 +139,15 @@ function SupprColumn() {
 }
 
 function SupprRow() {
-    mainTbody.children[mainTbody.children.length - 2].remove();
-    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
-    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
-    var eltLastTr = document.getElementById("lastTr");
-    var lastTrChild = eltLastTr.childNodes;
-    lastTrChild[1].innerText = tbodyThNb;
+    let lastTr = document.getElementById("lastTr")
+    //Suppression <tr> avant lastTr
+    lastTr.previousElementSibling.remove()
+
+    //Mise à jour du nombre pour le dernier th du dernier tr
+    lastTr.childNodes[1].innerText = tableSize.row;
 
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
-    var trChilds = mainTable.querySelectorAll("tr")[1];
-    var lastTd = trChilds.children[trChilds.children.length - 1];
-    lastTd.rowSpan = lastTd.rowSpan - 1;
+    tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row - 1;
 
     tableSize.row--
 
