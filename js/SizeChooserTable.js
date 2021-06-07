@@ -149,7 +149,7 @@ function createTable(cible) {
 
     if (rowDiff > 0) {
         for (let i = 0; i < rowDiff; i++) {
-            AddRow();
+            AddRow(tableSize.row);
         }
     }
 
