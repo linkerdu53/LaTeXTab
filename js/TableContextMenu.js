@@ -1,5 +1,5 @@
 //FROM https://dgoguerra.github.io/bootstrap-menu/demos.html
-import { AddColumn, AddRow } from './TableButton.js'
+import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js'
 
 let menu = new BootstrapMenu('.contextMenu', {
     fetchElementData: function($rowElem) {
@@ -56,11 +56,22 @@ let menu = new BootstrapMenu('.contextMenu', {
             }
         },
         {
-            name: 'Supprimer la colonne/ligne',
+            name: function(data) {
+                let type = 'colonne'
+                if (data[0] == 'row') {
+                    type = 'ligne'
+                }
+                return 'Supprimer cette ' + type
+            },
             iconClass: 'bi bi-trash',
             classNames: 'action-danger',
-            onClick: function(row) {
-                alert("test");
+            onClick: function(data) {
+                if (data[0] == 'row') {
+                    //SupprRow(data[1])
+                }
+                else {
+                    //SupprColumn(data[1])
+                }
             }
         }
     ]
