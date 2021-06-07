@@ -49,7 +49,7 @@ function AddColumn() {
 
         let tr = tableMatrice[i][0].parentElement.parentElement; //récupère tr[i]
         if (i == 0) { //if car td de plus dans le premier tr car contient bouton pour ajouter
-            tr.insertBefore(newTd, tableMatrice[i][tableSize.col - 1].parentElement.nextSibling);
+            tr.insertBefore(newTd, tableMatrice[i][tableSize.col - 1].parentElement.nextElementSibling);
         }
         else {
             tr.appendChild(newTd);
@@ -66,11 +66,9 @@ function AddColumn() {
 }
 
 function AddRow() {
-    var theadThNb = mainTable.querySelectorAll("th[scope='col']").length;
-    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
-    //Ajout <th scope="row">
-    var newtr = document.createElement("tr");
-    var newth = document.createElement("th");
+    let newtr = document.createElement("tr");
+    //Création <th scope="row">
+    let newth = document.createElement("th");
     newth.scope = 'row';
     newth.className = 'align-middle user-select-none contextMenu';
     newth.setAttribute("role", "button");
@@ -80,57 +78,35 @@ function AddRow() {
     newth.setAttribute("data-placement", "left");
     newth.setAttribute("title", "Sélectioner la rangée");
     $(newth).tooltip();
-    newth.innerText = tbodyThNb;
-    AddEventSelectRow(newth, tbodyThNb);
+    newth.innerText = tableSize.row + 1;
+
+    AddEventSelectRow(newth, tableSize.row + 1);
+    
     newtr.appendChild(newth);
 
-    const tdInputText  = document.getElementsByClassName('tdInputText');
-
-    //Ajout bon nombre de <td><input type="text"></td>
-    for (let index = 0; index < theadThNb - 2; index++) {
+    //Ajout bon nombre de <td><input type="text"></td> dans <tr>
+    for (let i = 0; i < tableSize.col; i++) {
         const newTd = document.createElement("td");
         newTd.dataset.row = tableSize.row + 1;
-        newTd.dataset.col = index + 1;
+        newTd.dataset.col = i + 1;
         newTd.classList.add("tdMainTable");
 
         const newInput = document.createElement("input");
         newInput.type = 'text';
         newInput.classList.add("tdInputText");
-        
-        let lePlusLong = 0;
-        for (let i = 0; i < tdInputText.length; i++) {
-            if (tdInputText[i].parentElement.dataset.col == (index + 1)) {
-                //On récupère l'input le plus long de la colonne où sera l'input
-                if (parseInt(tdInputText[i].style.width) > lePlusLong) {
-                    lePlusLong = tdInputText[i].style.width;
-                }            
-            }
-        }
-        if (lePlusLong === 0) {
-            lePlusLong = 30 + 'px'
-        }
-        newInput.style.width = lePlusLong;
 
         AddEventInput(newInput);
 
         newTd.appendChild(newInput);
         newtr.appendChild(newTd);
     }
-
-    var tbodyNodes = mainTable.getElementsByTagName("tbody");
-    var eltLastTr = document.getElementById("lastTr");
-
-    tbodyNodes[0].insertBefore(newtr, eltLastTr);
-
+    let lastTr = document.getElementById("lastTr");
+    lastTr.parentElement.insertBefore(newtr, lastTr)
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
-    var trChilds = tbodyNodes[0].querySelectorAll("tr");
-    var tdChilds = trChilds[0].querySelectorAll("td");
-    var lastTd = tdChilds[tdChilds.length - 1];
-    lastTd.rowSpan = tbodyThNb;
+    tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1;
 
-    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
-    var lastTrChild = eltLastTr.childNodes;
-    lastTrChild[1].innerText = tbodyThNb + 1;
+    //Mise à jour du nombre pour le dernier th du dernier tr
+    lastTr.childNodes[1].innerText = tableSize.row + 2;
     
     tableSize.row++
 
