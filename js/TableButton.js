@@ -50,6 +50,8 @@ function AddColumn(colInsertNumber) {
         let tr = tableMatrice[i][0].parentElement.parentElement; //récupère tr[i]
         tr.insertBefore(newTd, tableMatrice[i][colInsertNumber - 1].parentElement.nextElementSibling)
     }
+    updateData('col', colInsertNumber)
+
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col + 1
 
@@ -79,6 +81,9 @@ function AddRow(rowInsertNumber) {
     
     newtr.appendChild(newth)
 
+    //+1 pour les valeurs des dataset.row >= à rowInsertNumber
+    updateData('row', rowInsertNumber + 1)
+
     //Ajout bon nombre de <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.col; i++) {
         const newTd = document.createElement("td")
@@ -97,6 +102,7 @@ function AddRow(rowInsertNumber) {
     }
     let trList = document.getElementById("bodyMainTable").children
     trList[0].parentElement.insertBefore(newtr, trList[rowInsertNumber])
+    
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1
 
@@ -110,6 +116,33 @@ function AddRow(rowInsertNumber) {
     TableToMatrice()
 
     CheckBordureAll()
+}
+
+function updateData(insertionType, insertNumber) {
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            //Test type d'insertion
+            if (insertionType == 'row') {
+                //Pour chaque ligne, on test si dataset.row contient un nombre > insertNumber dans se cas +1 sinon rien
+                let row = tableMatrice[i][j].parentNode.dataset.row.split(" ").map(Number)
+                //Si case fusionnée alors +1 seulement quand rendu à la dernière ligne de la case fusionnée
+                if (row[row.length - 1] == i + 1) {
+                    for (let k = 0; k < row.length; k++) {
+                        if (row[k] >= insertNumber) {
+                            row[k]++
+                        }
+                    }
+                    tableMatrice[i][j].parentNode.dataset.row = row.join(" ")
+                }
+            }
+            else {
+                let col = tableMatrice[i][j].parentNode.dataset.col.split(" ").map(Number)
+                if (row.some(e => e > insertNumber)) {
+
+                }
+            }
+        }
+    }
 }
 
 function SupprColumn(colRemoveNumber) {
