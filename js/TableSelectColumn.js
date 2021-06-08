@@ -12,6 +12,7 @@ function AddEventSelectColumn(target, columnId) {
     target.addEventListener('click', function() { SelectColumn(columnId) });
 }
 
+
 function addColumnIn(target, columnId) {
     target.addEventListener('click', function() { 
         AddColumn();
@@ -21,3 +22,4 @@ function addColumnIn(target, columnId) {
 }
 
 export { AddEventSelectColumn, addColumnIn }
+

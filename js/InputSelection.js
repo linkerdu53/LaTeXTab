@@ -1,13 +1,17 @@
+import { tableSize } from "./Table.js";
+
 let casesSelection = [];
 
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 function InputSelectBg(cible) {
-    cible.style.backgroundColor = "#82C0F9";
+    if (!cible.classList.contains("casesColorOn"))
+        cible.style.backgroundColor = "#82C0F9";
 }
 
 function InputDeselectBg(cible) {
-    cible.style.backgroundColor = "";
+    if (!cible.classList.contains("casesColorOn"))
+        cible.style.backgroundColor = "";
 }
 
 function SelectOneInput(cible) {
@@ -48,10 +52,14 @@ function SelectColumn(columnId) {
             nbCasesColSelect++;
         }
     }
-    let colLength = tdInputText[tdInputText.length - 1].parentNode.dataset.row;
+  
+    if(nbCasesColSelect != tableSize.row && ctrl == 0) {
+        DeselectAllInput();
+    }
+
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.col == columnId) {
-            if(nbCasesColSelect != colLength) {
+            if(nbCasesColSelect != tableSize.row) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
@@ -62,17 +70,20 @@ function SelectColumn(columnId) {
 }
 
 function SelectRow(rowId) {
-    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.
+    //On compte combien de cases de la rangée sont déjà sélectionnées. Si elles le sont toutes alors on les désélectionnes.    
     let nbCasesRowSelect = 0
     for (let i = 0; i < casesSelection.length; i++) {
         if (casesSelection[i].parentNode.dataset.row == rowId){
             nbCasesRowSelect++;
         }
     }
-    let rowLength = tdInputText[tdInputText.length - 1].parentNode.dataset.col;
+
+    if(nbCasesRowSelect != tableSize.col && ctrl == 0) {
+        DeselectAllInput();
+    }
     for (let j = 0; j < tdInputText.length; j++) {
         if(tdInputText[j].parentNode.dataset.row == rowId) {
-            if(nbCasesRowSelect != rowLength) {
+            if(nbCasesRowSelect != tableSize.col) {
                 SelectOneInput(tdInputText[j]);
             }
             else {
@@ -99,7 +110,6 @@ function DeselectOneInput(cible) {
 }
 
 let ctrl = 0;
-let clic = 0;
 
 document.addEventListener('keydown', function (event) {
     if (event.key == 'Control') {
@@ -153,4 +163,4 @@ function AddEventCtrlClic(tdInputCible) {
     })
 }
 
-export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection };
+export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection, DeselectAllInput };

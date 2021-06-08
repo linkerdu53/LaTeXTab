@@ -1,6 +1,7 @@
 import { AddColumn, AddRow, SupprColumn, SupprRow } from './TableButton.js';
 import { GenerateToLatex } from './GenerateToLatex.js';
 import { CleanAllInputs } from './CleanInput.js'
+import { tableSize } from './Table.js'
 
 const tableSizeChooser = document.getElementsByClassName('tableSizeChooser')[0];
 
@@ -148,19 +149,19 @@ function createTable(cible) {
 
     if (rowDiff > 0) {
         for (let i = 0; i < rowDiff; i++) {
-            AddRow();
+            AddRow(tableSize.row);
         }
     }
 
     if (colDiff < 0) {
         for (let i = 0; i < colDiff * -1; i++) {
-            SupprColumn();
+            SupprColumn(tableSize.col - 1);
         }
     }
 
     if (rowDiff < 0) {
         for (let i = 0; i < rowDiff * -1; i++) {
-            SupprRow();
+            SupprRow(tableSize.row - 1);
         }
     }
 
