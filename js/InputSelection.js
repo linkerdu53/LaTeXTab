@@ -1,7 +1,6 @@
 import { tableSize } from "./Table.js";
 
 let casesSelection = [];
-
 const tdInputText = document.getElementsByClassName("tdInputText");
 
 function InputSelectBg(cible) {
@@ -129,6 +128,22 @@ $('table').mousedown(function (event) {
     }
 });
 
+/*
+$('input').on('mousedown touchstart', function(event) {
+  event.preventDefault();
+});
+$('input').on('mousemove touchmove', function(event) {
+  event.preventDefault();
+});
+$(window.document).on('mouseup touchend', function(event) {
+  event.target.focus();
+});
+
+*/
+
+const mainTable = document.getElementsByClassName("mainTable")[0];
+let inputDebut = null;
+
 function AddEventCtrlClic(tdInputCible) {
     tdInputCible.addEventListener('click', function (event) {
         if (ctrl == 1) {
@@ -161,6 +176,54 @@ function AddEventCtrlClic(tdInputCible) {
         SelectOneInput(event.target);
         }
     })
+    document.addEventListener('mouseover', function (event) {
+        if (mouseDown == 1 && inputDebut === null) {
+            inputDebut = event.target;
+        }
+        tdInputMouseEnter(event.target)
+    })
+}
+
+let mouseDown = 0;
+document.body.onmousedown = function() {
+    mouseDown++;
+}
+document.body.onmouseup = function() {
+    mouseDown--;
+    inputDebut = null;
+}
+
+function tdInputMouseEnter(cible) {
+    if (mouseDown == 1 && cible.className == "tdInputText") {
+        let cibleRow = parseInt(cible.parentNode.dataset.row);
+        let cibleCol = parseInt(cible.parentNode.dataset.col);
+        DeselectAllInput();
+        for (let i = 0; i < tdInputText.length; i++) {
+            let tdData = tdInputText[i].parentNode.dataset;
+            //Partie haute
+            if(tdData.row >= cibleRow && tdData.row <= inputDebut.dataset.row) {
+                //Partie gauche
+                if(tdData.col >= cibleCol && tdData.col <= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+                //Partie droite
+                else if(tdData.col <= cibleCol && tdData.col >= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+            }
+            //Partie basse
+            else if(tdData.row <= cibleRow && tdData.row >= inputDebut.dataset.row) {
+                //Partie gauche
+                if(tdData.col >= cibleCol && tdData.col <= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+                //Partie droite
+                else if(tdData.col <= cibleCol && tdData.col >= inputDebut.dataset.col) {
+                    SelectOneInput(tdInputText[i]);
+                }
+            }
+        }
+    }
 }
 
 export { SelectAllInput, AddEventCtrlClic, SelectColumn, SelectRow, casesSelection, DeselectAllInput };
