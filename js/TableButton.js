@@ -34,7 +34,7 @@ function AddColumn(colInsertNumber) {
     }
 
     //+1 pour les valeurs des dataset.col >= à colInsertNumber
-    updateData('col', colInsertNumber + 1)
+    updateDataCol('insert', colInsertNumber + 1)
 
     //Ajout <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.row; i++) {
@@ -84,7 +84,7 @@ function AddRow(rowInsertNumber) {
     newtr.appendChild(newth)
 
     //+1 pour les valeurs des dataset.row >= à rowInsertNumber
-    updateData('row', rowInsertNumber + 1)
+    updateDataRow('insert', rowInsertNumber + 1)
 
     //Ajout bon nombre de <td><input type="text"></td> dans <tr>
     for (let i = 0; i < tableSize.col; i++) {
@@ -120,40 +120,6 @@ function AddRow(rowInsertNumber) {
     CheckBordureAll()
 }
 
-function updateData(insertionType, insertNumber) {
-    for (let i = 0; i < tableSize.row; i++) {
-        for (let j = 0; j < tableSize.col; j++) {
-            //Test type d'insertion
-            if (insertionType == 'row') {
-                //Pour chaque ligne, on test si dataset.row contient un nombre > insertNumber dans se cas +1 sinon rien
-                let row = tableMatrice[i][j].parentNode.dataset.row.split(" ").map(Number)
-                //Si case fusionnée alors +1 seulement quand rendu à la dernière ligne de la case fusionnée
-                if (row[row.length - 1] == i + 1) {
-                    for (let k = 0; k < row.length; k++) {
-                        if (row[k] >= insertNumber) {
-                            row[k]++
-                        }
-                    }
-                    tableMatrice[i][j].parentNode.dataset.row = row.join(" ")
-                }
-            }
-            else {
-                //Pour chaque colonne, on test si dataset.col contient un nombre > insertNumber dans se cas +1 sinon rien
-                let col = tableMatrice[i][j].parentNode.dataset.col.split(" ").map(Number)
-                //Si case fusionnée alors +1 seulement quand rendu à la dernière colonne de la case fusionnée
-                if (col[col.length - 1] == j + 1) {
-                    for (let k = 0; k < col.length; k++) {
-                        if (col[k] >= insertNumber) {
-                            col[k]++
-                        }
-                    }
-                    tableMatrice[i][j].parentNode.dataset.col = col.join(" ")
-                }
-            }
-        }
-    }
-}
-
 function SupprColumn(colRemoveNumber) {
     let thHeadList = document.getElementById("trHead").children
     //Suppression avant dernier <th>
@@ -169,6 +135,8 @@ function SupprColumn(colRemoveNumber) {
     }
     //Mise à jour de colspan pour le dernier tr
     document.getElementById("lastTr").children[1].colSpan = tableSize.col - 1
+
+    updateDataCol('remove', colRemoveNumber + 1)
 
     tableSize.col--
 
@@ -188,9 +156,57 @@ function SupprRow(rowRemoveNumber) {
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
     tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row - 1
 
+    updateDataRow('remove', rowRemoveNumber + 1)
+
     tableSize.row--
 
     TableToMatrice()
+}
+
+function updateDataCol(updateType, insertNumber) {
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            //Pour chaque colonne, on test si dataset.col contient un nombre > insertNumber dans se cas +1 sinon rien
+            let col = tableMatrice[i][j].parentNode.dataset.col.split(" ").map(Number)
+            //Si case fusionnée alors +1 seulement quand rendu à la dernière colonne de la case fusionnée
+            if (col[col.length - 1] == j + 1) {
+                for (let k = 0; k < col.length; k++) {
+                    if (col[k] >= insertNumber) {
+                        if (updateType == 'insert') {
+                            col[k]++
+                        }
+                        else {
+                            col[k]--
+                        }
+                    }
+                }
+                tableMatrice[i][j].parentNode.dataset.col = col.join(" ")
+            }
+        }
+    }
+}
+
+function updateDataRow(updateType, insertNumber) {
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            //Pour chaque ligne, on test si dataset.row contient un nombre > insertNumber dans se cas +1 sinon rien
+            let row = tableMatrice[i][j].parentNode.dataset.row.split(" ").map(Number)
+            //Si case fusionnée alors +1 seulement quand rendu à la dernière ligne de la case fusionnée
+            if (row[row.length - 1] == i + 1) {
+                for (let k = 0; k < row.length; k++) {
+                    if (row[k] >= insertNumber) {
+                        if (updateType == 'insert') {
+                            row[k]++
+                        }
+                        else {
+                            row[k]--
+                        }
+                    }
+                }
+                tableMatrice[i][j].parentNode.dataset.row = row.join(" ")
+            }
+        }
+    }
 }
 
 let buttonAddColumn = document.getElementById('button-add-column')
