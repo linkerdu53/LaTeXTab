@@ -5,6 +5,8 @@
 	    <title>Editeur tableau LaTeX</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrapMenu.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-icons.css">
 	</head>
 	<body>
 		<!-- Barre de navigation -->
@@ -189,16 +191,16 @@
 					<table class="table table-sm table-bordered mainTable">
 						<thead>
 							<tr class="text-center" id="trHead">
-								<th scope="col" class="user-select-none" role="button" id="all" data-toggle="tooltip" data-placement="left" title="Tout sélectionner">#</th>
-								<th scope="col" class="user-select-none" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">A</th>
-								<th scope="col" class="user-select-none" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">B</th>
-								<th scope="col" class="user-select-none" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">C</th>
-								<th scope="col" class="user-select-none" id="thLast">D</th>
+								<th scope="col" class="user-select-none contextMenu" role="button" id="all" data-toggle="tooltip" data-placement="left" title="Tout sélectionner">#</th>
+								<th scope="col" class="user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">A</th>
+								<th scope="col" class="user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">B</th>
+								<th scope="col" class="user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="top" title="Sélectioner la colonne">C</th>
+								<th scope="col" class="user-select-none">D</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="bodyMainTable">
 							<tr>
-								<th scope="row" class="align-middle user-select-none" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">1</th>
+								<th scope="row" class="align-middle user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">1</th>
 								<td data-row="1" data-col="1" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="1" data-col="2" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="1" data-col="3" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
@@ -211,13 +213,13 @@
 								</td>
 							</tr>
 							<tr>
-								<th scope="row" class="align-middle user-select-none" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">2</th>
+								<th scope="row" class="align-middle user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">2</th>
 								<td data-row="2" data-col="1" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="2" data-col="2" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="2" data-col="3" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 							</tr>
 							<tr>
-								<th scope="row" class="align-middle user-select-none" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">3</th>
+								<th scope="row" class="align-middle user-select-none contextMenu" role="button" data-toggle="tooltip" data-placement="left" title="Sélectioner la rangée">3</th>
 								<td data-row="3" data-col="1" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="3" data-col="2" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
 								<td data-row="3" data-col="3" class="tdMainTable"><input type="text" class="tdInputText" style="min-width: 20px; width: 30px;"></td>
@@ -315,5 +317,7 @@
 		<script type="module" src="js/SizeChooserTable.js"></script>
 		<script type="module" src="js/FontColorButton.js"></script>
 		<script type="module" src="js/CheckBordure.js"></script>
+		<script type="module" src="js/BootstrapMenu.min.js"></script>
+		<script type="module" src="js/TableContextMenu.js"></script>
 	</body>
 </html>

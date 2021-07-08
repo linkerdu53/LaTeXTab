@@ -1,210 +1,224 @@
-import { nextChar } from './GestionLettre.js';
-import { AddEventInput } from './TableInput.js';
-import { GenerateToLatex } from './GenerateToLatex.js';
-import { CheckBordureAll } from './CheckBordure.js';
+import { nextChar } from './GestionLettre.js'
+import { AddEventInput } from './TableInput.js'
+import { GenerateToLatex } from './GenerateToLatex.js'
+import { CheckBordureAll } from './CheckBordure.js'
 import { AddEventSelectColumn } from './TableSelectColumn.js'
 import { AddEventSelectRow } from './TableSelectRow.js'
-import { TableToMatrice, tableSize } from './Table.js'
+import { TableToMatrice, tableSize, tableMatrice } from './Table.js'
 
-const mainTable = document.getElementsByClassName('mainTable')[0];
-const mainTbody = mainTable.querySelectorAll("tbody")[0];
-const tdMainTable = mainTable.getElementsByClassName('tdMainTable');
+function AddColumn(colInsertNumber) {
+    let eltTrHead = document.getElementById("trHead")
+    let thHeadList = eltTrHead.children
 
-function AddColumn() {
-    var th = mainTable.querySelectorAll("th[scope='col']");
-    var thNb = th.length;
-
-    var eltTrHead = document.getElementById("trHead");
-    var eltThLast = document.getElementById("thLast");
-    
     //Ajout <th scope="col"> dans <thead>
-    var newth = document.createElement("th");
-    newth.scope = 'col';
-    newth.className = 'user-select-none';
+    let newth = document.createElement("th")
+    newth.scope = 'col'
+    newth.className = 'user-select-none contextMenu'
     //Tooltips
-    newth.setAttribute("role", "button");
-    newth.setAttribute("data-toggle", "tooltip");
-    newth.setAttribute("data-placement", "top");
-    newth.setAttribute("title", "Sélectioner la colonne");
-    $(newth).tooltip();
-    newth.innerText = eltThLast.childNodes[0].nodeValue;
-    AddEventSelectColumn(newth, thNb - 1);
-    eltTrHead.insertBefore(newth, eltThLast);
+    newth.setAttribute("role", "button")
+    newth.setAttribute("data-toggle", "tooltip")
+    newth.setAttribute("data-placement", "top")
+    newth.setAttribute("title", "Sélectioner la colonne")
+    $(newth).tooltip()
+    //Ajout Lettre
+    newth.innerText = thHeadList[colInsertNumber + 1].innerText
+    //Ajout event pour select la colonne
+    AddEventSelectColumn(newth, colInsertNumber + 1)
+
+    eltTrHead.insertBefore(newth, thHeadList[colInsertNumber + 1])
 
     //Mise à jour du dernier th scope="col" dans le thead
-    eltThLast.childNodes[0].nodeValue = nextChar(eltThLast.childNodes[0].nodeValue);
+    thHeadList[1].innerText = 'A'
+    for (let i = 2; i < thHeadList.length; i++) {
+        thHeadList[i].innerText = nextChar(thHeadList[i - 1].innerText)
+    }
 
-    //Ajout <td><input type="text"></td> dans <tbody>
-    var eltTbody = mainTable.getElementsByTagName('tbody');
-    var trTbodyChilds = eltTbody[0].querySelectorAll('tr') //récupère les tr présent dans tbody
+    //+1 pour les valeurs des dataset.col >= à colInsertNumber
+    updateDataCol('insert', colInsertNumber + 1)
 
-    for (let index = 0; index < trTbodyChilds.length - 1; index++) {
-        const newTd = document.createElement("td");
-        newTd.dataset.row = index + 1;
-        newTd.dataset.col = tableSize.col + 1;
-        newTd.classList.add("tdMainTable");
-        const newInput = document.createElement("input");
-        newInput.type = 'text';
-        newInput.classList.add("tdInputText");
-        AddEventInput(newInput);
+    //Ajout <td><input type="text"></td> dans <tr>
+    for (let i = 0; i < tableSize.row; i++) {
+        const newTd = document.createElement("td")
+        newTd.dataset.row = i + 1
+        newTd.dataset.col = colInsertNumber + 1
+        newTd.classList.add("tdMainTable")
 
-        newTd.appendChild(newInput);
+        const newInput = document.createElement("input")
+        newInput.type = 'text'
+        newInput.classList.add("tdInputText")
+        AddEventInput(newInput)
 
-        var trChild = trTbodyChilds[index]; //récupère tr[i]
-        var tdTrChilds = trChild.querySelectorAll('td') //filtre pour ne garder que les td
-        var lastTd = tdTrChilds[tdTrChilds.length - 1]; // récupères dernier td dans tr[i]
+        newTd.appendChild(newInput)
 
-        //if car td de plus dans le premier tr car contient bouton pour ajouter
-        if (index == 0) {
-            trChild.insertBefore(newTd, lastTd);
-        }
-        else {
-            trChild.appendChild(newTd);
-        }
+        let tr = tableMatrice[i][0].parentElement.parentElement; //récupère tr[i]
+        tr.insertBefore(newTd, tableMatrice[i][colInsertNumber - 1].parentElement.nextElementSibling)
     }
 
     //Mise à jour de colspan pour le dernier tr
-    var lastTd = trTbodyChilds[trTbodyChilds.length - 1].querySelectorAll('td');
-    lastTd[0].colSpan = thNb - 1;
+    document.getElementById("lastTr").children[1].colSpan = tableSize.col + 1
 
     tableSize.col++
 
     TableToMatrice()
 
-    CheckBordureAll();
+    CheckBordureAll()
 }
 
-function AddRow() {
-    var theadThNb = mainTable.querySelectorAll("th[scope='col']").length;
-    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
-    //Ajout <th scope="row">
-    var newtr = document.createElement("tr");
-    var newth = document.createElement("th");
-    newth.scope = 'row';
-    newth.className = 'align-middle user-select-none';
-    newth.setAttribute("role", "button");
+function AddRow(rowInsertNumber) {
+    let newtr = document.createElement("tr")
+    //Création <th scope="row">
+    let newth = document.createElement("th")
+    newth.scope = 'row'
+    newth.className = 'align-middle user-select-none contextMenu'
+    newth.setAttribute("role", "button")
     //Tooltips
-    newth.setAttribute("role", "button");
-    newth.setAttribute("data-toggle", "tooltip");
-    newth.setAttribute("data-placement", "left");
-    newth.setAttribute("title", "Sélectioner la rangée");
-    $(newth).tooltip();
-    newth.innerText = tbodyThNb;
-    AddEventSelectRow(newth, tbodyThNb);
-    newtr.appendChild(newth);
+    newth.setAttribute("role", "button")
+    newth.setAttribute("data-toggle", "tooltip")
+    newth.setAttribute("data-placement", "left")
+    newth.setAttribute("title", "Sélectioner la rangée")
+    $(newth).tooltip()
+    newth.innerText = rowInsertNumber + 1
 
-    const tdInputText  = document.getElementsByClassName('tdInputText');
+    AddEventSelectRow(newth, rowInsertNumber + 1)
+    
+    newtr.appendChild(newth)
 
-    //Ajout bon nombre de <td><input type="text"></td>
-    for (let index = 0; index < theadThNb - 2; index++) {
-        const newTd = document.createElement("td");
-        newTd.dataset.row = tableSize.row + 1;
-        newTd.dataset.col = index + 1;
-        newTd.classList.add("tdMainTable");
+    //+1 pour les valeurs des dataset.row >= à rowInsertNumber
+    updateDataRow('insert', rowInsertNumber + 1)
 
-        const newInput = document.createElement("input");
-        newInput.type = 'text';
-        newInput.classList.add("tdInputText");
-        
-        let lePlusLong = 0;
-        for (let i = 0; i < tdInputText.length; i++) {
-            if (tdInputText[i].parentElement.dataset.col == (index + 1)) {
-                //On récupère l'input le plus long de la colonne où sera l'input
-                if (parseInt(tdInputText[i].style.width) > lePlusLong) {
-                    lePlusLong = tdInputText[i].style.width;
-                }            
-            }
-        }
-        if (lePlusLong === 0) {
-            lePlusLong = 30 + 'px'
-        }
-        newInput.style.width = lePlusLong;
+    //Ajout bon nombre de <td><input type="text"></td> dans <tr>
+    for (let i = 0; i < tableSize.col; i++) {
+        const newTd = document.createElement("td")
+        newTd.dataset.row = rowInsertNumber + 1
+        newTd.dataset.col = i + 1
+        newTd.classList.add("tdMainTable")
 
-        AddEventInput(newInput);
+        const newInput = document.createElement("input")
+        newInput.type = 'text'
+        newInput.classList.add("tdInputText")
 
-        newTd.appendChild(newInput);
-        newtr.appendChild(newTd);
+        AddEventInput(newInput)
+
+        newTd.appendChild(newInput)
+        newtr.appendChild(newTd)
     }
-
-    var tbodyNodes = mainTable.getElementsByTagName("tbody");
-    var eltLastTr = document.getElementById("lastTr");
-
-    tbodyNodes[0].insertBefore(newtr, eltLastTr);
-
+    let trList = document.getElementById("bodyMainTable").children
+    trList[0].parentElement.insertBefore(newtr, trList[rowInsertNumber])
+    
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
-    var trChilds = tbodyNodes[0].querySelectorAll("tr");
-    var tdChilds = trChilds[0].querySelectorAll("td");
-    var lastTd = tdChilds[tdChilds.length - 1];
-    lastTd.rowSpan = tbodyThNb;
+    tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row + 1
 
-    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
-    var lastTrChild = eltLastTr.childNodes;
-    lastTrChild[1].innerText = tbodyThNb + 1;
+    //Mise à jour des nombres des th des tr
+    for (let i = 0; i < trList.length; i++) {
+        trList[i].children[0].innerText = i + 1
+    }
     
     tableSize.row++
 
     TableToMatrice()
 
-    CheckBordureAll();
+    CheckBordureAll()
 }
 
-function SupprColumn() {
-    var eltTrHead = document.getElementById("trHead");
-    var eltThLast = document.getElementById("thLast");
-    eltTrHead.children[eltTrHead.children.length - 2].remove();
-    eltThLast.childNodes[0].nodeValue = nextChar(eltTrHead.children[eltTrHead.children.length - 2].childNodes[0].nodeValue);
-
-    let listTr = mainTbody.children;
-    for (let j = 0; j < listTr.length - 1; j++) {
-        if (j == 0) {
-            listTr[j].children[listTr[j].children.length - 2].remove();
-        }
-        else {
-            listTr[j].children[listTr[j].children.length - 1].remove();
-        }
+function SupprColumn(colRemoveNumber) {
+    let thHeadList = document.getElementById("trHead").children
+    //Suppression avant dernier <th>
+    thHeadList[colRemoveNumber + 1].remove()
+    //Mise à jour lettre des <th>
+    thHeadList[1].innerText = 'A'
+    for (let i = 2; i < thHeadList.length; i++) {
+        thHeadList[i].innerText = nextChar(thHeadList[i - 1].innerText)
     }
-
+    //Suppression des <td> de la colonne
+    for (let i = 0; i < tableSize.row; i++) {
+        tableMatrice[i][colRemoveNumber].parentElement.remove()
+    }
     //Mise à jour de colspan pour le dernier tr
-    var lastTd = document.getElementById('lastTr').children[1];
-    lastTd.colSpan = lastTd.colSpan - 1;
+    document.getElementById("lastTr").children[1].colSpan = tableSize.col - 1
+
+    updateDataCol('remove', colRemoveNumber + 1)
 
     tableSize.col--
 
     TableToMatrice()
 }
 
-function SupprRow() {
-    mainTbody.children[mainTbody.children.length - 2].remove();
-    //Mise à jour du text (nombre) pour le premier td du dernier tr de tbody
-    var tbodyThNb = mainTable.querySelectorAll("th[scope='row']").length;
-    var eltLastTr = document.getElementById("lastTr");
-    var lastTrChild = eltLastTr.childNodes;
-    lastTrChild[1].innerText = tbodyThNb;
+function SupprRow(rowRemoveNumber) {
+    let trList = document.getElementById("bodyMainTable").children
+    //Suppression <tr> avant lastTr
+    trList[rowRemoveNumber].remove()
+
+    //Mise à jour des nombres des th des tr
+    for (let i = 0; i < trList.length; i++) {
+        trList[i].children[0].innerText = i + 1
+    }
 
     //Mise à jour de rowspan pour le dernier td du premier tr de tbody
-    var trChilds = mainTable.querySelectorAll("tr")[1];
-    var lastTd = trChilds.children[trChilds.children.length - 1];
-    lastTd.rowSpan = lastTd.rowSpan - 1;
+    tableMatrice[0][tableSize.col - 1].parentElement.nextElementSibling.rowSpan = tableSize.row - 1
+
+    updateDataRow('remove', rowRemoveNumber + 1)
 
     tableSize.row--
 
     TableToMatrice()
 }
 
-var buttonAddColumn = document.getElementById('button-add-column');
-var buttonAddRow = document.getElementById('button-add-row');
-  
-if (buttonAddColumn) {
-    buttonAddColumn.addEventListener('click', function() {
-        AddColumn();
-        GenerateToLatex();
-    }, false);
-}
-if (buttonAddRow) {
-    buttonAddRow.addEventListener('click', function() {
-        AddRow();
-        GenerateToLatex();
-    }, false);
+function updateDataCol(updateType, insertNumber) {
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            //Pour chaque colonne, on test si dataset.col contient un nombre > insertNumber dans se cas +1 sinon rien
+            let col = tableMatrice[i][j].parentNode.dataset.col.split(" ").map(Number)
+            //Si case fusionnée alors +1 seulement quand rendu à la dernière colonne de la case fusionnée
+            if (col[col.length - 1] == j + 1) {
+                for (let k = 0; k < col.length; k++) {
+                    if (col[k] >= insertNumber) {
+                        if (updateType == 'insert') {
+                            col[k]++
+                        }
+                        else {
+                            col[k]--
+                        }
+                    }
+                }
+                tableMatrice[i][j].parentNode.dataset.col = col.join(" ")
+            }
+        }
+    }
 }
 
-export { AddColumn, AddRow, SupprColumn, SupprRow };
+function updateDataRow(updateType, insertNumber) {
+    for (let i = 0; i < tableSize.row; i++) {
+        for (let j = 0; j < tableSize.col; j++) {
+            //Pour chaque ligne, on test si dataset.row contient un nombre > insertNumber dans se cas +1 sinon rien
+            let row = tableMatrice[i][j].parentNode.dataset.row.split(" ").map(Number)
+            //Si case fusionnée alors +1 seulement quand rendu à la dernière ligne de la case fusionnée
+            if (row[row.length - 1] == i + 1) {
+                for (let k = 0; k < row.length; k++) {
+                    if (row[k] >= insertNumber) {
+                        if (updateType == 'insert') {
+                            row[k]++
+                        }
+                        else {
+                            row[k]--
+                        }
+                    }
+                }
+                tableMatrice[i][j].parentNode.dataset.row = row.join(" ")
+            }
+        }
+    }
+}
+
+let buttonAddColumn = document.getElementById('button-add-column')
+let buttonAddRow = document.getElementById('button-add-row')
+  
+buttonAddColumn.addEventListener('click', function() {
+    AddColumn(tableSize.col)
+    GenerateToLatex()
+})
+buttonAddRow.addEventListener('click', function() {
+    AddRow(tableSize.row)
+    GenerateToLatex()
+})
+
+export { AddColumn, AddRow, SupprColumn, SupprRow }
